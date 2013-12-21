@@ -3,7 +3,7 @@
 ## Installation des Moduls
 ======================
 
-1. Downloaden Sie das Modul hier.
+1. [Downloaden Sie das Modul hier](https://github.com/EASYMARKETING/gambio/archive/master.zip)
 
 2. Dateien in den shoproot Kopieren
 
@@ -13,7 +13,6 @@
 		UPDATE `admin_access` SET `easymarketing` = '1' WHERE `customers_id` = '1' LIMIT 1;
 
 ## Konfiguration der Endpunkte
-		
 ======================
 
 Jetzt müssen noch die EASYMARKETING Endpunkte eingetragen werden in Ihrem EASYMARKETING Account. Über die Endpunkte kann EASYMARKETING entsprechende Produkte und Kategorien extrahieren aus Ihrem Shopsystem. Diese Endpunkte sind je Shopsystem unterschiedlich.
@@ -23,11 +22,11 @@ Dazu öffnen Sie bitte Ihre API Einstellungen in Ihrem EASYMARKETING Account unt
 Produkte API Endpunkt
 
 	http://domain.tld/api/easymarketing/products.php
-	
+
 Beste Produkte API Endpunkt
 
 	http://domain.tld/api/easymarketing/bestseller.php
-	
+
 Neue Produkte API Endpunkt
 
 	http://domain.tld/api/easymarketing/products.php
