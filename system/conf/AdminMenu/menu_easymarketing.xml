@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<!-- {load_language_text section="shopgate"} -->
+<admin_menu>
+	<menugroup id="BOX_HEADING_MODULES">
+		<menuitem sort="25" link="easymarketing.php" link_param="action=config" title="Easymarketing" />
+	</menugroup>
+</admin_menu>
