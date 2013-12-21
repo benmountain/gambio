@@ -68,6 +68,8 @@ Dann muss genau dieser Token auch in Ihrem EASYMARKETING Account eingegeben werd
       Shop token: 123123123123
 			
 
+Über die Funktion `API Setup testen` kann jetzt überprüft werden ob die API-Endpunkte richtig konfiguriert sind und ob das Plugin richtig aktiviert
+wurde. Falls Sie Fehlermeldungen erhalten, kontaktieren Sie uns bitte.
 
 ## Installation des Moduls (Optional)
 ======================
