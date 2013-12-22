@@ -72,7 +72,6 @@ Dann muss genau dieser Token auch in Ihrem EASYMARKETING Account eingegeben werd
 wurde. Falls Sie Fehlermeldungen erhalten, kontaktieren Sie uns bitte.
 
 ## Installation des Moduls (Optional)
-======================
 
 Durch die Implementierung wird ein `facebook like` button im Checkout angezeigt, über den Produkte an Freunde weiter empfohlen werden können.
 
@@ -92,7 +91,6 @@ Durch die Implementierung wird ein `facebook like` button im Checkout angezeigt,
 
 
 ## Für Entwickler
-======================
 
 * Im `master` gucken ob es nicht bereits bestehende bug-fixes gibt.
 
