@@ -106,12 +106,7 @@ if (isset($_GET['content']) && $_GET['content'] != '') {
           </tr>
           <tr style="background-color: #FFFFFF;">
             <td>
-              <?php 
-              // include needed function
-              require_once (DIR_FS_INC.'get_external_content.inc.php');
-              $iframe = get_external_content('http://api.easymarketing.de/analysis?width=1050&height=1700&partner_id=modified&website_url='.(HTTP_SERVER.DIR_WS_CATALOG), 3, false);
-              echo $iframe; 
-              ?>
+              <iframe style="background-color: transparent; border: 0px none transparent;padding: 0px; overflow: hidden;" seamless="seamless" scrolling="no" frameborder="0" allowtransparency="true" width="300px" height="250px" src="http://api.easymarketing.de/demo_chart?website_url=<?php echo urlencode(HTTP_SERVER.DIR_WS_CATALOG); ?>&partner_id=modified&version=large"></iframe>
             </td>
           </tr>
         </table>
