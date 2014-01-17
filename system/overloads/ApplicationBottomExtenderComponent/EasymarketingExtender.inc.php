@@ -22,7 +22,9 @@
 class EasymarketingExtender extends EasymarketingExtender_parent
 {
 	function proceed() {
-    if (defined('MODULE_EASYMARKETING_STATUS') && MODULE_EASYMARKETING_STATUS == 'True') {
+	  global $PHP_SELF;
+	  	  
+    if (basename($PHP_SELF) == FILENAME_CHECKOUT_SUCCESS && defined('MODULE_EASYMARKETING_STATUS') && MODULE_EASYMARKETING_STATUS == 'True') {
       include(DIR_FS_CATALOG.'api/easymarketing/conversion_tracker.php');
     }
 		parent::proceed();
