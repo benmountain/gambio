@@ -19,25 +19,28 @@ Jetzt müssen noch die EASYMARKETING Endpunkte eingetragen werden in Ihrem EASYM
 
 Dazu öffnen Sie bitte Ihre API Einstellungen in Ihrem EASYMARKETING Account unter `Meine Daten -> API`
 
+Anmerkung: Wir empfehlen die Verwendung von https sofern Sie ein gültiges
+Zertifikat für Ihren Webserver besitzen.
+
 Produkte API Endpunkt
 
-	http://domain.tld/api/easymarketing/products.php
+	https://domain.tld/api/easymarketing/products.php
 
 Beste Produkte API Endpunkt
 
-	http://domain.tld/api/easymarketing/bestseller.php
+	https://domain.tld/api/easymarketing/bestseller.php
 
 Neue Produkte API Endpunkt
 
-	http://domain.tld/api/easymarketing/products.php
+	https://domain.tld/api/easymarketing/products.php
 
 Produkt via ID Endpunkt
 
-	http://domain.tld/api/easymarketing/products.php
+	https://domain.tld/api/easymarketing/products.php
 
 Kategorien API Endpunkt
 
-	http://domain.tld/api/easymarketing/categories.php
+	https://domain.tld/api/easymarketing/categories.php
 	
 **Produkt ID zum testen** 
 
