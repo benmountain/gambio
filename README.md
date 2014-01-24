@@ -19,8 +19,8 @@ Jetzt müssen noch die EASYMARKETING Endpunkte eingetragen werden in Ihrem EASYM
 
 Dazu öffnen Sie bitte Ihre API Einstellungen in Ihrem EASYMARKETING Account unter `Meine Daten -> API`
 
-Anmerkung: Wir empfehlen die Verwendung von https sofern Sie ein gültiges
-Zertifikat für Ihren Webserver besitzen.
+Anmerkung: Bitte verwenden Sie https nur, falls Sie ein vertrauenswürdiges
+SSL-Zertifikat besitzen.
 
 Produkte API Endpunkt
 
