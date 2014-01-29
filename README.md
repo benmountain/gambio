@@ -7,7 +7,7 @@
 
 2. Dateien in den shoproot Kopieren
 
-3. SQL ausführen
+3. SQL ausführen (nur bei Shopsystem modified )
 
 		ALTER TABLE `admin_access` ADD `easymarketing` INT( 1 ) DEFAULT '0' NOT NULL;
 		UPDATE `admin_access` SET `easymarketing` = '1' WHERE `customers_id` = '1' LIMIT 1;
