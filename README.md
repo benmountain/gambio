@@ -1,5 +1,13 @@
 # EASYMARKETING Gambio Module
 
+## Allgemein
+======================
+
+Im Folgenden wird erklärt, wie das Easymarketing-Modul für Gambio installiert wird. Für den Conversion Tracker reichen die folgenden beiden Abschnitte über Installation und Konfiguration des Moduls. 
+
+Durch die [Konfiguration der Endpunkte](#konfiguration-der-endpunkte) ermöglichen Sie EASYMARKETING die Artikel und Kategorien Ihres Shops auszulesen. Dies ist von Vorteil für eine Verbesserung der Keywords und Anzeigentexte sowie notwendig um Google Shopping oder den Facebook Shop nutzen zu können. Wir empfehlen grundsätzlich auch die Endpunkte zu konfigurieren. 
+
+
 ## Installation des Moduls
 ======================
 
@@ -7,10 +15,22 @@
 
 2. Dateien in den shoproot Kopieren
 
-3. SQL ausführen (nur bei Shopsystem modified )
+3. SQL ausführen (Im Admin unter `Toolbox->SQL`)
 
 		ALTER TABLE `admin_access` ADD `easymarketing` INT( 1 ) DEFAULT '0' NOT NULL;
 		UPDATE `admin_access` SET `easymarketing` = '1' WHERE `customers_id` = '1' LIMIT 1;
+
+## Konfiguration des Moduls
+======================
+
+Wenn Sie das Modul installiert haben erscheint im Admin-Bereich ein neuer Menüpunkt unter `Module->Easymarketing`
+
+Dort müssen Sie das ein Access-Token eintragen, das Sie in Ihrem EASYMARKETING Account finden. Loggen Sie sich dafür bitte bei EASYMARKETING ein und wechseln Sie dann auf `Meine Daten -> API`. Dort finden Sie in der Mitte des Bildschirms in grün: 
+
+`Ihr API Key: a1b1c1d2e32d729adbd656369e28668b`
+
+Dieser Wert ist das Access-Token. Kopieren Sie diesen Wert in Ihr Gambio Modul und drücken Sie speichern. Wenn Sie gespeichert haben wird der Wert für Shop-Token generiert. Diesen brauchen Sie für die Konfiguration der Endpunkte.
+
 
 ## Konfiguration der Endpunkte
 ======================
@@ -24,23 +44,23 @@ SSL-Zertifikat besitzen.
 
 Produkte API Endpunkt
 
-	https://domain.tld/api/easymarketing/products.php
+	https://www.meinshop.de/api/easymarketing/products.php
 
 Beste Produkte API Endpunkt
 
-	https://domain.tld/api/easymarketing/bestseller.php
+	https://www.meinshop.de/api/easymarketing/bestseller.php
 
 Neue Produkte API Endpunkt
 
-	https://domain.tld/api/easymarketing/products.php
+	https://www.meinshop.de/api/easymarketing/products.php
 
 Produkt via ID Endpunkt
 
-	https://domain.tld/api/easymarketing/products.php
+	https://www.meinshop.de/api/easymarketing/products.php
 
 Kategorien API Endpunkt
 
-	https://domain.tld/api/easymarketing/categories.php
+	https://www.meinshop.de/api/easymarketing/categories.php
 	
 **Produkt ID zum testen** 
 
@@ -57,7 +77,8 @@ Das ist die ID der höchsten Kategorie in Ihrem Shop. Die `Ober-Kategorie` bzw. 
 
 **Konfiguration des Shop Token**
 
-Der Shop Token ist ein Passwort Ihres Shops. Dieses Passwort kann auf der Modul-Seite des Plugins definiert werden. EASYMARKETING übermittelt bei jeder Anfrage diesen `Shop Token`. Nur falls der `Shop Token` Ihrem eingegebenem Token entspricht, werden die Anfragen autorisiert. Sie müssen hier also genau den von Ihnen definierten `Shop Token` eingeben.
+Der Shop Token ist ein Passwort Ihres Shops. Dieses Passwort kann auf der Modul-Seite des Plugins definiert werden.
+EASYMARKETING übermittelt bei jeder Anfrage diesen `Shop Token`. Nur falls der `Shop Token` Ihrem eingegebenem Token entspricht, werden die Anfragen autorisiert. Sie müssen hier also genau den von Ihnen definierten `Shop Token` eingeben.
 
 Beispiel:
 
