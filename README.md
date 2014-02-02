@@ -3,7 +3,7 @@
 ## Allgemein
 ======================
 
-Im Folgenden wird erklärt, wie das Easymarketing-Modul für Gambio installiert wird. Für den Conversion Tracker reichen die folgenden beiden Abschnitte über Installation und Konfiguration des Moduls. 
+Im Folgenden wird erklärt, wie das Easymarketing-Modul für Gambio installiert wird. Für den Conversion Tracker reichen die nächsten beiden Abschnitte über Installation und Konfiguration des Moduls. 
 
 Durch die [Konfiguration der Endpunkte](#konfiguration-der-endpunkte) ermöglichen Sie EASYMARKETING die Artikel und Kategorien Ihres Shops auszulesen. Dies ist von Vorteil für eine Verbesserung der Keywords und Anzeigentexte sowie notwendig um Google Shopping oder den Facebook Shop nutzen zu können. Wir empfehlen grundsätzlich auch die Endpunkte zu konfigurieren. 
 
@@ -31,6 +31,9 @@ Dort müssen Sie das ein Access-Token eintragen, das Sie in Ihrem EASYMARKETING 
 
 Dieser Wert ist das Access-Token. Kopieren Sie diesen Wert in Ihr Gambio Modul und drücken Sie speichern. Wenn Sie gespeichert haben wird der Wert für Shop-Token generiert. Diesen brauchen Sie für die Konfiguration der Endpunkte.
 
+Wenn Sie das Modul und somit den Conversion Tracker erfolgreich installiert haben so müssen Sie dies in Ihrem EASYMARKETING Account vermerken:
+
+`Kampagnen -> Google AdWords -> Details einblenden -> Conversion Tracker Installiert` anklicken und dann `Speichern` wählen. 
 
 ## Konfiguration der Endpunkte
 ======================
@@ -41,6 +44,8 @@ Dazu öffnen Sie bitte Ihre API Einstellungen in Ihrem EASYMARKETING Account unt
 
 Anmerkung: Bitte verwenden Sie https nur, falls Sie ein vertrauenswürdiges
 SSL-Zertifikat besitzen.
+
+Tragen Sie alle u.s. Informationen ein, klicken Sie `Speichern` und dann `API Setup testen`. Dann können Sie sehen ob zu jedem Endpunkt Daten ausgelesen werden konnten.
 
 Produkte API Endpunkt
 
