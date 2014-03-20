@@ -21,12 +21,18 @@
 
 class EasymarketingExtender extends EasymarketingExtender_parent
 {
-	function proceed() {
-	  global $PHP_SELF;
-
-    if (defined('MODULE_EASYMARKETING_STATUS') && MODULE_EASYMARKETING_STATUS == 'True') {
-      include(DIR_FS_CATALOG.'api/easymarketing/conversion_tracker.php');
-    }
+	function proceed() 
+	{
+		global $PHP_SELF, $last_order;
+		
 		parent::proceed();
+	  
+	  	$t_order = new order($last_order);
+	  	$t_amount = round($t_order->info['pp_total'], 2);
+		
+		if (defined('MODULE_EASYMARKETING_STATUS') && MODULE_EASYMARKETING_STATUS == 'True') 
+		{
+		  	include(DIR_FS_CATALOG.'api/easymarketing/conversion_tracker.php');
+		}
 	}
 }
