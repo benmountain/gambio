@@ -12,13 +12,23 @@
    
    @modified_by Easymarketing AG, Florian Ressel <florian.ressel@easymarketing.de>
 
-   @file       includes/classes/Smarty/plugins/function.facebook_badge.php
+   @file       system/overloads/HeaderExtenderComponent/EasymarketingHeaderExtender.inc.php
    @version    07.04.2014 - 20:34
    ---------------------------------------------------------------------------------------*/
 
-function smarty_function_facebook_badge($params, &$smarty) 
-{  
-	$facebook_badge = (defined('MODULE_EASYMARKETING_FACEBOOK_LIKE_BADGE_CODE') && MODULE_EASYMARKETING_FACEBOOK_LIKE_BADGE_CODE != '') ? MODULE_EASYMARKETING_FACEBOOK_LIKE_BADGE_CODE : '';
-	
-  	return $facebook_badge;
+
+class EasymarketingHeaderExtender extends EasymarketingHeaderExtender_parent
+{
+	function proceed() 
+	{
+		parent::proceed();
+		
+		if (defined('MODULE_EASYMARKETING_STATUS') && MODULE_EASYMARKETING_STATUS == 'True') 
+		{
+			if(defined('MODULE_EASYMARKETING_GOOGLE_SITE_VERIFICATION_META_TAG') && MODULE_EASYMARKETING_GOOGLE_SITE_VERIFICATION_META_TAG != '')
+			{
+				echo MODULE_EASYMARKETING_GOOGLE_SITE_VERIFICATION_META_TAG;
+			}
+		}
+	}
 }
