@@ -274,7 +274,7 @@ class Easymarketing
 		$website_url = EasymarketingHelper::getWebsiteURL();
 		$website_api_url = EasymarketingHelper::getWebsiteURL(true);
 		
-		$test_pid = xtc_db_fetch_array(xtc_db_query("SELECT products_id FROM products LIMIT 1"));
+		$test_pid = xtc_db_fetch_array(xtc_db_query("SELECT products_id FROM products WHERE products_status = 1 LIMIT 1"));
     
 		$params = array(
             'website_url' => $website_url,
