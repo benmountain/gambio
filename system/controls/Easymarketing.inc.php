@@ -167,6 +167,7 @@ class Easymarketing
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EASYMARKETING_GOOGLE_SITE_VERIFICATION_META_TAG', '',  '6', '1', '', now())");
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EASYMARKETING_FACEBOOK_LIKE_BADGE_CODE', '',  '6', '1', '', now())");
 	 	xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EASYMARKETING_RETARGETING_ADSCALE_ID', '',  '6', '1', '', now())");
+		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EASYMARKETING_RETARGETING_ADSCALE_CONVERSION_ID', '',  '6', '1', '', now())");
 	 	xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EASYMARKETING_LAST_CRAWL_DATE', '0',  '6', '1', '', now())");
 	 	xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EASYMARKETING_LAST_CRAWL_PRODUCTS_COUNT', '0',  '6', '1', '', now())");
 	 	xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EASYMARKETING_LAST_CRAWL_CATEGORIES_COUNT', '0',  '6', '1', '', now())");
@@ -257,7 +258,8 @@ class Easymarketing
 						'MODULE_EASYMARKETING_LEAD_TRACKER_STATUS',
 						'MODULE_EASYMARKETING_GOOGLE_SITE_VERIFICATION_STATUS',
 						'MODULE_EASYMARKETING_FACEBOOK_LIKE_BADGE_CODE',
-						'MODULE_EASYMARKETING_RETARGETING_ADSCALE_ID'
+						'MODULE_EASYMARKETING_RETARGETING_ADSCALE_ID',
+						'MODULE_EASYMARKETING_RETARGETING_ADSCALE_CONVERSION_ID'
 					);
 					
 		foreach($keys as $key)
@@ -390,6 +392,7 @@ class Easymarketing
 		if($response['status'] == 200)
 		{
 			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".$response['data']['adscale_id']."' WHERE configuration_key = 'MODULE_EASYMARKETING_RETARGETING_ADSCALE_ID'");
+			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".$response['data']['conversion_id']."' WHERE configuration_key = 'MODULE_EASYMARKETING_RETARGETING_ADSCALE_CONVERSION_ID'");
 		}
 	}
 }

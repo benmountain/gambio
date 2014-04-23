@@ -132,11 +132,11 @@ class EasymarketingApplicationBottomExtender extends EasymarketingApplicationBot
 				{
 					$tp_adscale_pixel = '
 					<!-- adscale pixel -->
-					<ins style="display: none;" class="adscale-rt" data-accountId="'.MODULE_EASYMARKETING_RETARGETING_ADSCALE_ID.'" data-pixelName="Transactions"></ins> 
+					<ins style="display: none;" class="adscale-rt" data-accountId="'.MODULE_EASYMARKETING_RETARGETING_ADSCALE_CONVERSION_ID.'" data-pixelName="Transactions"></ins> 
 					<script async defer type="text/javascript" src="//js.adscale.de/rt-a.js"></script>
 					
 					<!-- adscale conversion tracking -->
-					<ins style="display: none;" class="adscale-cpx" data-accountId="'.MODULE_EASYMARKETING_RETARGETING_ADSCALE_ID.'" data-pixelName="1"></ins>
+					<ins style="display: none;" class="adscale-cpx" data-accountId="'.MODULE_EASYMARKETING_RETARGETING_ADSCALE_CONVERSION_ID.'" data-pixelName="1"></ins>
 					<script async defer type="text/javascript" src="//js.adscale.de/cpx-a.js"></script>
 					';
 					echo str_replace(chr(0x0009), '', $tp_adscale_pixel);
