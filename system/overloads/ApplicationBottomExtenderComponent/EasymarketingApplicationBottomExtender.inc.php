@@ -128,8 +128,13 @@ class EasymarketingApplicationBottomExtender extends EasymarketingApplicationBot
 					echo str_replace(chr(0x0009), '', $tp_adscale_code);
 				}
 				
-				if($pageType == 'transactions')
+				if($pageType == 'basket')
 				{
+					$tp_adscale_pixel = '
+					<!-- adscale pixel -->
+					<ins style="display: none;" class="adscale-rt" data-accountId="'.MODULE_EASYMARKETING_RETARGETING_ADSCALE_CONVERSION_ID.'" data-pixelName="Basket"></ins> 
+					<script async defer type="text/javascript" src="//js.adscale.de/rt-a.js"></script>';
+				} elseif($pageType == 'transactions') {
 					$tp_adscale_pixel = '
 					<!-- adscale pixel -->
 					<ins style="display: none;" class="adscale-rt" data-accountId="'.MODULE_EASYMARKETING_RETARGETING_ADSCALE_CONVERSION_ID.'" data-pixelName="Transactions"></ins> 
@@ -139,6 +144,10 @@ class EasymarketingApplicationBottomExtender extends EasymarketingApplicationBot
 					<ins style="display: none;" class="adscale-cpx" data-accountId="'.MODULE_EASYMARKETING_RETARGETING_ADSCALE_CONVERSION_ID.'" data-pixelName="1"></ins>
 					<script async defer type="text/javascript" src="//js.adscale.de/cpx-a.js"></script>
 					';
+				}
+				
+				if(!empty($tp_adscale_pixel))
+				{
 					echo str_replace(chr(0x0009), '', $tp_adscale_pixel);
 				}
 			}
