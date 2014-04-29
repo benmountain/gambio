@@ -26,7 +26,7 @@ class EasymarketingApplicationBottomExtender extends EasymarketingApplicationBot
 		
 		if (defined('MODULE_EASYMARKETING_STATUS') && MODULE_EASYMARKETING_STATUS == 'True') 
 		{	
-			if(basename($_SERVER['PHP_SELF']) == FILENAME_CHECKOUT_SUCCESS && MODULE_EASYMARKETING_GOOGLE_CONVERSION_TRACKER_STATUS == 1)
+			if(basename($_SERVER['PHP_SELF']) == FILENAME_CHECKOUT_SUCCESS && MODULE_EASYMARKETING_ACTIVATE_GOOGLE_TRACKING == 'True' && MODULE_EASYMARKETING_GOOGLE_TRACKING_STATUS == 1)
 			{
 				$t_order = new order($last_order);
 				$t_amount = round($t_order->info['pp_total'], 2);
@@ -42,7 +42,7 @@ class EasymarketingApplicationBottomExtender extends EasymarketingApplicationBot
 				echo $output;
 			}
 			
-			if(MODULE_EASYMARKETING_LEAD_TRACKER_STATUS == 1)
+			if(MODULE_EASYMARKETING_ACTIVATE_GOOGLE_TRACKING == 'True' && MODULE_EASYMARKETING_GOOGLE_TRACKING_STATUS == 1)
 			{
 				$isContactPage = (isset($_GET['coID']) && $_GET['coID'] == 7) ? true : false;
 				
