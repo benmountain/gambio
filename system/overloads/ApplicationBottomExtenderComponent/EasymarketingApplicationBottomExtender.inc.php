@@ -126,29 +126,45 @@ class EasymarketingApplicationBottomExtender extends EasymarketingApplicationBot
 					<script type="text/javascript" src="//js.adscale.de/pbr-a.js"></script>
 					';
 					echo str_replace(chr(0x0009), '', $tp_adscale_code);
-				}
 				
-				if($pageType == 'basket')
-				{
-					$tp_adscale_pixel = '
-					<!-- adscale pixel -->
-					<ins style="display: none;" class="adscale-rt" data-accountId="'.MODULE_EASYMARKETING_RETARGETING_ADSCALE_CONVERSION_ID.'" data-pixelName="Basket"></ins> 
-					<script async defer type="text/javascript" src="//js.adscale.de/rt-a.js"></script>';
-				} elseif($pageType == 'transactions') {
-					$tp_adscale_pixel = '
-					<!-- adscale pixel -->
-					<ins style="display: none;" class="adscale-rt" data-accountId="'.MODULE_EASYMARKETING_RETARGETING_ADSCALE_CONVERSION_ID.'" data-pixelName="Transactions"></ins> 
-					<script async defer type="text/javascript" src="//js.adscale.de/rt-a.js"></script>
+					if($pageType == 'homepage')
+					{
+						$tp_adscale_pixel = '
+						<!-- adscale pixel -->
+						<ins style="display: none;" class="adscale-rt" data-accountId="'.MODULE_EASYMARKETING_RETARGETING_ADSCALE_ID.'" data-pixelName="Homepage"></ins> 
+						<script async defer type="text/javascript" src="//js.adscale.de/rt-a.js"></script>';
+					} elseif($pageType == 'categories') {
+						$tp_adscale_pixel = '
+						<!-- adscale pixel -->
+						<ins style="display: none;" class="adscale-rt" data-accountId="'.MODULE_EASYMARKETING_RETARGETING_ADSCALE_ID.'" data-pixelName="Category"></ins> 
+						<script async defer type="text/javascript" src="//js.adscale.de/rt-a.js"></script>';
+					} elseif($pageType == 'products') {
+						$tp_adscale_pixel = '
+						<!-- adscale pixel -->
+						<ins style="display: none;" class="adscale-rt" data-accountId="'.MODULE_EASYMARKETING_RETARGETING_ADSCALE_ID.'" data-pixelName="Product"></ins> 
+						<script async defer type="text/javascript" src="//js.adscale.de/rt-a.js"></script>';
+				
+					} elseif($pageType == 'basket') {
+						$tp_adscale_pixel = '
+						<!-- adscale pixel -->
+						<ins style="display: none;" class="adscale-rt" data-accountId="'.MODULE_EASYMARKETING_RETARGETING_ADSCALE_ID.'" data-pixelName="Basket"></ins> 
+						<script async defer type="text/javascript" src="//js.adscale.de/rt-a.js"></script>';
+					} elseif($pageType == 'transactions') {
+						$tp_adscale_pixel = '
+						<!-- adscale pixel -->
+						<ins style="display: none;" class="adscale-rt" data-accountId="'.MODULE_EASYMARKETING_RETARGETING_ADSCALE_ID.'" data-pixelName="Transactions"></ins> 
+						<script async defer type="text/javascript" src="//js.adscale.de/rt-a.js"></script>
+						
+						<!-- adscale conversion tracking -->
+						<ins style="display: none;" class="adscale-cpx" data-accountId="'.MODULE_EASYMARKETING_RETARGETING_ADSCALE_CONVERSION_ID.'" data-pixelName="1"></ins>
+						<script async defer type="text/javascript" src="//js.adscale.de/cpx-a.js"></script>
+						';
+					}
 					
-					<!-- adscale conversion tracking -->
-					<ins style="display: none;" class="adscale-cpx" data-accountId="'.MODULE_EASYMARKETING_RETARGETING_ADSCALE_CONVERSION_ID.'" data-pixelName="1"></ins>
-					<script async defer type="text/javascript" src="//js.adscale.de/cpx-a.js"></script>
-					';
-				}
-				
-				if(!empty($tp_adscale_pixel))
-				{
-					echo str_replace(chr(0x0009), '', $tp_adscale_pixel);
+					if(!empty($tp_adscale_pixel))
+					{
+						echo str_replace(chr(0x0009), '', $tp_adscale_pixel);
+					}
 				}
 			}
 		}
