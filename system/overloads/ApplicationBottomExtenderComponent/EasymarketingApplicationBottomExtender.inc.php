@@ -76,10 +76,10 @@ class EasymarketingApplicationBottomExtender extends EasymarketingApplicationBot
 				{
 					$pageType = 'homepage';
 				} elseif(basename($_SERVER['PHP_SELF']) == FILENAME_DEFAULT && isset($_GET['cat']) && $_GET['cat'] != 'c0' && !isset($actual_products_id)) {
-					$pageType = 'categories';
+					$pageType = 'category';
 				} elseif(basename($_SERVER['PHP_SELF']) == FILENAME_PRODUCT_INFO && isset($actual_products_id) && $actual_products_id > 0) {
 					$productIds[] = '"'.$actual_products_id.'"';
-					$pageType = 'products';
+					$pageType = 'product';
 				} elseif(basename($_SERVER['PHP_SELF']) == FILENAME_SHOPPING_CART) {
 					
 					if($_SESSION['cart']->count_contents() > 0)
@@ -133,12 +133,12 @@ class EasymarketingApplicationBottomExtender extends EasymarketingApplicationBot
 						<!-- adscale pixel -->
 						<ins style="display: none;" class="adscale-rt" data-accountId="'.MODULE_EASYMARKETING_RETARGETING_ADSCALE_ID.'" data-pixelName="Homepage"></ins> 
 						<script async defer type="text/javascript" src="//js.adscale.de/rt-a.js"></script>';
-					} elseif($pageType == 'categories') {
+					} elseif($pageType == 'category') {
 						$tp_adscale_pixel = '
 						<!-- adscale pixel -->
 						<ins style="display: none;" class="adscale-rt" data-accountId="'.MODULE_EASYMARKETING_RETARGETING_ADSCALE_ID.'" data-pixelName="Category"></ins> 
 						<script async defer type="text/javascript" src="//js.adscale.de/rt-a.js"></script>';
-					} elseif($pageType == 'products') {
+					} elseif($pageType == 'product') {
 						$tp_adscale_pixel = '
 						<!-- adscale pixel -->
 						<ins style="display: none;" class="adscale-rt" data-accountId="'.MODULE_EASYMARKETING_RETARGETING_ADSCALE_ID.'" data-pixelName="Product"></ins> 
