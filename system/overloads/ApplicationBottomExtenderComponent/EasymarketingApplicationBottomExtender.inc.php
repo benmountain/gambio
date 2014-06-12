@@ -13,7 +13,7 @@
    @modified_by Easymarketing AG, Florian Ressel <florian.ressel@easymarketing.de>
 
    @file       system/overloads/ApplicationBottomExtenderComponent/EasymarketingApplicationBottomExtender.inc.php
-   @version    07.04.2014 - 20:34
+   @version    12.06.2014 - 21:52
    ---------------------------------------------------------------------------------------*/
 
 class EasymarketingApplicationBottomExtender extends EasymarketingApplicationBottomExtender_parent
@@ -26,7 +26,7 @@ class EasymarketingApplicationBottomExtender extends EasymarketingApplicationBot
 		
 		if (defined('MODULE_EASYMARKETING_STATUS') && MODULE_EASYMARKETING_STATUS == 'True') 
 		{	
-			if(basename($_SERVER['PHP_SELF']) == FILENAME_CHECKOUT_SUCCESS && MODULE_EASYMARKETING_ACTIVATE_GOOGLE_TRACKING == 'True' && MODULE_EASYMARKETING_GOOGLE_TRACKING_STATUS == 1)
+			if(basename($_SERVER['SCRIPT_NAME']) == FILENAME_CHECKOUT_SUCCESS && MODULE_EASYMARKETING_ACTIVATE_GOOGLE_TRACKING == 'True' && MODULE_EASYMARKETING_GOOGLE_TRACKING_STATUS == 1)
 			{
 				$t_order = new order($last_order);
 				$t_amount = round($t_order->info['pp_total'], 2);
@@ -46,7 +46,7 @@ class EasymarketingApplicationBottomExtender extends EasymarketingApplicationBot
 			{
 				$isContactPage = (isset($_GET['coID']) && $_GET['coID'] == 7) ? true : false;
 				
-				if(basename($_SERVER['PHP_SELF']) == FILENAME_SHOPPING_CART || $isContactPage)
+				if(basename($_SERVER['SCRIPT_NAME']) == FILENAME_SHOPPING_CART || $isContactPage)
 				{
 					echo MODULE_EASYMARKETING_LEAD_TRACKING_CODE . MODULE_EASYMARKETING_LEAD_TRACKING_IMG;
 				}
@@ -72,15 +72,15 @@ class EasymarketingApplicationBottomExtender extends EasymarketingApplicationBot
 				
 				$productIds = array();
 				
-				if(basename($_SERVER['PHP_SELF']) == FILENAME_DEFAULT && $current_category_id <= 0)
+				if(basename($_SERVER['SCRIPT_NAME']) == FILENAME_DEFAULT && $current_category_id <= 0)
 				{
 					$pageType = 'homepage';
-				} elseif(basename($_SERVER['PHP_SELF']) == FILENAME_DEFAULT && isset($_GET['cat']) && $_GET['cat'] != 'c0' && !isset($actual_products_id)) {
+				} elseif(basename($_SERVER['SCRIPT_NAME']) == FILENAME_DEFAULT && isset($_GET['cat']) && $_GET['cat'] != 'c0' && !isset($actual_products_id)) {
 					$pageType = 'category';
-				} elseif(basename($_SERVER['PHP_SELF']) == FILENAME_PRODUCT_INFO && isset($actual_products_id) && $actual_products_id > 0) {
+				} elseif(basename($_SERVER['SCRIPT_NAME']) == FILENAME_PRODUCT_INFO && isset($actual_products_id) && $actual_products_id > 0) {
 					$productIds[] = '"'.$actual_products_id.'"';
 					$pageType = 'product';
-				} elseif(basename($_SERVER['PHP_SELF']) == FILENAME_SHOPPING_CART) {
+				} elseif(basename($_SERVER['SCRIPT_NAME']) == FILENAME_SHOPPING_CART) {
 					
 					if($_SESSION['cart']->count_contents() > 0)
 					{
@@ -93,7 +93,7 @@ class EasymarketingApplicationBottomExtender extends EasymarketingApplicationBot
 					}
 					
 					$pageType = 'basket';
-				} elseif(basename($_SERVER['PHP_SELF']) == FILENAME_CHECKOUT_SUCCESS) {
+				} elseif(basename($_SERVER['SCRIPT_NAME']) == FILENAME_CHECKOUT_SUCCESS) {
 					$t_order = new order($last_order);
 					
 					foreach($t_order->products as $product)
