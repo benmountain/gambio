@@ -12,6 +12,8 @@ Falls Sie bereits eine alte Version von diesem Modul installiert haben, führen 
 2. Löschen Sie folgende Dateien von Ihrem Server:
    - system/overloads/ApplicationBottomExtenderComponent/EasymarketingExtender.inc.php
 
+3. Leeren Sie den Cache über den Adminbereich
+
 Haben Sie die 2 Schritte durchgeführt, können Sie mit dem nächsten Punkte fortfahren.
 
 ## Installation des Moduls
