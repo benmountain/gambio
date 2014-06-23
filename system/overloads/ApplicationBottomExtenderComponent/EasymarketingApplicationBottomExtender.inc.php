@@ -13,7 +13,7 @@
    @modified_by Easymarketing AG, Florian Ressel <florian.ressel@easymarketing.de>
 
    @file       system/overloads/ApplicationBottomExtenderComponent/EasymarketingApplicationBottomExtender.inc.php
-   @version    12.06.2014 - 21:52
+   @version    23.06.2014 - 17:51
    ---------------------------------------------------------------------------------------*/
 
 class EasymarketingApplicationBottomExtender extends EasymarketingApplicationBottomExtender_parent
@@ -26,29 +26,45 @@ class EasymarketingApplicationBottomExtender extends EasymarketingApplicationBot
 		
 		if (defined('MODULE_EASYMARKETING_STATUS') && MODULE_EASYMARKETING_STATUS == 'True') 
 		{	
-			if(basename($_SERVER['SCRIPT_NAME']) == FILENAME_CHECKOUT_SUCCESS && MODULE_EASYMARKETING_ACTIVATE_GOOGLE_TRACKING == 'True' && MODULE_EASYMARKETING_GOOGLE_TRACKING_STATUS == 1)
+			if(MODULE_EASYMARKETING_TRACKING_STATUS == 1)
 			{
-				$t_order = new order($last_order);
-				$t_amount = round($t_order->info['pp_total'], 2);
-				
-				$output = MODULE_EASYMARKETING_GOOGLE_CONVERSION_TRACKING_CODE . MODULE_EASYMARKETING_GOOGLE_CONVERSION_TRACKING_IMG;
-				
-				if($t_amount)
+				if(basename($_SERVER['SCRIPT_NAME']) == FILENAME_CHECKOUT_SUCCESS)
 				{
-					$output = str_replace('google_conversion_value = 0', 'google_conversion_value = "'.$t_amount.'"', $output);
-					$output = str_replace('value=0', 'value='.$t_amount, $output);
+					if(MODULE_EASYMARKETING_ACTIVATE_GOOGLE_TRACKING == 'True' && MODULE_EASYMARKETING_GOOGLE_CONVERSION_TRACKING_CODE != '')
+					{
+						$t_order = new order($last_order);
+						$t_amount = round($t_order->info['pp_total'], 2);
+						
+						$output = MODULE_EASYMARKETING_GOOGLE_CONVERSION_TRACKING_CODE;
+						
+						if($t_amount)
+						{
+							$output = str_replace('google_conversion_value = 0', 'google_conversion_value = "'.$t_amount.'"', $output);
+							$output = str_replace('value=0', 'value='.$t_amount, $output);
+						}
+						
+						echo $output;
+					}
+					
+					if(MODULE_EASYMARKETING_ACTIVATE_FACEBOOK_TRACKING == 'True' && MODULE_EASYMARKETING_FACEBOOK_CONVERSION_TRACKING_CODE != '')
+					{
+						echo MODULE_EASYMARKETING_FACEBOOK_CONVERSION_TRACKING_CODE;
+					}
 				}
 				
-				echo $output;
-			}
-			
-			if(MODULE_EASYMARKETING_ACTIVATE_GOOGLE_TRACKING == 'True' && MODULE_EASYMARKETING_GOOGLE_TRACKING_STATUS == 1)
-			{
 				$isContactPage = (isset($_GET['coID']) && $_GET['coID'] == 7) ? true : false;
-				
+					
 				if(basename($_SERVER['SCRIPT_NAME']) == FILENAME_SHOPPING_CART || $isContactPage)
 				{
-					echo MODULE_EASYMARKETING_LEAD_TRACKING_CODE . MODULE_EASYMARKETING_LEAD_TRACKING_IMG;
+					if(MODULE_EASYMARKETING_ACTIVATE_GOOGLE_TRACKING == 'True' && MODULE_EASYMARKETING_GOOGLE_LEAD_TRACKING_CODE != '')
+					{
+						echo MODULE_EASYMARKETING_GOOGLE_LEAD_TRACKING_CODE;
+					}
+					
+					if(MODULE_EASYMARKETING_ACTIVATE_FACEBOOK_TRACKING == 'True' && MODULE_EASYMARKETING_FACEBOOK_LEAD_TRACKING_CODE != '')
+					{
+						echo MODULE_EASYMARKETING_FACEBOOK_LEAD_TRACKING_CODE;
+					}
 				}
 			}
 		

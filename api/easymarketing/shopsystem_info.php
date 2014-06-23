@@ -13,7 +13,7 @@
    @modified_by Easymarketing AG, Florian Ressel <florian.ressel@easymarketing.de>
 
    @file       api/easymarketing/shopsystem_info.php
-   @version    07.04.2014 - 20:34
+   @version    23.06.2014 - 17:58
    ---------------------------------------------------------------------------------------*/
 
 chdir('../../');
@@ -45,7 +45,7 @@ $shopsystem_info_array = array(
             					'shopsystem' => 'Gambio',
             					'shopsystem_human' => 'Gambio ' . $gx_version,
             					'shopsystem_version' => $gx_version,
-            					'api_version' => '1.7'          
+            					'api_version' => '1.8'          
         					);
   
 mod_stream_response($shopsystem_info_array);

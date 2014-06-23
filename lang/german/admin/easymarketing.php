@@ -49,7 +49,9 @@ define('MODULE_EASYMARKETING_API_TOKEN_DESC','Diesen Token erhalten Sie von Easy
 define('MODULE_EASYMARKETING_ROOT_CATEGORY_TITLE', 'Root-Kategorie');
 define('MODULE_EASYMARKETING_ROOT_CATEGORY_DESC', 'Es werden nur Daten an Easymarketing &uuml;bermittelt, welche unterhalb der ausgew&auml;hlten Kategorie liegen.');
 define('MODULE_EASYMARKETING_ACTIVATE_GOOGLE_TRACKING_TITLE', 'Google Tracking aktivieren');
-define('MODULE_EASYMARKETING_ACTIVATE_GOOGLE_TRACKING_DESC', 'Ist dies aktiviert, so werden die Google Trackingpixel implementiert im Webshop.');
+define('MODULE_EASYMARKETING_ACTIVATE_GOOGLE_TRACKING_DESC', 'Ist dies aktiviert, so werden die Google Trackingpixel im Webshop implementiert.');
+define('MODULE_EASYMARKETING_ACTIVATE_FACEBOOK_TRACKING_TITLE', 'Facebook Tracking aktivieren');
+define('MODULE_EASYMARKETING_ACTIVATE_FACEBOOK_TRACKING_DESC', 'Ist dies aktiviert, so werden die Facebook Trackingpixel im Webshop implementiert.');
 define('MODULE_EASYMARKETING_SHOW_FACEBOOK_LIKE_BADGE_TITLE', 'Zeige Facebook Like Button');
 define('MODULE_EASYMARKETING_SHOW_FACEBOOK_LIKE_BADGE_DESC', 'Ist dies aktiviert, so wird auf der Bestellbest&auml;tigungsseite der Facebook Like Button angezeigt.');
 define('MODULE_EASYMARKETING_RETARGETING_ADSCALE_STATUS_TITLE', 'Retargeting - AdScale aktivieren');
