@@ -1,5 +1,8 @@
 # Changelog - EASYMARKETING Gambio Module
 
+### Version 1.8
+- add Facebook tracking pixel
+
 ### Version 1.7
 - fix AdScale retargeting pixel
 
