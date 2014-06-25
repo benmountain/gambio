@@ -117,6 +117,11 @@ if ($sql_limit != '' || $sql_where != '')
   	$shipping = new shipping();
 	
 	$db_tables = mod_get_all_db_tables();
+	
+	if(MODULE_EASYMARKETING_ROOT_CATEGORY > 0)
+	{
+		$sql_join_ptc = "JOIN ".TABLE_PRODUCTS_TO_CATEGORIES." ptc ON ptc.products_id = p.products_id AND ptc.categories_id = '".(int)MODULE_EASYMARKETING_ROOT_CATEGORY."'";
+	}
 
   	// sql query for products
   	$products_query_raw = "SELECT p.*,
@@ -127,8 +132,10 @@ if ($sql_limit != '' || $sql_where != '')
                            JOIN ".TABLE_PRODUCTS_DESCRIPTION." pd
                                 ON p.products_id = pd.products_id
                                    AND pd.language_id = '".(int)$language->language['id']."'
+						   ".$sql_join_ptc."
                           WHERE p.products_status = '1'
                                 ".$sql_where."
+						  GROUP BY p.products_id
                                 ".$sql_sort."
                                 ".$sql_limit;
   
@@ -183,7 +190,7 @@ if ($sql_limit != '' || $sql_where != '')
 										'discount_absolute' => ($discount_absolute > 0) ? $discount_absolute : 0,
 										'discount_percentage' => ($discount_percentage > 0) ? $discount_percentage : 0,
                                 		'url' => xtc_href_link(FILENAME_PRODUCT_INFO, xtc_product_link($products['products_id'], $products['products_name']), 'NONSSL', false),
-                                		'image_url' => !empty($products['products_image']) ? HTTP_SERVER.DIR_WS_CATALOG.DIR_WS_POPUP_IMAGES.$products['products_image'] : '',
+                                		'image_url' => !empty($products['products_image']) ? HTTP_SERVER.DIR_WS_CATALOG.DIR_WS_POPUP_IMAGES.$products['products_image'] : 'null',
                                 		'shipping' => mod_calculate_shipping_cost($products['products_id'], $products_price),
                                 		'description' => (!empty($products['products_short_description']) ? $products['products_short_description'] : (!empty($products['products_description']) ? $products['products_description'] : 'null')),
                                 		'gtin' => ($products['products_ean'] != '') ? $products['products_ean'] : 'null',

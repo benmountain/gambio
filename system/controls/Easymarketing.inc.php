@@ -275,7 +275,12 @@ class Easymarketing
 		$website_url = EasymarketingHelper::getWebsiteURL();
 		$website_api_url = EasymarketingHelper::getWebsiteURL(true);
 		
-		$test_pid = xtc_db_fetch_array(xtc_db_query("SELECT products_id FROM products WHERE products_status = 1 LIMIT 1"));
+		if(MODULE_EASYMARKETING_ROOT_CATEGORY > 0)
+		{
+			$test_pid = xtc_db_fetch_array(xtc_db_query("SELECT ptc.products_id FROM ".TABLE_PRODUCTS_TO_CATEGORIES." ptc LEFT JOIN ".TABLE_PRODUCTS." p ON p.products_id = ptc.products_id WHERE ptc.categories_id = '".(int)MODULE_EASYMARKETING_ROOT_CATEGORY."' AND p.products_status = 1 ORDER BY ptc.products_id LIMIT 1"));
+		} else {
+			$test_pid = xtc_db_fetch_array(xtc_db_query("SELECT products_id FROM ".TABLE_PRODUCTS." WHERE products_status = 1 ORDER BY products_id LIMIT 1"));
+		}
     
 		$params = array(
             'website_url' => $website_url,
@@ -298,7 +303,7 @@ class Easymarketing
 			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '1' WHERE configuration_key = 'MODULE_EASYMARKETING_CONFIGURE_ENDPOINTS_STATUS'");
 		}
 	}
-	
+
 	/*
 	 * get the tracking pixel
 	 */
@@ -308,16 +313,16 @@ class Easymarketing
 		
 		if($response_ct['status'] == 200)
 		{
-			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".$response_ct['data']['code']."' WHERE configuration_key = 'MODULE_EASYMARKETING_GOOGLE_CONVERSION_TRACKING_CODE'");
-			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".$response_ct['data']['fb_code']."' WHERE configuration_key = 'MODULE_EASYMARKETING_FACEBOOK_CONVERSION_TRACKING_CODE'");
+			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".xtc_db_input($response_ct['data']['code'])."' WHERE configuration_key = 'MODULE_EASYMARKETING_GOOGLE_CONVERSION_TRACKING_CODE'");	
+			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".xtc_db_input($response_ct['data']['fb_code'])."' WHERE configuration_key = 'MODULE_EASYMARKETING_FACEBOOK_CONVERSION_TRACKING_CODE'");
 		}
 		
 		$response_lt = APIClient::getInstance()->performRequest('lead_tracker');
 		
 		if($response_lt['status'] == 200)
 		{
-			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".$response_lt['data']['code']."' WHERE configuration_key = 'MODULE_EASYMARKETING_GOOGLE_LEAD_TRACKING_CODE'");
-			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".$response_lt['data']['fb_code']."' WHERE configuration_key = 'MODULE_EASYMARKETING_FACEBOOK_LEAD_TRACKING_CODE'");
+			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".xtc_db_input($response_lt['data']['code'])."' WHERE configuration_key = 'MODULE_EASYMARKETING_GOOGLE_LEAD_TRACKING_CODE'");
+			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".xtc_db_input($response_lt['data']['fb_code'])."' WHERE configuration_key = 'MODULE_EASYMARKETING_FACEBOOK_LEAD_TRACKING_CODE'");
 		}
 		
 		if($response_ct['status'] == 200 && $response_lt['status'] == 200)
@@ -335,7 +340,7 @@ class Easymarketing
 		
 		if($response['status'] == 200)
 		{	
-			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".$response['data']['meta_tag']."' WHERE configuration_key = 'MODULE_EASYMARKETING_GOOGLE_SITE_VERIFICATION_META_TAG'");
+			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".xtc_db_input($response['data']['meta_tag'])."' WHERE configuration_key = 'MODULE_EASYMARKETING_GOOGLE_SITE_VERIFICATION_META_TAG'");
 
 			$params = array(
             	'verification_type' => 'META'
@@ -368,9 +373,9 @@ class Easymarketing
 		
 		if($response['status'] == 200 || $response['status'] == 400)
 		{		
-			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".$response['data']['updated_at']."' WHERE configuration_key = 'MODULE_EASYMARKETING_LAST_CRAWL_DATE'");
-			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".$response['data']['num_categories']."' WHERE configuration_key = 'MODULE_EASYMARKETING_LAST_CRAWL_CATEGORIES_COUNT'");
-			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".$response['data']['num_products']."' WHERE configuration_key = 'MODULE_EASYMARKETING_LAST_CRAWL_PRODUCTS_COUNT'");
+			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".xtc_db_input($response['data']['updated_at'])."' WHERE configuration_key = 'MODULE_EASYMARKETING_LAST_CRAWL_DATE'");
+			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".xtc_db_input($response['data']['num_categories'])."' WHERE configuration_key = 'MODULE_EASYMARKETING_LAST_CRAWL_CATEGORIES_COUNT'");
+			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".xtc_db_input($response['data']['num_products'])."' WHERE configuration_key = 'MODULE_EASYMARKETING_LAST_CRAWL_PRODUCTS_COUNT'");
 		}
 	}
 	
@@ -383,7 +388,7 @@ class Easymarketing
 		
 		if($response['status'] == 200)
 		{
-			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".$response['data']."' WHERE configuration_key = 'MODULE_EASYMARKETING_FACEBOOK_LIKE_BADGE_CODE'");
+			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".xtc_db_input($response['data'])."' WHERE configuration_key = 'MODULE_EASYMARKETING_FACEBOOK_LIKE_BADGE_CODE'");
 		}
 	}
 	
@@ -396,8 +401,8 @@ class Easymarketing
 		
 		if($response['status'] == 200)
 		{
-			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".$response['data']['adscale_id']."' WHERE configuration_key = 'MODULE_EASYMARKETING_RETARGETING_ADSCALE_ID'");
-			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".$response['data']['conversion_id']."' WHERE configuration_key = 'MODULE_EASYMARKETING_RETARGETING_ADSCALE_CONVERSION_ID'");
+			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".xtc_db_input($response['data']['adscale_id'])."' WHERE configuration_key = 'MODULE_EASYMARKETING_RETARGETING_ADSCALE_ID'");
+			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".xtc_db_input($response['data']['conversion_id'])."' WHERE configuration_key = 'MODULE_EASYMARKETING_RETARGETING_ADSCALE_CONVERSION_ID'");
 		}
 	}
 }

@@ -182,7 +182,11 @@ if (isset($_GET['content']) && $_GET['content'] != '') {
               </tr>
               <tr>
                 <td><?php echo MODULE_EASYMARKETING_OVERVIEW_GOOGLE_TRACKING_STATUS_TITLE; ?></td>
-                <td><?php if(MODULE_EASYMARKETING_ACTIVATE_GOOGLE_TRACKING == 'True' && MODULE_EASYMARKETING_GOOGLE_TRACKING_STATUS == 1) { echo '<span style="color:#3C6">&#10003;</span>'; } else { echo '<span style="color:#C00">&#10006;</span>'; } ?></td>
+                <td><?php if(MODULE_EASYMARKETING_ACTIVATE_GOOGLE_TRACKING == 'True' && MODULE_EASYMARKETING_TRACKING_STATUS == 1) { echo '<span style="color:#3C6">&#10003;</span>'; } else { echo '<span style="color:#C00">&#10006;</span>'; } ?></td>
+              </tr>
+              <tr>
+                <td><?php echo MODULE_EASYMARKETING_OVERVIEW_FACEBOOK_TRACKING_STATUS_TITLE; ?></td>
+                <td><?php if(MODULE_EASYMARKETING_ACTIVATE_FACEBOOK_TRACKING == 'True' && MODULE_EASYMARKETING_TRACKING_STATUS == 1) { echo '<span style="color:#3C6">&#10003;</span>'; } else { echo '<span style="color:#C00">&#10006;</span>'; } ?></td>
               </tr>
               <tr>
                 <td><?php echo MODULE_EASYMARKETING_OVERVIEW_GOOGLE_SITE_VERIFICATION_STATUS_TITLE; ?></td>
