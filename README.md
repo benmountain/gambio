@@ -1,5 +1,8 @@
 # EASYMARKETING Gambio Module
 
+Dieses Modul ist nur für Gambio Version 2.1.x.
+Falls Sie Gambio mit der Version 2.0.x verwenden, so [erhalten Sie das passende Modul hier](https://github.com/EASYMARKETING/gambio/tree/v2.0.x).
+
 ## Allgemein
 ======================
 
@@ -9,7 +12,7 @@ Falls Sie bereits eine alte Version von diesem Modul installiert haben, führen 
 
 1. Deinstallieren Sie das alte Modul im Admin unter `Module` > `Easymarketing` im Tab `Konfiguration`.
 
-2. Löschen Sie folgende Dateien von Ihrem Server:
+2. Löschen Sie folgende Dateien von Ihrem Server, falls noch eine ältere Version vom Modul verwendet wird:
    - system/overloads/ApplicationBottomExtenderComponent/EasymarketingExtender.inc.php
 
 3. Leeren Sie den Cache über den Adminbereich
@@ -19,7 +22,7 @@ Haben Sie die 2 Schritte durchgeführt, können Sie mit dem nächsten Punkte for
 ## Installation des Moduls
 ======================
 
-1. [Downloaden Sie das Modul hier](https://github.com/EASYMARKETING/gambio/archive/master.zip)
+1. [Downloaden Sie das Modul hier](https://github.com/EASYMARKETING/gambio/archive/v2.1.x.zip)
 
 2. Dateien in das Hauptverzeichnis vom Shop via FTP übertragen
 

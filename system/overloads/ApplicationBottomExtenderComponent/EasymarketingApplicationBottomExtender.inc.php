@@ -13,90 +13,92 @@
    @modified_by Easymarketing AG, Florian Ressel <florian.ressel@easymarketing.de>
 
    @file       system/overloads/ApplicationBottomExtenderComponent/EasymarketingApplicationBottomExtender.inc.php
-   @version    23.06.2014 - 17:51
+   @version    26.09.2014 - 19:35
    ---------------------------------------------------------------------------------------*/
 
 class EasymarketingApplicationBottomExtender extends EasymarketingApplicationBottomExtender_parent
 {
 	function proceed() 
 	{
-		global $cPath, $current_category_id, $actual_products_id, $last_order;
+		global $cPath, $current_category_id, $product;
 		
 		parent::proceed();
 		
-		if (defined('MODULE_EASYMARKETING_STATUS') && MODULE_EASYMARKETING_STATUS == 'True') 
+		if (defined('MODULE_EM_STATUS') && MODULE_EM_STATUS == 'True') 
 		{	
-			if(MODULE_EASYMARKETING_TRACKING_STATUS == 1)
+			$t_page = $this->get_page();
+			
+			$isContactPage = (isset($_GET['coID']) && $_GET['coID'] == 7) ? true : false;
+					
+			if($t_page == 'Cart' || $isContactPage)
 			{
-				if(basename($_SERVER['SCRIPT_NAME']) == FILENAME_CHECKOUT_SUCCESS)
-				{
-					if(MODULE_EASYMARKETING_ACTIVATE_GOOGLE_TRACKING == 'True' && MODULE_EASYMARKETING_GOOGLE_CONVERSION_TRACKING_CODE != '')
-					{
-						$t_order = new order($last_order);
-						$t_amount = round($t_order->info['pp_total'], 2);
-						
-						$output = MODULE_EASYMARKETING_GOOGLE_CONVERSION_TRACKING_CODE;
-						
-						if($t_amount)
-						{
-							$output = str_replace('google_conversion_value = 0', 'google_conversion_value = "'.$t_amount.'"', $output);
-							$output = str_replace('value=0', 'value='.$t_amount, $output);
-						}
-						
-						echo $output;
-					}
-					
-					if(MODULE_EASYMARKETING_ACTIVATE_FACEBOOK_TRACKING == 'True' && MODULE_EASYMARKETING_FACEBOOK_CONVERSION_TRACKING_CODE != '')
-					{
-						echo MODULE_EASYMARKETING_FACEBOOK_CONVERSION_TRACKING_CODE;
-					}
-				}
+				$t_amount = (!$isContactPage ? number_format(floatval($_SESSION['cart']->show_total()), 2, '.', '') : false);
 				
-				$isContactPage = (isset($_GET['coID']) && $_GET['coID'] == 7) ? true : false;
-					
-				if(basename($_SERVER['SCRIPT_NAME']) == FILENAME_SHOPPING_CART || $isContactPage)
+				if(MODULE_EM_ACTIVATE_GOOGLE_TRACKING == 'True' && MODULE_EM_GOOGLE_LEAD_TRACKING_CODE != '')
 				{
-					if(MODULE_EASYMARKETING_ACTIVATE_GOOGLE_TRACKING == 'True' && MODULE_EASYMARKETING_GOOGLE_LEAD_TRACKING_CODE != '')
+					$output = MODULE_EM_GOOGLE_LEAD_TRACKING_CODE;
+					
+					if($t_amount)
 					{
-						echo MODULE_EASYMARKETING_GOOGLE_LEAD_TRACKING_CODE;
+						$output = str_replace('google_conversion_value = 1.000000', 'google_conversion_value = '.$t_amount, $output);
+						$output = str_replace('value=1.000000', 'value='.$t_amount, $output);
 					}
 					
-					if(MODULE_EASYMARKETING_ACTIVATE_FACEBOOK_TRACKING == 'True' && MODULE_EASYMARKETING_FACEBOOK_LEAD_TRACKING_CODE != '')
+					$this->v_output_buffer['EasymarketingApplicationBottomExtender'] .= $output;
+				}
+					
+				if(MODULE_EM_ACTIVATE_FACEBOOK_TRACKING == 'True' && MODULE_EM_FACEBOOK_LEAD_TRACKING_CODE != '')
+				{
+					$output = MODULE_EM_FACEBOOK_LEAD_TRACKING_CODE;
+					
+					if($t_amount)
 					{
-						echo MODULE_EASYMARKETING_FACEBOOK_LEAD_TRACKING_CODE;
+						$output = str_replace("'value':'0.00'", "'value':'".$t_amount."'", $output);
+						$output = str_replace("cd[value]=0.00", "cd[value]=".$t_amount, $output);
 					}
+					
+					$this->v_output_buffer['EasymarketingApplicationBottomExtender'] .= $output;
 				}
 			}
 		
-			if(MODULE_EASYMARKETING_RETARGETING_ADSCALE_STATUS == 'True' && MODULE_EASYMARKETING_RETARGETING_ADSCALE_ID != '')
+			if(MODULE_EM_REMARKETING_STATUS == 'True' && MODULE_EM_REMARKETING_CODE != '')
 			{
+				$ecomm_prodid = '';
+				$ecomm_pagetype = '';
+				$ecomm_totalvalue = '';
+				$additional_parameters = array();
+				
+				$t_amount = 0.00;
+				
 				if(!empty($cPath))
 				{
 					$_categoryIds = explode('_', $cPath);
 	
-					$category_data = xtc_db_query("SELECT cd.categories_name FROM categories_description cd WHERE cd.categories_id IN (".implode(',', $_categoryIds).") AND cd.language_id = '".$_SESSION['languages_id']."'");
-					$categoryIds = array();
+					$category_data_query = xtc_db_query("SELECT cd.categories_name FROM categories_description cd WHERE cd.categories_id = '".end($_categoryIds)."' AND cd.language_id = '".$_SESSION['languages_id']."'");
+					$category_data_result = xtc_db_fetch_array($category_data_query);
 					
-					while($row_category_data = xtc_db_fetch_array($category_data))
-					{
-						$categoryIds[] = '"'. $row_category_data['categories_name'] . '"';
-					}
-					$categoryIds = implode(',', $categoryIds);
-				} else {
-					$categoryIds = '""';
+					$additional_parameters[] = array('ecomm_category', $category_data_result['categories_name']);
 				}
 				
-				$productIds = array();
-				
-				if(basename($_SERVER['SCRIPT_NAME']) == FILENAME_DEFAULT && $current_category_id <= 0)
+				if($t_page == 'Index')
 				{
-					$pageType = 'homepage';
-				} elseif(basename($_SERVER['SCRIPT_NAME']) == FILENAME_DEFAULT && isset($_GET['cat']) && $_GET['cat'] != 'c0' && !isset($actual_products_id)) {
-					$pageType = 'category';
-				} elseif(basename($_SERVER['SCRIPT_NAME']) == FILENAME_PRODUCT_INFO && isset($actual_products_id) && $actual_products_id > 0) {
-					$productIds[] = '"'.$actual_products_id.'"';
-					$pageType = 'product';
-				} elseif(basename($_SERVER['SCRIPT_NAME']) == FILENAME_SHOPPING_CART) {
+					$ecomm_pagetype = 'home';
+				} elseif($t_page == 'Cat') {
+					$ecomm_pagetype = 'searchresults';
+				} elseif($t_page == 'ProductInfo') {
+					$ecomm_pagetype = 'product';
+					$ecomm_prodid = $product->data['products_id'];
+					
+					$t_xtPrice = new xtcPrice(DEFAULT_CURRENCY, DEFAULT_CUSTOMERS_STATUS_ID);
+					
+					$products_price = $t_xtPrice->xtcGetPrice($product->data['products_id'], true, 1, $product->data['products_tax_class_id'], '', 1, 0, true, false, 0);
+					
+					$ecomm_totalvalue = number_format(floatval($products_price['plain']), 2, '.', '');
+				} elseif($t_page == 'Cart') {
+					$ecomm_pagetype = 'cart';
+					
+					$t_productIds = array();
+					$t_productQtys = array();
 					
 					if($_SESSION['cart']->count_contents() > 0)
 					{
@@ -104,83 +106,43 @@ class EasymarketingApplicationBottomExtender extends EasymarketingApplicationBot
 						
 						foreach($products as $product)
 						{
-							$productIds[] = '"' . (int)$product['id'] . '"';
+							$t_productIds[] = (int)$product['id'];
+							$t_productQtys[] = $product['quantity'];
 						}
 					}
 					
-					$pageType = 'basket';
-				} elseif(basename($_SERVER['SCRIPT_NAME']) == FILENAME_CHECKOUT_SUCCESS) {
-					$t_order = new order($last_order);
-					
-					foreach($t_order->products as $product)
+					if(floatval($_SESSION['cart']->show_total()) > 0)
 					{
-						$productIds[] = '"'. (int)$product['id'] . '"';
+						$t_amount = number_format(floatval($_SESSION['cart']->show_total()), 2, '.', '');
 					}
 					
-					$pageType = 'transactions';
+					$ecomm_prodid = implode(',', $t_productIds);
+					$ecomm_totalvalue = number_format($t_amount, 2, '.', '');
+					
+					$additional_parameters[] = array('ecomm_quantity', implode(',', $t_productQtys));
 				}
 				
-				if(empty($productIds))
+				if(!empty($ecomm_pagetype))
 				{
-					$productIds = '""';
-				} else {
-					$productIds = implode(',', $productIds);
-				}
-				
-				if(isset($pageType))
-				{
-					$tp_adscale_code = '
-					<script type="text/javascript">
-					window.adscaleProductViews = window.adscaleProductViews ? window.adscaleProductViews : [];
-					window.adscaleProductViews.push({
-					"aid":"'.MODULE_EASYMARKETING_RETARGETING_ADSCALE_ID.'", 
-					"productIds": ['.$productIds.'],
-					"categoryIds": ['.$categoryIds.'],
-					"pageTypes": ["'.$pageType.'"],
-					});
-					</script>
-					<script type="text/javascript" src="//js.adscale.de/pbr-a.js"></script>
-					';
-					echo str_replace(chr(0x0009), '', $tp_adscale_code);
-				
-					if($pageType == 'homepage')
+					$remarketing_code = MODULE_EM_REMARKETING_CODE;
+					$remarketing_code = str_replace("ecomm_prodid: 'REPLACE_WITH_VALUE'", "ecomm_prodid: '".$ecomm_prodid."'", $remarketing_code);
+					$remarketing_code = str_replace("ecomm_pagetype: 'REPLACE_WITH_VALUE'", "ecomm_pagetype: '".$ecomm_pagetype."'", $remarketing_code);
+					$remarketing_code = str_replace("ecomm_totalvalue: 'REPLACE_WITH_VALUE'", "ecomm_totalvalue: '".$ecomm_totalvalue."'", $remarketing_code);
+					$remarketing_code = str_replace("value=0", "value=".$t_amount, $remarketing_code);
+					
+					if(count($additional_parameters) > 0)
 					{
-						$tp_adscale_pixel = '
-						<!-- adscale pixel -->
-						<ins style="display: none;" class="adscale-rt" data-accountId="'.MODULE_EASYMARKETING_RETARGETING_ADSCALE_ID.'" data-pixelName="Homepage"></ins> 
-						<script async defer type="text/javascript" src="//js.adscale.de/rt-a.js"></script>';
-					} elseif($pageType == 'category') {
-						$tp_adscale_pixel = '
-						<!-- adscale pixel -->
-						<ins style="display: none;" class="adscale-rt" data-accountId="'.MODULE_EASYMARKETING_RETARGETING_ADSCALE_ID.'" data-pixelName="Category"></ins> 
-						<script async defer type="text/javascript" src="//js.adscale.de/rt-a.js"></script>';
-					} elseif($pageType == 'product') {
-						$tp_adscale_pixel = '
-						<!-- adscale pixel -->
-						<ins style="display: none;" class="adscale-rt" data-accountId="'.MODULE_EASYMARKETING_RETARGETING_ADSCALE_ID.'" data-pixelName="Product"></ins> 
-						<script async defer type="text/javascript" src="//js.adscale.de/rt-a.js"></script>';
-				
-					} elseif($pageType == 'basket') {
-						$tp_adscale_pixel = '
-						<!-- adscale pixel -->
-						<ins style="display: none;" class="adscale-rt" data-accountId="'.MODULE_EASYMARKETING_RETARGETING_ADSCALE_ID.'" data-pixelName="Basket"></ins> 
-						<script async defer type="text/javascript" src="//js.adscale.de/rt-a.js"></script>';
-					} elseif($pageType == 'transactions') {
-						$tp_adscale_pixel = '
-						<!-- adscale pixel -->
-						<ins style="display: none;" class="adscale-rt" data-accountId="'.MODULE_EASYMARKETING_RETARGETING_ADSCALE_ID.'" data-pixelName="Transactions"></ins> 
-						<script async defer type="text/javascript" src="//js.adscale.de/rt-a.js"></script>
+						$t_additional_tags = array();
 						
-						<!-- adscale conversion tracking -->
-						<ins style="display: none;" class="adscale-cpx" data-accountId="'.MODULE_EASYMARKETING_RETARGETING_ADSCALE_CONVERSION_ID.'" data-pixelName="1"></ins>
-						<script async defer type="text/javascript" src="//js.adscale.de/cpx-a.js"></script>
-						';
+						foreach($additional_parameters as $key => $entry)
+						{
+							array_push($t_additional_tags, $entry[0] . ": '" . $entry[1] . "'");
+						}
+						
+						$remarketing_code = str_replace('};', implode(',', $t_additional_tags) . ',};', $remarketing_code);
 					}
-					
-					if(!empty($tp_adscale_pixel))
-					{
-						echo str_replace(chr(0x0009), '', $tp_adscale_pixel);
-					}
+				
+					$this->v_output_buffer['EasymarketingApplicationBottomExtender'] .= $remarketing_code;
 				}
 			}
 		}

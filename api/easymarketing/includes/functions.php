@@ -13,46 +13,68 @@
    @modified_by Easymarketing AG, Florian Ressel <florian.ressel@easymarketing.de>
 
    @file       api/easymarketing/includes/functions.php
-   @version    07.04.2014 - 20:34
+   @version    30.10.2014 - 15:21
    ---------------------------------------------------------------------------------------*/
 
 if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) {
   die('Direct Access to this location is not allowed.');
 }
 
-function mod_get_all_db_tables()
+function mod_check_encoding($string)
 {
-	$tables = array();
-	
-	$tables_query_raw = "SHOW TABLES FROM " . DB_DATABASE;
-	
-	$tables_query = xtc_db_query($tables_query_raw);
-	
-	while($tables_row = xtc_db_fetch_array($tables_query))
+	if(function_exists('mb_detect_encoding'))
 	{
-		$tables[] = $tables_row['Tables_in_' . DB_DATABASE];
+		if(mb_detect_encoding($string, 'UTF-8', true) === 'UTF-8')
+		{
+			// do nothing
+		} else {
+			$string = mb_convert_encoding($string, 'UTF-8');
+		}
 	}
 	
-	return $tables;
+	return $string;
 }
 
-function mod_convert($string) 
+function mod_convert_string($string) 
 {
-	global $language;
+	global $oLanguage;
 	
-  	// convert string
-  	$string = html_entity_decode($string, ENT_COMPAT, $language->language['language_charset']);
-  	$string = strip_tags($string);
-  	$string = str_replace(array("\r", "\n", "\t"), " ", $string);
-  	$string = trim(preg_replace("/\s+/i", " ", $string));
-	
-  	if ($string == chr(160)) 
+	if(gettype($string) == 'string')
 	{
-    	$string = '';
-  	}
-  	$string = utf8_encode($string);
+		// convert string
+		$string = html_entity_decode($string, ENT_COMPAT, $oLanguage->language['language_charset']);
+		$string = strip_tags($string);
+		$string = str_replace(array("\r", "\n", "\t"), " ", $string);
+		$string = trim(preg_replace("/\s+/i", " ", $string));
+		
+		if ($string == chr(160)) 
+		{
+			$string = '';
+		}
+	}
+  	
+	$string = mod_check_encoding($string);
     
   	return $string;
+}
+
+function mod_convert_array($array)
+{
+	$t_array = array();
+	
+    foreach($array as $key => $value)
+    {
+        if(is_array($value))
+        {
+            $t_array[$key] = mod_convert_array($value);
+        }
+        else
+        {
+            $t_array[$key] = mod_convert_string($value);
+        }
+    }
+
+    return $t_array;
 }
 
 function mod_get_categories_array($products_id) 
@@ -60,15 +82,10 @@ function mod_get_categories_array($products_id)
   	// init categories array
   	$categories_array = array();
   
-  	// sql query for categories
-  	$categories_query_raw = "SELECT categories_id
-                             FROM ".TABLE_PRODUCTS_TO_CATEGORIES."
-                            WHERE products_id = '".$products_id."'";
-  
   	// make sql query
-  	$categories_query = xtc_db_query($categories_query_raw);
+  	$categories_query_result = xtc_db_query("SELECT categories_id FROM ".TABLE_PRODUCTS_TO_CATEGORIES." WHERE products_id = '".$products_id."'");
   
-  	while ($categories = xtc_db_fetch_array($categories_query)) 
+  	while ($categories = xtc_db_fetch_array($categories_query_result)) 
 	{
      	// build categories array
     	$categories_array[] = $categories['categories_id'];
@@ -80,22 +97,17 @@ function mod_get_categories_array($products_id)
 function mod_get_sub_categories($categories_id) 
 {
 	$subcategories_array = array();
-  	
-	// sql query for subcategories
- 	$subcategories_query_raw = "SELECT categories_id
-                                FROM ".TABLE_CATEGORIES."
-                               WHERE parent_id = '".$categories_id."'";
   
   	// make sql query
-  	$subcategories_query = xtc_db_query($subcategories_query_raw);
+  	$subcategories_query_result = xtc_db_query("SELECT categories_id FROM ".TABLE_CATEGORIES." WHERE parent_id = '".$categories_id."'");
   
   	// check for result
-  	if (xtc_db_num_rows($subcategories_query) > 0) 
+  	if (xtc_db_num_rows($subcategories_query_result) > 0) 
 	{
     	// init subcategories array
     	$subcategories_array = array();
     
-    	while ($subcategories = xtc_db_fetch_array($subcategories_query)) 
+    	while ($subcategories = xtc_db_fetch_array($subcategories_query_result)) 
 		{
       		// build subcategories array
       		$subcategories_array[] = $subcategories['categories_id'];
@@ -108,30 +120,20 @@ function mod_get_sub_categories($categories_id)
 
 function mod_get_google_category($products_id)
 {
-	global $db_tables;
-	
 	$google_category = '';
 	
-	if(!in_array('products_google_categories', $db_tables))
-	{
-		return $google_category;
-	}
-	
-	// sql query for google category of a product
-	$google_category_query_raw = "SELECT google_category FROM products_google_categories WHERE products_id = '".$products_id."' ORDER BY products_google_categories_id LIMIT 1";
-	
 	// make sql query
-	$google_category_query = xtc_db_query($google_category_query_raw);
+	$google_category_query_result = xtc_db_query("SELECT google_category FROM products_google_categories WHERE products_id = '".$products_id."' ORDER BY products_google_categories_id LIMIT 1");
 
 	// check for result
-	if (xtc_db_num_rows($google_category_query) > 0)
+	if (xtc_db_num_rows($google_category_query_result) > 0)
 	{
-		$_google_category = xtc_db_fetch_array($google_category_query);
+		$_google_category = xtc_db_fetch_array($google_category_query_result);
 		$google_category = $_google_category['google_category'];
 	}
 	
 	// return google category
-	return mod_convert($google_category);
+	return $google_category;
 }
 
 function mod_get_condition($condition)
@@ -150,33 +152,75 @@ function mod_get_condition($condition)
 			$_condition = 'refurbished';
 			break;
 		default:
-			$_condition = MODULE_EASYMARKETING_CONDITION_DEFAULT;
+			$_condition = MODULE_EM_CONDITION_DEFAULT;
 			break;
 	}
 	
 	return $_condition;
 }
 
-function mod_get_products_item_codes($products_id)
+function mod_get_gender($gender)
 {
-	global $db_tables;
+	$_gender = '';
 	
-	if(!in_array('products_item_codes', $db_tables))
+	switch($gender)
 	{
-		return array();
+		case 'Herren':
+			$_gender = 'men';
+			break;
+		case 'Damen':
+			$_gender = 'women';
+			break;
+		case 'Unisex':
+			$_gender = 'unisex';
+			break;
+		default:
+			$_gender = MODULE_EM_GENDER_DEFAULT;
+			break;
 	}
 	
-	// sql query for products item codes
-	$products_item_codes_query_raw = "SELECT * FROM products_item_codes WHERE products_id = '".$products_id."' LIMIT 1";
+	return $_gender;
+}
+
+function mod_get_age_group($age_group)
+{
+	$_age_group = '';
 	
+	switch($age_group)
+	{
+		case 'Erwachsene':
+			$_age_group = 'adult';
+			break;
+		case 'Kinder':
+			$_age_group = 'kids';
+			break;
+		case 'Kleinkinder':
+			$_age_group = 'toddler';
+			break;
+		case 'Neugeborene':
+			$_age_group = 'newborn';
+			break;
+		case 'Säuglinge':
+			$_age_group = 'infant';
+			break;
+		default:
+			$_age_group = MODULE_EM_AGE_GROUP_DEFAULT;
+			break;
+	}
+	
+	return $_age_group;
+}
+
+function mod_get_products_item_codes($products_id)
+{
 	// make sql query
-	$products_item_codes_query = xtc_db_query($products_item_codes_query_raw);
+	$products_item_codes_query_result = xtc_db_query("SELECT * FROM products_item_codes WHERE products_id = '".$products_id."' LIMIT 1");
 
 	// check for result
-	if (xtc_db_num_rows($products_item_codes_query) > 0)
+	if (xtc_db_num_rows($products_item_codes_query_result) > 0)
 	{
 		// return result
-		return xtc_db_fetch_array($products_item_codes_query);
+		return xtc_db_fetch_array($products_item_codes_query_result);
 	}
 	
 	// return an empty array, if result is empty
@@ -242,13 +286,13 @@ function mod_calculate_shipping_cost($products_id, $products_price)
 	{
     	$shipping_content[] = array(
 									'country' => $order->delivery['country']['iso_code_2'],
-                                	'service' => mod_convert(FREE_SHIPPING_TITLE),
+                                	'service' => FREE_SHIPPING_TITLE,
                                 	'price' => floatval(0)
                                		);
   	} elseif ($free_shipping_freeamount) {
     	$shipping_content[] = array(
 									'country' => $order->delivery['country']['iso_code_2'],
-                                	'service' => mod_convert($quote['module']),
+                                	'service' => $quote['module'],
                                 	'price' => floatval(0)
                                 	);
   	} else {
@@ -262,7 +306,7 @@ function mod_calculate_shipping_cost($products_id, $products_price)
         		$value = $xtPrice->xtcFormat($value, false);
         		$shipping_content[] = array(
 											'country' => $order->delivery['country']['iso_code_2'],
-                                    		'service' => mod_convert($quote['module'] . (!empty($quote['methods'][0]['title']) ? ' - '.$quote['methods'][0]['title'] : '')), 
+                                    		'service' => $quote['module'] . (!empty($quote['methods'][0]['title']) ? ' - '.$quote['methods'][0]['title'] : ''), 
                                     		'price' => floatval($value),
                                     		);
       		}
@@ -282,15 +326,23 @@ function mod_calculate_shipping_cost($products_id, $products_price)
 
 function mod_stream_response($response) 
 {
-  	if (defined('MODULE_EASYMARKETING_DEBUG') && MODULE_EASYMARKETING_DEBUG === true) 
+  	if (defined('MODULE_EM_DEBUG') && MODULE_EM_DEBUG === true) 
   	{
     	// print out formatted array
     	echo '<pre>'.print_r($response, true).'</pre>';  
   	} else {
     	// output json header
-    	header('Content-type: application/json');
+    	header('Content-type: application/json;charset=utf-8');
+  
+  		// encode response
+		$reponse = mod_convert_array($response);
   
     	// output json response
     	echo json_encode($response);  
   	}
+}
+
+function mod_stream_invalid_request()
+{
+	die('Invalid request. Please check all input parameters.');
 }
