@@ -1,5 +1,8 @@
 # EASYMARKETING Gambio Module
 
+Dieses Modul ist nur für Gambio Version 2.0.x.
+Falls Sie Gambio mit der Version 2.1.x verwenden, so [erhalten Sie das passende Modul hier](https://github.com/EASYMARKETING/gambio/tree/v2.1.x).
+
 ## Allgemein
 ======================
 
@@ -19,7 +22,7 @@ Haben Sie die 2 Schritte durchgeführt, können Sie mit dem nächsten Punkte for
 ## Installation des Moduls
 ======================
 
-1. [Downloaden Sie das Modul hier](https://github.com/EASYMARKETING/gambio/archive/master.zip)
+1. [Downloaden Sie das Modul hier](https://github.com/EASYMARKETING/gambio/archive/v2.0.x.zip)
 
 2. Dateien in das Hauptverzeichnis vom Shop via FTP übertragen
 

@@ -13,17 +13,14 @@
    @modified_by Easymarketing AG, Florian Ressel <florian.ressel@easymarketing.de>
 
    @file       api/easymarketing/bestseller.php
-   @version    07.04.2014 - 20:34
+   @version   04.10.2014 - 23:38
    ---------------------------------------------------------------------------------------*/
 
 chdir('../../');
 require_once('includes/application_top.php');
 
-// include easymarketing configuration
-require_once(DIR_FS_CATALOG.'api/easymarketing/includes/config.php');
-
-// include easymarketing authentification
-require_once('includes/auth.php');
+// include easymarketing api header
+require_once(DIR_FS_CATALOG.'api/easymarketing/includes/header.php');
 
 // include easymarketing functions
 require_once('includes/functions.php');
@@ -35,9 +32,9 @@ $limit = (isset($_GET['limit']) ? (int) $_GET['limit'] : NULL);
 // process request
 if (isset($most_sold_since) && isset($limit)) 
 {
-	if(MODULE_EASYMARKETING_ROOT_CATEGORY > 0)
+	if(MODULE_EM_ROOT_CATEGORY > 0)
 	{
-		$sql_join_ptc = "JOIN ".TABLE_PRODUCTS_TO_CATEGORIES." ptc ON ptc.products_id = op.products_id AND ptc.categories_id = '".(int)MODULE_EASYMARKETING_ROOT_CATEGORY."'";
+		$sql_join_ptc = "JOIN ".TABLE_PRODUCTS_TO_CATEGORIES." ptc ON ptc.products_id = op.products_id AND ptc.categories_id = '".(int)MODULE_EM_ROOT_CATEGORY."'";
 	}
 	
   	// sql query for best sellers
@@ -69,16 +66,19 @@ if (isset($most_sold_since) && isset($limit))
 										'id' => $products['products_id'],
                                 		'sales' => intval($products['quantity'])
                                 	);
-    	}
-
-    	// build response array
-    	$response = array(
+		}
+  	}
+	
+	// build response array
+    $response = array(
 							'limit' => $limit,
                       		'most_sold_since' => $most_sold_since,
                       		'products' => $products_array
                       	);
     
-    	// output products
-    	mod_stream_response($response);
-  	}
+    // output products
+    mod_stream_response($response);
+} else {
+	mod_stream_invalid_request();
 }
+?>

@@ -13,7 +13,7 @@
    @copyright  Copyright (c) 2014, Easymarketing AG (http://www.easymarketing.de)
    @author     Florian Ressel <florian.ressel@easymarketing.de>
    
-   @file       includes/external/Easymarketing/API/APIClient.class.php
+   @file       includes/external/easymarketing/classes/APIClient.class.php
    @version    07.04.2014 - 20:34
    ---------------------------------------------------------------------------------------*/
 
@@ -32,7 +32,7 @@ class APIClient
 	public function __construct($APIToken = '', $ShopToken = '', $WebsiteURL = '')
 	{
 		$this->APIURL 		= 'https://api.easymarketing.de';
-		$this->APIToken 	= $APIToken;
+		$this->APIToken 		= $APIToken;
 		$this->ShopToken 	= $ShopToken;
 		
 		$this->WebsiteURL 	= $WebsiteURL;
@@ -47,7 +47,7 @@ class APIClient
 	{
 		if (!self::$_instance instanceof self)
 		{
-			self::$_instance = new self(MODULE_EASYMARKETING_API_TOKEN, MODULE_EASYMARKETING_SHOP_TOKEN, EasymarketingHelper::getWebsiteURL());
+			self::$_instance = new self(MODULE_EM_API_TOKEN, MODULE_EM_SHOP_TOKEN, EasymarketingHelper::getWebsiteURL());
 		}
 		return self::$_instance;
 	}

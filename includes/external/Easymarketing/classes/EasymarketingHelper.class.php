@@ -13,7 +13,7 @@
    @copyright  Copyright (c) 2014, Easymarketing AG (http://www.easymarketing.de)
    @author     Florian Ressel <florian.ressel@easymarketing.de>
    
-   @file       includes/external/Easymarketing/Utilis/EasymarketingHelper.class.php
+   @file       includes/external/easymarketing/classes/EasymarketingHelper.class.php
    @version    07.04.2014 - 20:34
    ---------------------------------------------------------------------------------------*/
 

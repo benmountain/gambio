@@ -52,7 +52,7 @@ if (isset($_GET['content']) && $_GET['content'] != '') {
       	xtc_redirect(xtc_href_link('easymarketing.php', 'content=settings&error=' . $error));
       	break;
 	case 'set_easymarketing_data':
-		if($coo_easymarketing_manager->checkAPIToken(MODULE_EASYMARKETING_API_TOKEN))
+		if($coo_easymarketing_manager->checkAPIToken(MODULE_EM_API_TOKEN))
 		{
 			$coo_easymarketing_manager->updateEasymarketingData();
 			xtc_redirect(xtc_href_link('easymarketing.php', 'content=settings&success=true'));
@@ -110,21 +110,21 @@ if (isset($_GET['content']) && $_GET['content'] != '') {
       <span class="main">
         <table style="margin-bottom:5px" border="0" cellpadding="0" cellspacing="0" width="100%">
          <tr class="dataTableHeadingRow">
-          <td class="dataTableHeadingContentText" style="width:1%; padding-right:20px; white-space: nowrap"><a href="easymarketing.php"><?php echo EASYMARKETING_INFO_HEADING; ?></a></td>
-          <?php if ($coo_easymarketing_manager->check()) { echo '<td class="dataTableHeadingContentText" style="width:1%; padding-right:20px; white-space: nowrap"><a href="easymarketing.php?content=update_overview">'. EASYMARKETING_OVERVIEW_HEADING.'</a></td>'; } ?>
-          <td class="dataTableHeadingContentText" style="width:1%; padding-right:20px; white-space: nowrap"><a href="easymarketing.php?content=settings"><?php echo EASYMARKETING_SETTINGS_HEADING; ?></a></td>
+          <td class="dataTableHeadingContentText" style="width:1%; padding-right:20px; white-space: nowrap"><a href="easymarketing.php"><?php echo MODULE_EM_INFO_HEADING; ?></a></td>
+          <?php if ($coo_easymarketing_manager->check()) { echo '<td class="dataTableHeadingContentText" style="width:1%; padding-right:20px; white-space: nowrap"><a href="easymarketing.php?content=update_overview">'. MODULE_EM_OVERVIEW_HEADING.'</a></td>'; } ?>
+          <td class="dataTableHeadingContentText" style="width:1%; padding-right:20px; white-space: nowrap"><a href="easymarketing.php?content=settings"><?php echo MODULE_EM_SETTINGS_HEADING; ?></a></td>
          </tr>
         </table>
         
         <?php
 			if(!empty($_GET['success']))
 			{
-				echo '<div style="margin:4px;"><h4>' . EASYMARKETING_SUCCESS_HEADING . '</h4>' . EASYMARKETING_SUCCESS_TEXT . '</div>';
+				echo '<div style="margin:4px;"><h4>' . MODULE_EM_SUCCESS_HEADING . '</h4>' . MODULE_EM_SUCCESS_TEXT . '</div>';
 			}
 		
 			if(!empty($_GET['error']))
 			{
-				echo '<div style="color:#C00; margin:4px;"><h4>' . EASYMARKETING_ERROR_HEADING . '</h4>' . EASYMARKETING_ERROR_TEXT . '</div>';
+				echo '<div style="color:#C00; margin:4px;"><h4>' . MODULE_EM_ERROR_HEADING . '</h4>' . MODULE_EM_ERROR_TEXT . '</div>';
 			}
 		?>
         
@@ -136,6 +136,7 @@ if (isset($_GET['content']) && $_GET['content'] != '') {
             <td style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; padding: 0px 10px 11px 10px; text-align: justify">
               <br />
               <font color="#FF7A00"><strong>Vollautomatisiert und optimiert werben auf Google uvm.</strong></font>
+              <a href="http://easymarketing.de/?partner=modified" target="_blank"><img src="images/easymarketing/logo-easymarketing.jpg" align="right" /></a>
               <br />
               <br />
               <font color="#FF7A00"><strong>In drei Schritten durchstarten:</strong></font>
@@ -170,84 +171,73 @@ if (isset($_GET['content']) && $_GET['content'] != '') {
 		?>
 			<table width="600" border="0" style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; padding: 0px 10px 11px 10px; text-align: justify">
               <tr class="dataTableHeadingRow">
-                <td colspan="2" class="dataTableHeadingContentText"><?php echo MODULE_EASYMARKETING_OVERVIEW_SETUP_TITLE; ?></td>
+                <td colspan="2"><h4><?php echo MODULE_EM_OVERVIEW_SETUP_TITLE; ?></h4><//td>
               </tr>
               <tr>
-                <td width="305"><?php echo MODULE_EASYMARKETING_OVERVIEW_API_STATUS_TITLE; ?></td>
-                <td width="285"><?php if(MODULE_EASYMARKETING_API_STATUS == 1) { echo '<span style="color:#3C6">&#10003;</span>'; } else { echo '<span style="color:#C00">&#10006;</span>'; } ?></td>
+                <td width="305"><?php echo MODULE_EM_OVERVIEW_API_STATUS_TITLE; ?></td>
+                <td width="285"><?php if(MODULE_EM_API_STATUS == 1) { echo '<span style="color:#3C6">&#10003;</span>'; } else { echo '<span style="color:#C00">&#10006;</span>'; } ?></td>
               </tr>
               <tr>
-                <td><?php echo MODULE_EASYMARKETING_OVERVIEW_CONFIGURE_ENDPOINTS_STATUS_TITLE; ?></td>
-                <td><?php if(MODULE_EASYMARKETING_CONFIGURE_ENDPOINTS_STATUS == 1) { echo '<span style="color:#3C6">&#10003;</span>'; } else { echo '<span style="color:#C00">&#10006;</span>'; } ?></td>
+                <td><?php echo MODULE_EM_OVERVIEW_CONFIGURE_ENDPOINTS_STATUS_TITLE; ?></td>
+                <td><?php if(MODULE_EM_CONFIGURE_ENDPOINTS_STATUS == 1) { echo '<span style="color:#3C6">&#10003;</span>'; } else { echo '<span style="color:#C00">&#10006;</span>'; } ?></td>
               </tr>
               <tr>
-                <td><?php echo MODULE_EASYMARKETING_OVERVIEW_GOOGLE_TRACKING_STATUS_TITLE; ?></td>
-                <td><?php if(MODULE_EASYMARKETING_ACTIVATE_GOOGLE_TRACKING == 'True' && MODULE_EASYMARKETING_TRACKING_STATUS == 1) { echo '<span style="color:#3C6">&#10003;</span>'; } else { echo '<span style="color:#C00">&#10006;</span>'; } ?></td>
+                <td><?php echo MODULE_EM_OVERVIEW_GOOGLE_TRACKING_STATUS_TITLE; ?></td>
+                <td><?php if(MODULE_EM_ACTIVATE_GOOGLE_TRACKING == 'True') { echo '<span style="color:#3C6">&#10003;</span>'; } else { echo '<span style="color:#C00">&#10006;</span>'; } ?></td>
               </tr>
               <tr>
-                <td><?php echo MODULE_EASYMARKETING_OVERVIEW_FACEBOOK_TRACKING_STATUS_TITLE; ?></td>
-                <td><?php if(MODULE_EASYMARKETING_ACTIVATE_FACEBOOK_TRACKING == 'True' && MODULE_EASYMARKETING_TRACKING_STATUS == 1) { echo '<span style="color:#3C6">&#10003;</span>'; } else { echo '<span style="color:#C00">&#10006;</span>'; } ?></td>
+                <td><?php echo MODULE_EM_OVERVIEW_FACEBOOK_TRACKING_STATUS_TITLE; ?></td>
+                <td><?php if(MODULE_EM_ACTIVATE_FACEBOOK_TRACKING == 'True') { echo '<span style="color:#3C6">&#10003;</span>'; } else { echo '<span style="color:#C00">&#10006;</span>'; } ?></td>
               </tr>
               <tr>
-                <td><?php echo MODULE_EASYMARKETING_OVERVIEW_GOOGLE_SITE_VERIFICATION_STATUS_TITLE; ?></td>
+                <td><?php echo MODULE_EM_OVERVIEW_REMARKETING_STATUS_TITLE; ?></td>
+                <td><?php echo (MODULE_EM_REMARKETING_STATUS == 'True') ? '<span style="color:#3C6">&#10003;</span>' : '<span style="color:#C00">&#10006;</span>'; ?></td>
+              </tr>
+              <tr>
+                <td><?php echo MODULE_EM_OVERVIEW_GOOGLE_SITE_VERIFICATION_STATUS_TITLE; ?></td>
                 <td><?php 
-							if(MODULE_EASYMARKETING_GOOGLE_SITE_VERIFICATION_STATUS == 1) 
+							if(MODULE_EM_GOOGLE_SITE_VERIFICATION_STATUS == 1) 
 							{ 
-								echo '<span style="color:#3C6">&#10003;</span> <a href="easymarketing.php?content=destroy_google_site_verification">'.EASYMARKETING_DESTROY_GOOGLE_SITE_VERIFICATION_BUTTON.'</a>'; 
+								echo '<span style="color:#3C6">&#10003;</span> <a href="easymarketing.php?content=destroy_google_site_verification">'.MODULE_EM_DESTROY_GOOGLE_SITE_VERIFICATION_BUTTON.'</a>'; 
 							} else { 
-								echo '<span style="color:#C00">&#10006;</span> <a href="easymarketing.php?content=check_google_site_verification">'.EASYMARKETING_PEFORM_GOOGLE_SITE_VERIFICATION_BUTTON.'</a>'; 
+								echo '<span style="color:#C00">&#10006;</span> <a href="easymarketing.php?content=check_google_site_verification">'.MODULE_EM_PEFORM_GOOGLE_SITE_VERIFICATION_BUTTON.'</a>'; 
 							} 
 					?>
                 </td>
               </tr>
-              <tr>
-                <td><?php echo MODULE_EASYMARKETING_OVERVIEW_RETARGETING_ADSCALE_STATUS_TITLE; ?></td>
-                <td><?php 
-							if(MODULE_EASYMARKETING_RETARGETING_ADSCALE_STATUS == 'True') 
-							{ 
-								if(MODULE_EASYMARKETING_RETARGETING_ADSCALE_ID > 0) 
-								{
-									echo '<span style="color:#3C6">&#10003;</span>'; 
-								} else {
-									echo MODULE_EASYMARKETING_OVERVIEW_RETARGETING_ADSCALE_NO_ID_TITLE;
-								}		
-							} else { 
-								echo '<span style="color:#C00">&#10006;</span>'; 
-							}
-					 ?>
-             	</td>
-              </tr>
               <tr class="dataTableHeadingRow">
-                <td colspan="2" class="dataTableHeadingContentText"><?php echo MODULE_EASYMARKETING_OVERVIEW_LAST_CRAWL_TITLE; ?></td>
+                <td colspan="2"><h4><?php echo MODULE_EM_OVERVIEW_LAST_CRAWL_TITLE; ?></h4></td>
               </tr>
               <tr>
-                <td><?php echo MODULE_EASYMARKETING_OVERVIEW_LAST_CRAWL_DATE_TITLE; ?></td>
-                <td><?php if(MODULE_EASYMARKETING_LAST_CRAWL_DATE > 0) { echo date('d.m.Y - H:i', MODULE_EASYMARKETING_LAST_CRAWL_DATE); } else { echo MODULE_EASYMARKETING_OVERVIEW_LAST_CRAWL_NO_DATE_TITLE; } ?></td>
+                <td><?php echo MODULE_EM_OVERVIEW_LAST_CRAWL_DATE_TITLE; ?></td>
+                <td><?php if(MODULE_EM_LAST_CRAWL_DATE > 0) { echo date('d.m.Y - H:i', MODULE_EM_LAST_CRAWL_DATE); } else { echo MODULE_EM_OVERVIEW_LAST_CRAWL_NO_DATE_TITLE; } ?></td>
               </tr>
               <tr>
-                <td><?php echo MODULE_EASYMARKETING_OVERVIEW_LAST_CRAWL_CATEGORIES_COUNT_TITLE; ?></td>
-                <td><?php if(MODULE_EASYMARKETING_LAST_CRAWL_CATEGORIES_COUNT > 0) { echo MODULE_EASYMARKETING_LAST_CRAWL_CATEGORIES_COUNT; } else { echo '0'; } ?></td>
+                <td><?php echo MODULE_EM_OVERVIEW_LAST_CRAWL_CATEGORIES_COUNT_TITLE; ?></td>
+                <td><?php if(MODULE_EM_LAST_CRAWL_CATEGORIES_COUNT > 0) { echo MODULE_EM_LAST_CRAWL_CATEGORIES_COUNT; } else { echo '0'; } ?></td>
               </tr>
               <tr>
-                <td><?php echo MODULE_EASYMARKETING_OVERVIEW_LAST_CRAWL_PRODUCTS_COUNT_TITLE; ?></td>
-                <td><?php if(MODULE_EASYMARKETING_LAST_CRAWL_PRODUCTS_COUNT > 0) { echo MODULE_EASYMARKETING_LAST_CRAWL_PRODUCTS_COUNT; } else { echo '0'; } ?></td>
+                <td><?php echo MODULE_EM_OVERVIEW_LAST_CRAWL_PRODUCTS_COUNT_TITLE; ?></td>
+                <td><?php if(MODULE_EM_LAST_CRAWL_PRODUCTS_COUNT > 0) { echo MODULE_EM_LAST_CRAWL_PRODUCTS_COUNT; } else { echo '0'; } ?></td>
               </tr>
            </table>
            
-           <?php echo xtc_button_link(EASYMARKETING_UPDATE_DATA_BUTTON, xtc_href_link('easymarketing.php', xtc_get_all_get_params(array('content')) . 'content=update_easymarketing_data')) . ' ' . xtc_button_link(EASYMARKETING_UPDATE_BUTTON, xtc_href_link('easymarketing.php', xtc_get_all_get_params(array('content')) . 'content=update_overview')); ?>
+            <hr />
+           	<?php echo xtc_button_link(MODULE_EM_UPDATE_BUTTON, xtc_href_link('easymarketing.php', xtc_get_all_get_params(array('content')) . 'content=update_overview')); ?>
+           	<?php echo xtc_button_link(MODULE_EM_UPDATE_DATA_BUTTON, xtc_href_link('easymarketing.php', xtc_get_all_get_params(array('content')) . 'content=update_easymarketing_data')); ?>
            
 		<?php	
 		} elseif($_GET['content'] == 'check_uninstall') {
-			echo EASYMARKETING_UNINSTALL_TEXT . '<br /><br />';
-			echo xtc_button_link(EASYMARKETING_YES_BUTTON, xtc_href_link('easymarketing.php', xtc_get_all_get_params(array('content')) . 'content=uninstall')) . ' ' . xtc_button_link(EASYMARKETING_NO_BUTTON, xtc_href_link('easymarketing.php', xtc_get_all_get_params(array('content')) . 'content=stop_uninstall'));
+			echo MODULE_EM_UNINSTALL_TEXT . '<br /><br />';
+			echo xtc_button_link(MODULE_EM_YES_BUTTON, xtc_href_link('easymarketing.php', xtc_get_all_get_params(array('content')) . 'content=uninstall')) . ' ' . xtc_button_link(MODULE_EM_NO_BUTTON, xtc_href_link('easymarketing.php', xtc_get_all_get_params(array('content')) . 'content=stop_uninstall'));
 		} elseif($_GET['content'] == 'check_google_site_verification') {
-			echo EASYMARKETING_PEFORM_GOOGLE_SITE_VERIFICATION_TEXT . '<br /><br />';
-			echo xtc_button_link(EASYMARKETING_YES_BUTTON, xtc_href_link('easymarketing.php', xtc_get_all_get_params(array('content')) . 'content=perform_google_site_verification')) . ' ' . xtc_button_link(EASYMARKETING_NO_BUTTON, xtc_href_link('easymarketing.php', xtc_get_all_get_params(array('content')) . 'content=overview'));
+			echo MODULE_EM_PEFORM_GOOGLE_SITE_VERIFICATION_TEXT . '<br /><br />';
+			echo xtc_button_link(MODULE_EM_YES_BUTTON, xtc_href_link('easymarketing.php', xtc_get_all_get_params(array('content')) . 'content=perform_google_site_verification')) . ' ' . xtc_button_link(MODULE_EM_NO_BUTTON, xtc_href_link('easymarketing.php', xtc_get_all_get_params(array('content')) . 'content=overview'));
         } else {
           echo '<div style="border:1px solid #ccc; padding:15px;">';
           if ($coo_easymarketing_manager->check() == false) {
-            echo EASYMARKETING_INSTALL_TEXT;
-            echo xtc_button_link(EASYMARKETING_INSTALL_BUTTON, xtc_href_link('easymarketing.php', xtc_get_all_get_params(array('content')) . 'content=install'));
+            echo MODULE_EM_INSTALL_TEXT;
+            echo xtc_button_link(MODULE_EM_INSTALL_BUTTON, xtc_href_link('easymarketing.php', xtc_get_all_get_params(array('content')) . 'content=install'));
           } else {
             echo $coo_easymarketing_manager->displaySettings();
           }
@@ -255,6 +245,11 @@ if (isset($_GET['content']) && $_GET['content'] != '') {
         }
         ?>     
       </span>
+      
+      <p />
+      
+      <small><i>Modul Version v1.9.0</i></small>
+      
     </td>
 <!-- body_text_eof //-->
   </tr>

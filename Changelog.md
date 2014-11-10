@@ -1,5 +1,12 @@
 # Changelog - EASYMARKETING Gambio Module
 
+### Version 1.9.0
+- add Google Remarketing
+- remove AdScale Retargeting
+- remove Facebook Like Badge
+- code optimisation in all files
+- bugfixes
+
 ### Version 1.8
 - add Facebook tracking pixel
 

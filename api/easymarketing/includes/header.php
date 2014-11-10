@@ -12,22 +12,25 @@
    
    @modified_by Easymarketing AG, Florian Ressel <florian.ressel@easymarketing.de>
 
-   @file       api/easymarketing/includes/auth.php
-   @version    07.04.2014 - 20:34
+   @file       api/easymarketing/includes/header.php
+   @version    30.10.2014 - 20:23
    ---------------------------------------------------------------------------------------*/
 
 @ini_set('display_errors', false);
 error_reporting(0);
 
-if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) {
-  die('Direct Access to this location is not allowed.');
-}
-
 // set request parameters shop_token
 $shop_token = (isset($_GET['shop_token']) ? $_GET['shop_token'] : NULL);
+$debug = (isset($_GET['debug']) && $_GET['debug'] == 'true' ? true : false);
+$lang = (isset($_GET['lang']) ? $_GET['lang'] : DEFAULT_LANGUAGE);
 
-if (!isset($shop_token) && $shop_token != MODULE_EASYMARKETING_SHOP_TOKEN or !defined('MODULE_EASYMARKETING_STATUS') or MODULE_EASYMARKETING_STATUS != 'True') 
+if (!isset($shop_token) or $shop_token != MODULE_EM_SHOP_TOKEN or !defined('MODULE_EM_STATUS') or MODULE_EM_STATUS != 'True') 
 {
-  	// wrong authentification
-  	die('Direct Access to this location is not allowed.');
+	// wrong authentification
+  	die('Invalid access to this ressource.');
 }
+
+require_once(DIR_WS_CLASSES.'language.php');
+$oLanguage = new language($lang);
+
+define('MODULE_EM_DEBUG', $debug);

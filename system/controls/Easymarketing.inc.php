@@ -13,37 +13,29 @@
    @modified_by Easymarketing AG, Florian Ressel <florian.ressel@easymarketing.de>
 
    @file       system/controls/Easymarketing.inc.php
-   @version    07.04.2014 - 20:34
+   @version    05.10.2014 - 00:09
    ---------------------------------------------------------------------------------------*/
 
 // include Easymarketing configuration
-require_once(DIR_FS_CATALOG.'includes/external/Easymarketing/API/APIClient.class.php');
-require_once(DIR_FS_CATALOG.'includes/external/Easymarketing/Utilis/EasymarketingHelper.class.php');
+require_once(DIR_FS_CATALOG.'includes/external/easymarketing/classes/APIClient.class.php');
+require_once(DIR_FS_CATALOG.'includes/external/easymarketing/classes/EasymarketingHelper.class.php');
 
 class Easymarketing 
 {
   	var $code, 
       	$title, 
       	$description, 
-      	$shoptoken,
-      	$apitoken,
-      	$condition,
-      	$availibility1,
-      	$availibility2,
       	$enabled;
 
-
+	/*
+	 * inital function
+	 */
   	function Easymarketing() 
   	{
     	$this->code = 'Easymarketing';
-    	$this->title = MODULE_EASYMARKETING_TEXT_TITLE;
-    	$this->description = MODULE_EASYMARKETING_TEXT_DESCRIPTION;
-    	$this->shoptoken = MODULE_EASYMARKETING_SHOP_TOKEN;
-    	$this->apitoken = MODULE_EASYMARKETING_API_TOKEN;
-    	$this->condition = MODULE_EASYMARKETING_CONDITION_DEFAULT;
-    	$this->availibility1 = MODULE_EASYMARKETING_AVAILIBILLITY_STOCK_1;
-    	$this->availibility2 = MODULE_EASYMARKETING_AVAILIBILLITY_STOCK_0;
-    	$this->enabled = ((MODULE_EASYMARKETING_STATUS == 'True') ? true : false);
+    	$this->title = MODULE_EM_TEXT_TITLE;
+    	$this->description = MODULE_EM_TEXT_DESCRIPTION;
+    	$this->enabled = ((MODULE_EM_STATUS == 'True') ? true : false);
   	}
 
 	/*
@@ -57,7 +49,7 @@ class Easymarketing
       		xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '" . $value . "' WHERE configuration_key = '" . $key . "'");
     	}
 		
-		if($this->checkAPIToken($_POST['configuration']['MODULE_EASYMARKETING_API_TOKEN']))
+		if($this->checkAPIToken($_POST['configuration']['MODULE_EM_API_TOKEN']))
 		{
 			return true;
 		}
@@ -120,7 +112,7 @@ class Easymarketing
     
     	$contents .= '<br/>' . xtc_button(BUTTON_SAVE);
 		
-		$contents .= '<hr />' . xtc_button_link(EASYMARKETING_UNINSTALL_BUTTON, xtc_href_link('easymarketing.php', xtc_get_all_get_params(array('content')) . 'content=check_uninstall'));
+		$contents .= '<hr />' . xtc_button_link(MODULE_EM_UNINSTALL_BUTTON, xtc_href_link('easymarketing.php', xtc_get_all_get_params(array('content')) . 'content=check_uninstall'));
     
     	return $contents;
   	}
@@ -134,7 +126,7 @@ class Easymarketing
 	{
     	if (!isset($this->_check)) 
 		{
-      		$check_query = xtc_db_query("select configuration_value from " . TABLE_CONFIGURATION . " where configuration_key = 'MODULE_EASYMARKETING_STATUS'");
+      		$check_query = xtc_db_query("select configuration_value from " . TABLE_CONFIGURATION . " where configuration_key = 'MODULE_EM_STATUS'");
       		$this->_check = xtc_db_num_rows($check_query);
     	}
     
@@ -146,32 +138,31 @@ class Easymarketing
 	 */
   	function install() 
 	{
-    	xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EASYMARKETING_STATUS', 'True',  '6', '1', 'xtc_cfg_select_option(array(\'True\', \'False\'), ', now())");
-    	xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EASYMARKETING_CONDITION_DEFAULT', 'new',  '6', '1', 'xtc_cfg_select_condition(', now())");
-    	xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EASYMARKETING_SHOP_TOKEN', '".EasymarketingHelper::generateShopToken()."',  '6', '1', '', now())");
-    	xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EASYMARKETING_API_TOKEN', '',  '6', '1', '', now())");
-		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EASYMARKETING_ROOT_CATEGORY', '0',  '6', '1', 'xtc_cfg_select_root_category(', now())");
-		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EASYMARKETING_ACTIVATE_GOOGLE_TRACKING', 'False',  '6', '1', 'xtc_cfg_select_option(array(\'True\', \'False\'), ', now())");
-		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EASYMARKETING_ACTIVATE_FACEBOOK_TRACKING', 'False',  '6', '1', 'xtc_cfg_select_option(array(\'True\', \'False\'), ', now())");
-		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EASYMARKETING_SHOW_FACEBOOK_LIKE_BADGE', 'False',  '6', '1', 'xtc_cfg_select_option(array(\'True\', \'False\'), ', now())");
-		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EASYMARKETING_RETARGETING_ADSCALE_STATUS', 'False',  '6', '1', 'xtc_cfg_select_option(array(\'True\', \'False\'), ', now())");
-    	xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EASYMARKETING_AVAILIBILLITY_STOCK_0', 'available for order',  '6', '1', 'xtc_cfg_select_availibility(', now())");
-    	xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EASYMARKETING_AVAILIBILLITY_STOCK_1', 'in stock',  '6', '1', 'xtc_cfg_select_availibility(', now())");
-		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EASYMARKETING_API_STATUS', '0',  '6', '1', '', now())");
-	 	xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EASYMARKETING_CONFIGURE_ENDPOINTS_STATUS', '0',  '6', '1', '', now())");
-	 	xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EASYMARKETING_TRACKING_STATUS', '0',  '6', '1', '', now())");
-		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EASYMARKETING_GOOGLE_CONVERSION_TRACKING_CODE', '',  '6', '1', '', now())");
-		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EASYMARKETING_FACEBOOK_CONVERSION_TRACKING_CODE', '',  '6', '1', '', now())");
-		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EASYMARKETING_GOOGLE_LEAD_TRACKING_CODE', '',  '6', '1', '', now())");
-		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EASYMARKETING_FACEBOOK_LEAD_TRACKING_CODE', '',  '6', '1', '', now())");
-	 	xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EASYMARKETING_GOOGLE_SITE_VERIFICATION_STATUS', '0',  '6', '1', '', now())");
-		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EASYMARKETING_GOOGLE_SITE_VERIFICATION_META_TAG', '',  '6', '1', '', now())");
-		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EASYMARKETING_FACEBOOK_LIKE_BADGE_CODE', '',  '6', '1', '', now())");
-	 	xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EASYMARKETING_RETARGETING_ADSCALE_ID', '',  '6', '1', '', now())");
-		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EASYMARKETING_RETARGETING_ADSCALE_CONVERSION_ID', '',  '6', '1', '', now())");
-	 	xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EASYMARKETING_LAST_CRAWL_DATE', '0',  '6', '1', '', now())");
-	 	xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EASYMARKETING_LAST_CRAWL_PRODUCTS_COUNT', '0',  '6', '1', '', now())");
-	 	xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EASYMARKETING_LAST_CRAWL_CATEGORIES_COUNT', '0',  '6', '1', '', now())");
+    	xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_STATUS', 'True',  '6', '1', 'xtc_cfg_select_option(array(\'True\', \'False\'), ', now())");
+    	xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_SHOP_TOKEN', '".EasymarketingHelper::generateShopToken()."',  '6', '1', '', now())");
+    	xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_API_TOKEN', '',  '6', '1', '', now())");
+		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_ACTIVATE_GOOGLE_TRACKING', 'False',  '6', '1', 'xtc_cfg_select_option(array(\'True\', \'False\'), ', now())");
+		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_ACTIVATE_FACEBOOK_TRACKING', 'False',  '6', '1', 'xtc_cfg_select_option(array(\'True\', \'False\'), ', now())");
+		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_REMARKETING_STATUS', 'False',  '6', '1', 'xtc_cfg_select_option(array(\'True\', \'False\'), ', now())");
+		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_ROOT_CATEGORY', '0',  '6', '1', 'xtc_cfg_select_root_category(', now())");
+		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_CONDITION_DEFAULT', 'new',  '6', '1', 'xtc_cfg_select_condition(', now())");
+		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_GENDER_DEFAULT', 'unisex',  '6', '1', 'xtc_cfg_select_gender(', now())");
+		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_AGE_GROUP_DEFAULT', 'adult',  '6', '1', 'xtc_cfg_select_age_group(', now())");
+    	xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_AVAILIBILLITY_STOCK_0', 'available for order',  '6', '1', 'xtc_cfg_select_availibility(', now())");
+    	xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_AVAILIBILLITY_STOCK_1', 'in stock',  '6', '1', 'xtc_cfg_select_availibility(', now())");
+		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_API_STATUS', '0',  '6', '1', '', now())");
+	 	xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_CONFIGURE_ENDPOINTS_STATUS', '0',  '6', '1', '', now())");
+		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_GOOGLE_CONVERSION_TRACKING_CODE', '',  '6', '1', '', now())");
+		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_FACEBOOK_CONVERSION_TRACKING_CODE', '',  '6', '1', '', now())");
+		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_GOOGLE_LEAD_TRACKING_CODE', '',  '6', '1', '', now())");
+		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_FACEBOOK_LEAD_TRACKING_CODE', '',  '6', '1', '', now())");
+	 	xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_GOOGLE_SITE_VERIFICATION_STATUS', '0',  '6', '1', '', now())");
+		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_GOOGLE_SITE_VERIFICATION_META_TAG', '',  '6', '1', '', now())");
+		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_REMARKETING_USER_ID', '',  '6', '1', '', now())");
+		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_REMARKETING_CODE', '',  '6', '1', '', now())");
+	 	xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_LAST_CRAWL_DATE', '0',  '6', '1', '', now())");
+	 	xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_LAST_CRAWL_PRODUCTS_COUNT', '0',  '6', '1', '', now())");
+	 	xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_LAST_CRAWL_CATEGORIES_COUNT', '0',  '6', '1', '', now())");
   	}
 
 	/*
@@ -179,7 +170,7 @@ class Easymarketing
 	 */
   	function uninstall() 
 	{
-    	xtc_db_query("delete from " . TABLE_CONFIGURATION . " where configuration_key LIKE 'MODULE_EASYMARKETING_%'");
+    	xtc_db_query("delete from " . TABLE_CONFIGURATION . " where configuration_key LIKE 'MODULE_EM_%'");
   	}
 
 	/*
@@ -190,16 +181,17 @@ class Easymarketing
   	function keys() 
 	{
     	return array(
-						'MODULE_EASYMARKETING_STATUS',
-                 		'MODULE_EASYMARKETING_API_TOKEN',
-				 		'MODULE_EASYMARKETING_ROOT_CATEGORY',
-						'MODULE_EASYMARKETING_ACTIVATE_GOOGLE_TRACKING',
-						'MODULE_EASYMARKETING_ACTIVATE_FACEBOOK_TRACKING',
-				 		'MODULE_EASYMARKETING_SHOW_FACEBOOK_LIKE_BADGE',
-				 		'MODULE_EASYMARKETING_RETARGETING_ADSCALE_STATUS',
-                 		'MODULE_EASYMARKETING_CONDITION_DEFAULT',
-                 		'MODULE_EASYMARKETING_AVAILIBILLITY_STOCK_1',
-                 		'MODULE_EASYMARKETING_AVAILIBILLITY_STOCK_0',
+						'MODULE_EM_STATUS',
+                 		'MODULE_EM_API_TOKEN',
+				 		'MODULE_EM_ROOT_CATEGORY',
+						'MODULE_EM_ACTIVATE_GOOGLE_TRACKING',
+						'MODULE_EM_ACTIVATE_FACEBOOK_TRACKING',
+				 		'MODULE_EM_REMARKETING_STATUS',
+                 		'MODULE_EM_CONDITION_DEFAULT',
+						'MODULE_EM_GENDER_DEFAULT',
+						'MODULE_EM_AGE_GROUP_DEFAULT',
+                 		'MODULE_EM_AVAILIBILLITY_STOCK_1',
+                 		'MODULE_EM_AVAILIBILLITY_STOCK_0',
                  	);
   	}
 	
@@ -211,7 +203,7 @@ class Easymarketing
 	 */
 	function checkAPIToken($APIToken)
 	{	
-		$APIClient = new APIClient($APIToken, MODULE_EASYMARKETING_SHOP_TOKEN, EasymarketingHelper::getWebsiteURL());
+		$APIClient = new APIClient($APIToken, MODULE_EM_SHOP_TOKEN, EasymarketingHelper::getWebsiteURL());
 		$response = $APIClient->performRequest('extraction_status');
 		
 		$retval = false;
@@ -221,7 +213,7 @@ class Easymarketing
 			$retval = true;
 		}
 		
-		xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".(int)$retval."' WHERE configuration_key = 'MODULE_EASYMARKETING_API_STATUS'");	
+		xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".(int)$retval."' WHERE configuration_key = 'MODULE_EM_API_STATUS'");	
 		
 		return $retval;		
 	}
@@ -244,8 +236,7 @@ class Easymarketing
 		$this->setAPIEndpoints();
 		$this->getTrackingPixel();
 		$this->getExtractionStatus();
-		$this->getFacebookBadge();
-		$this->getRetargetingIds();
+		$this->getRemarketingData();
 	}
 	
 	/* 
@@ -254,11 +245,7 @@ class Easymarketing
 	function resetExistingConfigs()
 	{
 		$keys = array(
-						'MODULE_EASYMARKETING_CONFIGURE_ENDPOINTS_STATUS',
-						'MODULE_EASYMARKETING_TRACKING_STATUS',
-						'MODULE_EASYMARKETING_FACEBOOK_LIKE_BADGE_CODE',
-						'MODULE_EASYMARKETING_RETARGETING_ADSCALE_ID',
-						'MODULE_EASYMARKETING_RETARGETING_ADSCALE_CONVERSION_ID'
+						'MODULE_EM_CONFIGURE_ENDPOINTS_STATUS'
 					);
 					
 		foreach($keys as $key)
@@ -275,19 +262,19 @@ class Easymarketing
 		$website_url = EasymarketingHelper::getWebsiteURL();
 		$website_api_url = EasymarketingHelper::getWebsiteURL(true);
 		
-		if(MODULE_EASYMARKETING_ROOT_CATEGORY > 0)
+		if(MODULE_EM_ROOT_CATEGORY > 0)
 		{
-			$test_pid = xtc_db_fetch_array(xtc_db_query("SELECT ptc.products_id FROM ".TABLE_PRODUCTS_TO_CATEGORIES." ptc LEFT JOIN ".TABLE_PRODUCTS." p ON p.products_id = ptc.products_id WHERE ptc.categories_id = '".(int)MODULE_EASYMARKETING_ROOT_CATEGORY."' AND p.products_status = 1 ORDER BY ptc.products_id LIMIT 1"));
+			$test_pid = xtc_db_fetch_array(xtc_db_query("SELECT ptc.products_id FROM ".TABLE_PRODUCTS_TO_CATEGORIES." ptc LEFT JOIN ".TABLE_PRODUCTS." p ON p.products_id = ptc.products_id WHERE ptc.categories_id = '".(int)MODULE_EM_ROOT_CATEGORY."' AND p.products_status = 1 ORDER BY ptc.products_id LIMIT 1"));
 		} else {
 			$test_pid = xtc_db_fetch_array(xtc_db_query("SELECT products_id FROM ".TABLE_PRODUCTS." WHERE products_status = 1 ORDER BY products_id LIMIT 1"));
 		}
     
 		$params = array(
             'website_url' => $website_url,
-            'access_token' => MODULE_EASYMARKETING_API_TOKEN,
-            'shop_token' => MODULE_EASYMARKETING_SHOP_TOKEN,
+            'access_token' => MODULE_EM_API_TOKEN,
+            'shop_token' => MODULE_EM_SHOP_TOKEN,
             'categories_api_endpoint' => $website_api_url.'api/easymarketing/categories.php',
-            'shop_category_root_id' => MODULE_EASYMARKETING_ROOT_CATEGORY,
+            'shop_category_root_id' => MODULE_EM_ROOT_CATEGORY,
             'products_api_endpoint' => $website_api_url.'api/easymarketing/products.php',
             'product_by_id_api_endpoint' => $website_api_url.'api/easymarketing/products.php',
             'best_products_api_endpoint' => $website_api_url.'api/easymarketing/bestseller.php',
@@ -300,7 +287,7 @@ class Easymarketing
 		
 		if($response['status'] == 200)
 		{
-			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '1' WHERE configuration_key = 'MODULE_EASYMARKETING_CONFIGURE_ENDPOINTS_STATUS'");
+			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '1' WHERE configuration_key = 'MODULE_EM_CONFIGURE_ENDPOINTS_STATUS'");
 		}
 	}
 
@@ -313,21 +300,16 @@ class Easymarketing
 		
 		if($response_ct['status'] == 200)
 		{
-			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".xtc_db_input($response_ct['data']['code'])."' WHERE configuration_key = 'MODULE_EASYMARKETING_GOOGLE_CONVERSION_TRACKING_CODE'");	
-			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".xtc_db_input($response_ct['data']['fb_code'])."' WHERE configuration_key = 'MODULE_EASYMARKETING_FACEBOOK_CONVERSION_TRACKING_CODE'");
+			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".xtc_db_input($response_ct['data']['code'])."' WHERE configuration_key = 'MODULE_EM_GOOGLE_CONVERSION_TRACKING_CODE'");	
+			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".xtc_db_input($response_ct['data']['fb_code'])."' WHERE configuration_key = 'MODULE_EM_FACEBOOK_CONVERSION_TRACKING_CODE'");
 		}
 		
 		$response_lt = APIClient::getInstance()->performRequest('lead_tracker');
 		
 		if($response_lt['status'] == 200)
 		{
-			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".xtc_db_input($response_lt['data']['code'])."' WHERE configuration_key = 'MODULE_EASYMARKETING_GOOGLE_LEAD_TRACKING_CODE'");
-			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".xtc_db_input($response_lt['data']['fb_code'])."' WHERE configuration_key = 'MODULE_EASYMARKETING_FACEBOOK_LEAD_TRACKING_CODE'");
-		}
-		
-		if($response_ct['status'] == 200 && $response_lt['status'] == 200)
-		{
-			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '1' WHERE configuration_key = 'MODULE_EASYMARKETING_TRACKING_STATUS'");
+			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".xtc_db_input($response_lt['data']['code'])."' WHERE configuration_key = 'MODULE_EM_GOOGLE_LEAD_TRACKING_CODE'");
+			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".xtc_db_input($response_lt['data']['fb_code'])."' WHERE configuration_key = 'MODULE_EM_FACEBOOK_LEAD_TRACKING_CODE'");
 		}
 	}
 	
@@ -340,7 +322,7 @@ class Easymarketing
 		
 		if($response['status'] == 200)
 		{	
-			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".xtc_db_input($response['data']['meta_tag'])."' WHERE configuration_key = 'MODULE_EASYMARKETING_GOOGLE_SITE_VERIFICATION_META_TAG'");
+			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".xtc_db_input($response['data']['meta_tag'])."' WHERE configuration_key = 'MODULE_EM_GOOGLE_SITE_VERIFICATION_META_TAG'");
 
 			$params = array(
             	'verification_type' => 'META'
@@ -350,7 +332,7 @@ class Easymarketing
 			
 			if($response['status'] == 200)
 			{
-				xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '1' WHERE configuration_key = 'MODULE_EASYMARKETING_GOOGLE_SITE_VERIFICATION_STATUS'");
+				xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '1' WHERE configuration_key = 'MODULE_EM_GOOGLE_SITE_VERIFICATION_STATUS'");
 			}
 		}
 	}
@@ -360,8 +342,8 @@ class Easymarketing
 	 */
 	function destroyGoogleSiteVerification()
 	{
-		xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '' WHERE configuration_key = 'MODULE_EASYMARKETING_GOOGLE_SITE_VERIFICATION_META_TAG'");
-		xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '0' WHERE configuration_key = 'MODULE_EASYMARKETING_GOOGLE_SITE_VERIFICATION_STATUS'");
+		xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '' WHERE configuration_key = 'MODULE_EM_GOOGLE_SITE_VERIFICATION_META_TAG'");
+		xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '0' WHERE configuration_key = 'MODULE_EM_GOOGLE_SITE_VERIFICATION_STATUS'");
 	}
 	
 	/*
@@ -373,36 +355,23 @@ class Easymarketing
 		
 		if($response['status'] == 200 || $response['status'] == 400)
 		{		
-			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".xtc_db_input($response['data']['updated_at'])."' WHERE configuration_key = 'MODULE_EASYMARKETING_LAST_CRAWL_DATE'");
-			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".xtc_db_input($response['data']['num_categories'])."' WHERE configuration_key = 'MODULE_EASYMARKETING_LAST_CRAWL_CATEGORIES_COUNT'");
-			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".xtc_db_input($response['data']['num_products'])."' WHERE configuration_key = 'MODULE_EASYMARKETING_LAST_CRAWL_PRODUCTS_COUNT'");
+			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".xtc_db_input($response['data']['updated_at'])."' WHERE configuration_key = 'MODULE_EM_LAST_CRAWL_DATE'");
+			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".xtc_db_input($response['data']['num_categories'])."' WHERE configuration_key = 'MODULE_EM_LAST_CRAWL_CATEGORIES_COUNT'");
+			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".xtc_db_input($response['data']['num_products'])."' WHERE configuration_key = 'MODULE_EM_LAST_CRAWL_PRODUCTS_COUNT'");
 		}
 	}
 	
 	/*
-	 * get the facebook like badge
+	 * get the remarketing data
 	 */
-	function getFacebookBadge()
+	function getRemarketingData()
 	{
-		$response = APIClient::getInstance()->performRequest('facebook_badge');
+		$response = APIClient::getInstance()->performRequest('google_remarketing_code');
 		
 		if($response['status'] == 200)
 		{
-			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".xtc_db_input($response['data'])."' WHERE configuration_key = 'MODULE_EASYMARKETING_FACEBOOK_LIKE_BADGE_CODE'");
-		}
-	}
-	
-	/*
-	 * get the retargeting ids
-	 */
-	function getRetargetingIds()
-	{
-		$response = APIClient::getInstance()->performRequest('retargeting_id');
-		
-		if($response['status'] == 200)
-		{
-			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".xtc_db_input($response['data']['adscale_id'])."' WHERE configuration_key = 'MODULE_EASYMARKETING_RETARGETING_ADSCALE_ID'");
-			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".xtc_db_input($response['data']['conversion_id'])."' WHERE configuration_key = 'MODULE_EASYMARKETING_RETARGETING_ADSCALE_CONVERSION_ID'");
+			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".xtc_db_input($response['data']['user_id'])."' WHERE configuration_key = 'MODULE_EM_REMARKETING_USER_ID'");
+			xtc_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value = '".xtc_db_input($response['data']['code'])."' WHERE configuration_key = 'MODULE_EM_REMARKETING_CODE'");
 		}
 	}
 }
@@ -423,6 +392,40 @@ function xtc_cfg_select_condition($configuration, $key)
                           array('id' => 'used', 'text' => 'Gebraucht'),
                         );
   	return xtc_draw_pull_down_menu('configuration['.$key.']', $condition_dropdown, $configuration);
+}
+
+/*
+ * get pull down menu for gender
+ *
+ * @params $configuration (array), $key (string)
+ * @return pull down menu (string)
+ */
+function xtc_cfg_select_gender($configuration, $key) 
+{
+  	$gender_dropdown = array(
+                          array('id' => 'men', 'text' => 'Herren'),
+                          array('id' => 'women', 'text' => 'Damen'),
+                          array('id' => 'unisex', 'text' => 'Unisex'),
+                        );
+  	return xtc_draw_pull_down_menu('configuration['.$key.']', $gender_dropdown, $configuration);
+}
+
+/*
+ * get pull down menu for age_group
+ *
+ * @params $configuration (array), $key (string)
+ * @return pull down menu (string)
+ */
+function xtc_cfg_select_age_group($configuration, $key) 
+{
+  	$age_group_dropdown = array(
+                          array('id' => 'adult', 'text' => 'Erwachsene'),
+                          array('id' => 'kids', 'text' => 'Kinder'),
+                          array('id' => 'toddler', 'text' => 'Kleinkinder'),
+						  array('id' => 'newborn', 'text' => 'Neugeborene'),
+						  array('id' => 'infant', 'text' => 'Säuglinge'),
+                        );
+  	return xtc_draw_pull_down_menu('configuration['.$key.']', $age_group_dropdown, $configuration);
 }
 
 /*
@@ -454,7 +457,7 @@ function xtc_cfg_select_root_category($configuration, $key)
 	
 	$shop_root_category_id = 0;
 	
-	$category_dropdown[] = array('id' => $shop_root_category_id, 'text' => 'Alle Kategorien vom Shop verwenden');
+	$category_dropdown[] = array('id' => $shop_root_category_id, 'text' => MODULE_EM_ROOT_CATEGORY_DEFAULT_TITLE);
 		
 	getCategoryTree($shop_root_category_id, 0);
 	
@@ -477,7 +480,7 @@ function getCategoryTree($parent_id, $level, $sub_category = false)
 		$name_prefix = '';
 	}
 	
-	$result = xtc_db_query("SELECT c.categories_id, cd.categories_name FROM categories c, categories_description cd, languages ls WHERE c.parent_id = '".$parent_id."' AND c.categories_status = 1 AND ls.code = '".strtolower(DEFAULT_LANGUAGE)."' AND c.categories_id = cd.categories_id AND cd.language_id = ls.languages_id ORDER BY c.sort_order");
+	$result = xtc_db_query("SELECT c.categories_id, cd.categories_name FROM categories c, categories_description cd WHERE c.parent_id = '".$parent_id."' AND c.categories_status = 1 AND cd.language_id = '".(int)$_SESSION['languages_id']."' AND c.categories_id = cd.categories_id ORDER BY c.sort_order");
 					
 	while($category = xtc_db_fetch_array($result))
 	{
