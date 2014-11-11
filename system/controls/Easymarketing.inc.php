@@ -403,9 +403,9 @@ function xtc_cfg_select_condition($configuration, $key)
 function xtc_cfg_select_gender($configuration, $key) 
 {
   	$gender_dropdown = array(
-                          array('id' => 'men', 'text' => 'Herren'),
-                          array('id' => 'women', 'text' => 'Damen'),
-                          array('id' => 'unisex', 'text' => 'Unisex'),
+                          array('id' => 'Male', 'text' => 'Herren'),
+                          array('id' => 'Female', 'text' => 'Damen'),
+                          array('id' => 'Unisex', 'text' => 'Unisex'),
                         );
   	return xtc_draw_pull_down_menu('configuration['.$key.']', $gender_dropdown, $configuration);
 }

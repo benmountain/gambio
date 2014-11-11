@@ -180,13 +180,13 @@ function mod_get_gender($gender)
 	switch($gender)
 	{
 		case 'Herren':
-			$_gender = 'men';
+			$_gender = 'Male';
 			break;
 		case 'Damen':
-			$_gender = 'women';
+			$_gender = 'Female';
 			break;
 		case 'Unisex':
-			$_gender = 'unisex';
+			$_gender = 'Unisex';
 			break;
 		default:
 			$_gender = MODULE_EM_GENDER_DEFAULT;
