@@ -44,23 +44,6 @@ Dieser Wert ist der Access-Token. Kopieren Sie diesen Wert in Ihr Gambio Modul u
 
 Ob Sie das Modul und somit den Conversion Tracker erfolgreich installiert haben, sehen Sie im Tab `Übersicht`.
 
-## Installation des Moduls (Optional)
-======================
-
-Durch die Implementierung wird ein `facebook like` button im Checkout angezeigt, über den Produkte an Freunde weiter empfohlen werden können.
-
-1. die Datei `function.facebook_badge.php` aus dem addon Ordner in den Smarty plugin Ordner kopieren
-
-2. der Smarty Ordner befindet sich normalerweise in `/includes/classes/Smarty2.x/plugins`
-
-3. Im Template kann nun in den Artikeldetails z.B. `/templates/_dein_template_/module/produtcs_listing/_deine_listing_datei.html` folgendes hier eingefügt werden:
-
-		{facebook_badge products_id=$PRODUCTS_ID}
-
-4. Für den Checkout kann in der Datei `/templates/_dein_template_/module/checkout_success.html` das hier eingefügt werden:
-
-		{facebook_badge}
-
 ## Für Entwickler
 ======================
 
