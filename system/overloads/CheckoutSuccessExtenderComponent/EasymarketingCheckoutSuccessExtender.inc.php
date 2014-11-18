@@ -39,8 +39,8 @@ class EasymarketingCheckoutSuccessExtender extends EasymarketingCheckoutSuccessE
 		
 				if($t_amount > 0)
 				{
-					$output = str_replace('google_conversion_value = 0', 'google_conversion_value = '.$t_amount, $output);
-					$output = str_replace('value=0', 'value='.$t_amount, $output);
+					$output = preg_replace('/google_conversion_value*\s=*\s(\d.*\d|\d)/', 'google_conversion_value = ' . $t_amount, $output);
+					$output = preg_replace('/value=(\d.*\d|\d)&/', 'value='.$t_amount.'&', $output);
 				}
 							
 				$this->v_output_buffer['EM_CS_TP'] .= $output;
@@ -52,8 +52,8 @@ class EasymarketingCheckoutSuccessExtender extends EasymarketingCheckoutSuccessE
 				
 				if($t_amount > 0)
 				{
-					$output = str_replace("'value':'0.00'", "'value':'".$t_amount."'", $output);
-					$output = str_replace("cd[value]=0.00", "cd[value]=".$t_amount, $output);
+					$output = preg_replace("/\'value\':\'(\d.*\d|\d)\'/", "'value':'".$t_amount."'", $output);
+					$output = preg_replace("/cd\[value\]=(\d.*\d|\d)&/", "cd[value]=".$t_amount."&", $output);
 				}
 				
 				$this->v_output_buffer['EM_CS_TP'] .= $output;

@@ -26,6 +26,26 @@ class EasymarketingApplicationBottomExtender extends EasymarketingApplicationBot
 		
 		if (defined('MODULE_EM_STATUS') && MODULE_EM_STATUS == 'True') 
 		{	
+			// BOF GM_MOD
+			$t_script_name = '';
+	
+			if(strpos($_SERVER['SCRIPT_NAME'], '.php') !== false && strpos($_SERVER['SCRIPT_NAME'], DIR_WS_CATALOG) !== false)
+			{
+				$t_script_name = $_SERVER['SCRIPT_NAME'];
+			}
+			elseif(strpos($_SERVER["PHP_SELF"], '.php') !== false && strpos($_SERVER['PHP_SELF'], DIR_WS_CATALOG) !== false)
+			{
+				$t_script_name = $_SERVER["PHP_SELF"];
+			}
+			elseif(strpos($_SERVER["SCRIPT_FILENAME"], '.php') !== false && strpos($_SERVER['SCRIPT_FILENAME'], DIR_WS_CATALOG) !== false)
+			{
+				$t_script_name = $_SERVER['SCRIPT_FILENAME'];
+			}
+			else
+			{
+				$t_script_name = $PHP_SELF;
+			}
+			
 			$t_page = $this->get_page();
 			
 			$isContactPage = (isset($_GET['coID']) && $_GET['coID'] == 7) ? true : false;
@@ -40,8 +60,8 @@ class EasymarketingApplicationBottomExtender extends EasymarketingApplicationBot
 					
 					if($t_amount)
 					{
-						$output = str_replace('google_conversion_value = 1.000000', 'google_conversion_value = '.$t_amount, $output);
-						$output = str_replace('value=1.000000', 'value='.$t_amount, $output);
+						$output = preg_replace('/google_conversion_value*\s=*\s(\d.*\d|\d)/', 'google_conversion_value = ' . $t_amount, $output);
+						$output = preg_replace('/value=(\d.*\d|\d)&/', 'value='.$t_amount.'&', $output);
 					}
 					
 					$this->v_output_buffer['EasymarketingApplicationBottomExtender'] .= $output;
@@ -53,8 +73,8 @@ class EasymarketingApplicationBottomExtender extends EasymarketingApplicationBot
 					
 					if($t_amount)
 					{
-						$output = str_replace("'value':'0.00'", "'value':'".$t_amount."'", $output);
-						$output = str_replace("cd[value]=0.00", "cd[value]=".$t_amount, $output);
+						$output = preg_replace("/\'value\':\'(\d.*\d|\d)\'/", "'value':'".$t_amount."'", $output);
+						$output = preg_replace("/cd\[value\]=(\d.*\d|\d)&/", "cd[value]=".$t_amount."&", $output);
 					}
 					
 					$this->v_output_buffer['EasymarketingApplicationBottomExtender'] .= $output;
@@ -83,7 +103,9 @@ class EasymarketingApplicationBottomExtender extends EasymarketingApplicationBot
 				if($t_page == 'Index')
 				{
 					$ecomm_pagetype = 'home';
-				} elseif($t_page == 'Cat') {
+				} elseif($t_page == 'Cat' && substr_count($t_script_name, 'advanced_search_result.php') == 0) {
+					$ecomm_pagetype = 'category';
+				} elseif($t_page == 'Cat' && substr_count($t_script_name, 'advanced_search_result.php') > 0) {
 					$ecomm_pagetype = 'searchresults';
 				} elseif($t_page == 'ProductInfo') {
 					$ecomm_pagetype = 'product';
