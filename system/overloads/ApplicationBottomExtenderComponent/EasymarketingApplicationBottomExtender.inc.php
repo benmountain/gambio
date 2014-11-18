@@ -37,8 +37,8 @@ class EasymarketingApplicationBottomExtender extends EasymarketingApplicationBot
 						
 					if($t_amount)
 					{
-						$output = str_replace('google_conversion_value = 0', 'google_conversion_value = '.$t_amount, $output);
-						$output = str_replace('value=0', 'value='.$t_amount, $output);
+						$output = preg_replace('/google_conversion_value*\s=*\s(\d.*\d|\d)/', 'google_conversion_value = ' . $t_amount, $output);
+						$output = preg_replace('/value=(\d.*\d|\d)&/', 'value='.$t_amount.'&', $output);
 					}
 						
 					echo $output;
@@ -50,7 +50,8 @@ class EasymarketingApplicationBottomExtender extends EasymarketingApplicationBot
 					
 					if($t_amount)
 					{
-						$output = str_replace("'value':'0.00'", "'value':'".$t_amount."'", $output);
+						$output = preg_replace("/\'value\':\'(\d.*\d|\d)\'/", "'value':'".$t_amount."'", $output);
+						$output = preg_replace("/cd\[value\]=(\d.*\d|\d)&/", "cd[value]=".$t_amount."&", $output);
 					}
 					
 					echo $output;
@@ -69,8 +70,8 @@ class EasymarketingApplicationBottomExtender extends EasymarketingApplicationBot
 					
 					if($t_amount)
 					{
-						$output = str_replace('google_conversion_value = 1.000000', 'google_conversion_value = '.$t_amount, $output);
-						$output = str_replace('value=1.000000', 'value='.$t_amount, $output);
+						$output = preg_replace('/google_conversion_value*\s=*\s(\d.*\d|\d)/', 'google_conversion_value = ' . $t_amount, $output);
+						$output = preg_replace('/value=(\d.*\d|\d)&/', 'value='.$t_amount.'&', $output);
 					}
 					
 					echo $output;
@@ -82,8 +83,8 @@ class EasymarketingApplicationBottomExtender extends EasymarketingApplicationBot
 					
 					if($t_amount)
 					{
-						$output = str_replace("'value':'0.00'", "'value':'".$t_amount."'", $output);
-						$output = str_replace("cd[value]=0.00", "cd[value]=".$t_amount, $output);
+						$output = preg_replace("/\'value\':\'(\d.*\d|\d)\'/", "'value':'".$t_amount."'", $output);
+						$output = preg_replace("/cd\[value\]=(\d.*\d|\d)&/", "cd[value]=".$t_amount."&", $output);
 					}
 					
 					echo $output;
@@ -113,6 +114,8 @@ class EasymarketingApplicationBottomExtender extends EasymarketingApplicationBot
 				{
 					$ecomm_pagetype = 'home';
 				} elseif(strpos(gm_get_env_info('SCRIPT_NAME'), FILENAME_DEFAULT) !== false && isset($_GET['cat']) && $_GET['cat'] != 'c0' && !isset($actual_products_id)) {
+					$ecomm_pagetype = 'category';
+				} elseif(strpos(gm_get_env_info('SCRIPT_NAME'), FILENAME_ADVANCED_SEARCH_RESULT) !== false) {
 					$ecomm_pagetype = 'searchresults';
 				} elseif(strpos(gm_get_env_info('SCRIPT_NAME'), FILENAME_PRODUCT_INFO) !== false && is_object($product) && $product->isProduct) {
 					$ecomm_pagetype = 'product';
