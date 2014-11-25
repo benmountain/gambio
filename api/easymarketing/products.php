@@ -183,7 +183,7 @@ if ($sql_limit != '' || $sql_where != '')
 									'url' => xtc_href_link(FILENAME_PRODUCT_INFO, xtc_product_link($products['products_id'], $products['products_name']), 'NONSSL', false),
 									'image_url' => !empty($products['products_image']) ? HTTP_SERVER.DIR_WS_CATALOG.DIR_WS_POPUP_IMAGES.$products['products_image'] : 'null',
 									'shipping' => mod_calculate_shipping_cost($products['products_id'], $products_price),
-									'description' => (!empty($products['products_short_description']) ? $products['products_short_description'] : (!empty($products['products_description']) ? $products['products_description'] : 'null')),
+									'description' => (!mod_is_empty($products['products_short_description']) ? $products['products_short_description'] : (!mod_is_empty($products['products_description']) ? $products['products_description'] : 'null')),
 									'age_group' => mod_get_age_group($products_item_codes['age_group']),
 									'gender' => mod_get_gender($products_item_codes['gender']),
 									'gtin' => ($products['products_ean'] != '') ? $products['products_ean'] : 'null',
