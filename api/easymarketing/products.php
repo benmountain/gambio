@@ -227,7 +227,10 @@ if ($sql_limit != '' || $sql_where != '')
 					
 					if(empty($products_mapping['description']))
 					{
-						$products_mapping['description'] = (!empty($products['products_short_description']) ? $products['products_short_description'] : (!empty($products['products_description']) ? $products['products_description'] : 'null'));
+						$stringposition = strpos($products['products_description'], "[TAB:");
+						$products_description = substr($products['products_description'], 0, $stringposition);
+						
+						$products_mapping['description'] = (!mod_is_empty($products['products_short_description']) ? $products['products_short_description'] : (!mod_is_empty($products['products_description']) ? $products_description : 'null'));
 					}
 			
 					// build products array

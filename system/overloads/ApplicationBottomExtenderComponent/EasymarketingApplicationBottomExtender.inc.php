@@ -48,7 +48,7 @@ class EasymarketingApplicationBottomExtender extends EasymarketingApplicationBot
 			
 			$t_page = $this->get_page();
 			
-			$isContactPage = (isset($_GET['coID']) && $_GET['coID'] == 7) ? true : false;
+			$isContactPage = (isset($_GET['coID']) && $_GET['coID'] == 7 && $_GET['action'] == 'success') ? true : false;
 					
 			if($t_page == 'Cart' || $isContactPage)
 			{
@@ -97,7 +97,7 @@ class EasymarketingApplicationBottomExtender extends EasymarketingApplicationBot
 					$category_data_query = xtc_db_query("SELECT cd.categories_name FROM categories_description cd WHERE cd.categories_id = '".end($_categoryIds)."' AND cd.language_id = '".$_SESSION['languages_id']."'");
 					$category_data_result = xtc_db_fetch_array($category_data_query);
 					
-					$additional_parameters[] = array('ecomm_category', $category_data_result['categories_name']);
+					$additional_parameters[] = array('ecomm_category', ''.$category_data_result['categories_name'].'');
 				}
 				
 				if($t_page == 'Index')
@@ -141,13 +141,13 @@ class EasymarketingApplicationBottomExtender extends EasymarketingApplicationBot
 					$ecomm_prodid = implode(',', $t_productIds);
 					$ecomm_totalvalue = number_format($t_amount, 2, '.', '');
 					
-					$additional_parameters[] = array('ecomm_quantity', implode(',', $t_productQtys));
+					$additional_parameters[] = array('ecomm_quantity', '['.implode(',', $t_productQtys).']');
 				}
 				
 				if(!empty($ecomm_pagetype))
 				{
 					$remarketing_code = MODULE_EM_REMARKETING_CODE;
-					$remarketing_code = str_replace("ecomm_prodid: 'REPLACE_WITH_VALUE'", "ecomm_prodid: '".$ecomm_prodid."'", $remarketing_code);
+					$remarketing_code = str_replace("ecomm_prodid: 'REPLACE_WITH_VALUE'", "ecomm_prodid: [".$ecomm_prodid."]", $remarketing_code);
 					$remarketing_code = str_replace("ecomm_pagetype: 'REPLACE_WITH_VALUE'", "ecomm_pagetype: '".$ecomm_pagetype."'", $remarketing_code);
 					$remarketing_code = str_replace("ecomm_totalvalue: 'REPLACE_WITH_VALUE'", "ecomm_totalvalue: '".$ecomm_totalvalue."'", $remarketing_code);
 					$remarketing_code = str_replace("value=0", "value=".$t_amount, $remarketing_code);
@@ -158,7 +158,7 @@ class EasymarketingApplicationBottomExtender extends EasymarketingApplicationBot
 						
 						foreach($additional_parameters as $key => $entry)
 						{
-							array_push($t_additional_tags, $entry[0] . ": '" . $entry[1] . "'");
+							array_push($t_additional_tags, $entry[0] . ": " . $entry[1]);
 						}
 						
 						$remarketing_code = str_replace('};', implode(',', $t_additional_tags) . ',};', $remarketing_code);

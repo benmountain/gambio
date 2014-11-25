@@ -77,6 +77,23 @@ function mod_convert_array($array)
     return $t_array;
 }
 
+function mod_is_empty($string)
+{	
+	global $oLanguage;
+	
+	$string = html_entity_decode($string, ENT_COMPAT, $oLanguage->language['language_charset']);
+	$string = strip_tags($string);
+	$string = str_replace(array("\r", "\n", "\t"), " ", $string);
+	$string = trim(preg_replace("/\s+/i", " ", $string));
+		
+	if ($string == chr(160)) 
+	{
+		$string = '';
+	}
+	
+	return empty($string);
+}
+
 function mod_get_categories_array($products_id) 
 {
   	// init categories array

@@ -75,10 +75,10 @@ class EasymarketingCheckoutSuccessExtender extends EasymarketingCheckoutSuccessE
 				$ecomm_prodid = implode(',', $t_productIds);
 				$ecomm_totalvalue = $t_amount;
 							
-				$additional_parameters[] = array('ecomm_quantity', implode(',', $t_productQtys));
+				$additional_parameters[] = array('ecomm_quantity', '['.implode(',', $t_productQtys).']');
 					
 				$remarketing_code = MODULE_EM_REMARKETING_CODE;
-				$remarketing_code = str_replace("ecomm_prodid: 'REPLACE_WITH_VALUE'", "ecomm_prodid: '".$ecomm_prodid."'", $remarketing_code);
+				$remarketing_code = str_replace("ecomm_prodid: 'REPLACE_WITH_VALUE'", "ecomm_prodid: [".$ecomm_prodid."]", $remarketing_code);
 				$remarketing_code = str_replace("ecomm_pagetype: 'REPLACE_WITH_VALUE'", "ecomm_pagetype: '".$ecomm_pagetype."'", $remarketing_code);
 				$remarketing_code = str_replace("ecomm_totalvalue: 'REPLACE_WITH_VALUE'", "ecomm_totalvalue: '".$ecomm_totalvalue."'", $remarketing_code);
 				$remarketing_code = str_replace("value=0", "value=".$t_amount, $remarketing_code);
@@ -89,7 +89,7 @@ class EasymarketingCheckoutSuccessExtender extends EasymarketingCheckoutSuccessE
 								
 					foreach($additional_parameters as $key => $entry)
 					{
-						array_push($t_additional_tags, $entry[0] . ": '" . $entry[1] . "'");
+						array_push($t_additional_tags, $entry[0] . ": ". $entry[1]);
 					}
 								
 					$remarketing_code = str_replace('};', implode(',', $t_additional_tags) . ',};', $remarketing_code);
