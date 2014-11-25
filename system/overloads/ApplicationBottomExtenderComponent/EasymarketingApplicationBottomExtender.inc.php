@@ -58,7 +58,7 @@ class EasymarketingApplicationBottomExtender extends EasymarketingApplicationBot
 				}
 			}
 			
-			$isContactPage = (isset($_GET['coID']) && $_GET['coID'] == 7) ? true : false;
+			$isContactPage = (isset($_GET['coID']) && $_GET['coID'] == 7 && $_GET['action'] == 'success') ? true : false;
 					
 			if(strpos(gm_get_env_info('SCRIPT_NAME'), FILENAME_SHOPPING_CART) !== false || $isContactPage)
 			{
