@@ -438,9 +438,9 @@ function xtc_cfg_select_availibility($configuration, $key)
 {
   	$availibility_dropdown = array(
                              array('id' => 'in stock', 'text' => 'Auf Lager'),
-                             array('id' => 'available for order', 'text' => 'Bestellbar'),
-                             array('id' => 'out of stock', 'text' => 'Nicht auf Lager'),
-                             array('id' => 'preorder', 'text' => 'Vorbestellen'),
+							 array('id' => 'not in stock', 'text' => 'Nicht auf Lager'),
+							 array('id' => 'preorder', 'text' => 'Vorbestellbar'),
+                             array('id' => 'no order', 'text' => 'Nicht bestellbar')
                            );
   	return xtc_draw_pull_down_menu('configuration['.$key.']', $availibility_dropdown, $configuration);
 }
