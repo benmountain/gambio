@@ -43,7 +43,7 @@ class EasymarketingCheckoutSuccessExtender extends EasymarketingCheckoutSuccessE
 					$output = preg_replace('/value=(\d.*\d|\d)&/', 'value='.$t_amount.'&', $output);
 				}
 							
-				$this->v_output_buffer['EM_CS_TP'] .= $output;
+				$this->html_output_array[] = $output;
 			}
 						
 			if(MODULE_EM_ACTIVATE_FACEBOOK_TRACKING == 'True' && MODULE_EM_FACEBOOK_CONVERSION_TRACKING_CODE != '')
@@ -56,7 +56,7 @@ class EasymarketingCheckoutSuccessExtender extends EasymarketingCheckoutSuccessE
 					$output = preg_replace("/cd\[value\]=(\d.*\d|\d)&/", "cd[value]=".$t_amount."&", $output);
 				}
 				
-				$this->v_output_buffer['EM_CS_TP'] .= $output;
+				$this->html_output_array[] = $output;
 			}
 				
 			if(MODULE_EM_REMARKETING_STATUS == 'True' && MODULE_EM_REMARKETING_CODE != '')
@@ -95,7 +95,7 @@ class EasymarketingCheckoutSuccessExtender extends EasymarketingCheckoutSuccessE
 					$remarketing_code = str_replace('};', implode(',', $t_additional_tags) . ',};', $remarketing_code);
 				}
 						
-				$this->v_output_buffer['EM_CS_TP'] .= $remarketing_code;
+				$this->html_output_array[] = $remarketing_code;
 			}
 		}
 	}
