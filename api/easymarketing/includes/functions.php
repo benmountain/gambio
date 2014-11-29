@@ -173,6 +173,29 @@ function mod_get_condition($condition)
 	return $_condition;
 }
 
+function mod_get_availability($availability, $products_quantity)
+{
+	$_availability = 0;
+
+	switch($availability)
+	{
+		case '1':
+			$_availability = 'in stock';
+			break;
+		case '3':
+			$_availability = 'not in stock';
+			break;
+		case '4':
+			$_availability = 'preorder';
+			break;
+		default:
+			$_availability = ($products_quantity > 0) ? MODULE_EM_AVAILIBILLITY_STOCK_1 : MODULE_EM_AVAILIBILLITY_STOCK_0;
+			break;
+	}
+	
+	return $_availability;
+}
+
 function mod_get_gender($gender)
 {
 	$_gender = '';

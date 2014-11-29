@@ -86,7 +86,7 @@ class EasymarketingApplicationBottomExtender extends EasymarketingApplicationBot
 				$ecomm_prodid = '';
 				$ecomm_pagetype = '';
 				$ecomm_totalvalue = '';
-				$additional_parameters = array();
+				$t_additional_parameters = array();
 				
 				$t_amount = 0.00;
 				
@@ -97,7 +97,7 @@ class EasymarketingApplicationBottomExtender extends EasymarketingApplicationBot
 					$category_data_query = xtc_db_query("SELECT cd.categories_name FROM categories_description cd WHERE cd.categories_id = '".end($_categoryIds)."' AND cd.language_id = '".$_SESSION['languages_id']."'");
 					$category_data_result = xtc_db_fetch_array($category_data_query);
 					
-					$additional_parameters[] = array('ecomm_category', ''.$category_data_result['categories_name'].'');
+					$t_additional_parameters[] = "ecomm_category: '".$category_data_result['categories_name']."'";
 				}
 				
 				if($t_page == 'Index')
@@ -141,7 +141,7 @@ class EasymarketingApplicationBottomExtender extends EasymarketingApplicationBot
 					$ecomm_prodid = implode(',', $t_productIds);
 					$ecomm_totalvalue = number_format($t_amount, 2, '.', '');
 					
-					$additional_parameters[] = array('ecomm_quantity', '['.implode(',', $t_productQtys).']');
+					$t_additional_parameters[] = "ecomm_quantity: [".implode(',', $t_productQtys)."]";
 				}
 				
 				if(!empty($ecomm_pagetype))
@@ -152,16 +152,9 @@ class EasymarketingApplicationBottomExtender extends EasymarketingApplicationBot
 					$remarketing_code = str_replace("ecomm_totalvalue: 'REPLACE_WITH_VALUE'", "ecomm_totalvalue: '".$ecomm_totalvalue."'", $remarketing_code);
 					$remarketing_code = str_replace("value=0", "value=".$t_amount, $remarketing_code);
 					
-					if(count($additional_parameters) > 0)
+					if(count($t_additional_parameters) > 0)
 					{
-						$t_additional_tags = array();
-						
-						foreach($additional_parameters as $key => $entry)
-						{
-							array_push($t_additional_tags, $entry[0] . ": " . $entry[1]);
-						}
-						
-						$remarketing_code = str_replace('};', implode(',', $t_additional_tags) . ',};', $remarketing_code);
+						$remarketing_code = str_replace('};', implode(',', $t_additional_parameters) . ',};', $remarketing_code);
 					}
 				
 					$this->v_output_buffer['EasymarketingApplicationBottomExtender'] .= $remarketing_code;
