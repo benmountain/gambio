@@ -97,7 +97,7 @@ function mod_get_categories_array($products_id)
   	$categories_array = array();
   
   	// make sql query
-  	$categories_query_result = xtc_db_query("SELECT categories_id FROM ".TABLE_PRODUCTS_TO_CATEGORIES." WHERE products_id = '".$products_id."'");
+  	$categories_query_result = xtc_db_query("SELECT ptc.categories_id FROM ".TABLE_PRODUCTS_TO_CATEGORIES." ptc LEFT JOIN ".TABLE_CATEGORIES." c ON ptc.categories_id = c.categories_id WHERE ptc.products_id = '".$products_id."' AND c.categories_status = 1");
   
   	while ($categories = xtc_db_fetch_array($categories_query_result)) 
 	{
@@ -113,7 +113,7 @@ function mod_get_sub_categories($categories_id)
 	$subcategories_array = array();
   
   	// make sql query
-  	$subcategories_query_result = xtc_db_query("SELECT categories_id FROM ".TABLE_CATEGORIES." WHERE parent_id = '".$categories_id."'");
+  	$subcategories_query_result = xtc_db_query("SELECT categories_id FROM ".TABLE_CATEGORIES." WHERE parent_id = '".$categories_id."' AND categories_status = 1");
   
   	// check for result
   	if (xtc_db_num_rows($subcategories_query_result) > 0) 
