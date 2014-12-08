@@ -63,8 +63,8 @@ if ($sql_limit != '' || $sql_where != '')
 {
   	// init price class
   	$xtPrice = new xtcPrice(DEFAULT_CURRENCY, DEFAULT_CUSTOMERS_STATUS_ID);
-  
-  	// init order class
+	
+	// init order class
   	$order = new order();
 
   	//Data for shipping cost
@@ -227,10 +227,7 @@ if ($sql_limit != '' || $sql_where != '')
 					
 					if(empty($products_mapping['description']))
 					{
-						$stringposition = strpos($products['products_description'], "[TAB:");
-						$products_description = substr($products['products_description'], 0, $stringposition);
-						
-						$products_mapping['description'] = (!mod_is_empty($products['products_short_description']) ? $products['products_short_description'] : (!mod_is_empty($products['products_description']) ? $products_description : 'null'));
+						$products_mapping['description'] = mod_get_description(array('products_description' => $products['products_description'], 'products_short_description' => $products['products_short_description']));
 					}
 			
 					// build products array
@@ -304,7 +301,7 @@ if ($sql_limit != '' || $sql_where != '')
 					
 				if(empty($products_mapping['description']))
 				{
-					$products_mapping['description'] = (!empty($products['products_short_description']) ? $products['products_short_description'] : (!empty($products['products_description']) ? $products['products_description'] : 'null'));
+					$products_mapping['description'] = mod_get_description(array('products_description' => $products['products_description'], 'products_short_description' => $products['products_short_description']));
 				}
 					
       			// build products array

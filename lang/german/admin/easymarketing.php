@@ -56,6 +56,8 @@ define('MODULE_EM_ACTIVATE_FACEBOOK_TRACKING_TITLE', 'Facebook Tracking aktivier
 define('MODULE_EM_ACTIVATE_FACEBOOK_TRACKING_DESC', 'Ist dies aktiviert, so werden die Facebook Trackingpixel im Webshop implementiert.');
 define('MODULE_EM_REMARKETING_STATUS_TITLE', 'Remarketing aktivieren');
 define('MODULE_EM_REMARKETING_STATUS_DESC', 'Ist dies aktiviert, so wird Remarketing verwendet.');
+define('MODULE_EM_PRODUCTS_DESCRIPTION_DEFAULT_TITLE', 'Standard Produktbeschreibung');
+define('MODULE_EM_PRODUCTS_DESCRIPTION_DEFAULT_DESC', 'Existiert für die Produktbeschreibung kein Mapping, wird die ausgew&auml;hlte Produktbeschreibung verwendet.<br />Ist die ausgew&auml;hlte Produktbeschreibung leer, so wird die andere Produktbeschreibung an Easymarketing übermittelt.');
 define('MODULE_EM_CONDITION_DEFAULT_TITLE','Artikelzustand') ;
 define('MODULE_EM_CONDITION_DEFAULT_DESC','Dieser Zustand wird verwendet, wenn der Zustand beim Artikel nicht gepflegt ist.');
 define('MODULE_EM_GENDER_DEFAULT_TITLE','Geschlecht') ;

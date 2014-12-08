@@ -56,6 +56,8 @@ define('MODULE_EM_ACTIVATE_FACEBOOK_TRACKING_TITLE', 'Activate Facebook Tracking
 define('MODULE_EM_ACTIVATE_FACEBOOK_TRACKING_DESC', 'If this is activated, the Facebook trackingpixel are implemented in the webshop.');
 define('MODULE_EM_REMARKETING_STATUS_TITLE', 'Remarketing - activate');
 define('MODULE_EM_REMARKETING_STATUS_DESC', 'If this is activated, remarketing is used.');
+define('MODULE_EM_PRODUCTS_DESCRIPTION_DEFAULT_TITLE', 'Default products description for Google');
+define('MODULE_EM_PRODUCTS_DESCRIPTION_DEFAULT_DESC', 'If there is no mapping of the product description, the selected product description is used.<br />If the selected product description is empty, the other information is submitted to Easymarketing.');
 define('MODULE_EM_CONDITION_DEFAULT_TITLE','Condition') ;
 define('MODULE_EM_CONDITION_DEFAULT_DESC','Please choose a condition for your products.');
 define('MODULE_EM_GENDER_DEFAULT_TITLE','Gender') ;

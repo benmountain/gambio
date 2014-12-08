@@ -145,6 +145,7 @@ class Easymarketing
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_ACTIVATE_FACEBOOK_TRACKING', 'False',  '6', '1', 'xtc_cfg_select_option(array(\'True\', \'False\'), ', now())");
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_REMARKETING_STATUS', 'False',  '6', '1', 'xtc_cfg_select_option(array(\'True\', \'False\'), ', now())");
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_ROOT_CATEGORY', '0',  '6', '1', 'xtc_cfg_select_root_category(', now())");
+		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_PRODUCTS_DESCRIPTION_DEFAULT', 'products_description',  '6', '1', 'xtc_cfg_select_products_description(', now())");
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_CONDITION_DEFAULT', 'new',  '6', '1', 'xtc_cfg_select_condition(', now())");
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_GENDER_DEFAULT', 'unisex',  '6', '1', 'xtc_cfg_select_gender(', now())");
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_AGE_GROUP_DEFAULT', 'adult',  '6', '1', 'xtc_cfg_select_age_group(', now())");
@@ -210,6 +211,7 @@ class Easymarketing
 						'MODULE_EM_ACTIVATE_GOOGLE_TRACKING',
 						'MODULE_EM_ACTIVATE_FACEBOOK_TRACKING',
 				 		'MODULE_EM_REMARKETING_STATUS',
+						'MODULE_EM_PRODUCTS_DESCRIPTION_DEFAULT',
                  		'MODULE_EM_CONDITION_DEFAULT',
 						'MODULE_EM_GENDER_DEFAULT',
 						'MODULE_EM_AGE_GROUP_DEFAULT',
@@ -497,6 +499,21 @@ class Easymarketing
 }
 
 $category_dropdown = array();
+
+/*
+ * get pull down menu for products description
+ *
+ * @params $configuration (array), $key (string)
+ * @return pull down menu (string)
+ */
+function xtc_cfg_select_products_description($configuration, $key) 
+{
+  	$products_description_dropdown = array(
+                          array('id' => 'products_description', 'text' => 'Artikelbeschreibung'),
+                          array('id' => 'products_short_description', 'text' => 'Kurzbeschreibung'),
+                        );
+  	return xtc_draw_pull_down_menu('configuration['.$key.']', $products_description_dropdown, $configuration);
+}
 
 /*
  * get pull down menu for condition

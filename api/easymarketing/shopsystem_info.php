@@ -42,7 +42,7 @@ $shopsystem_info_array = array(
             					'shopsystem' => 'Gambio',
             					'shopsystem_human' => 'Gambio ' . $gx_version,
             					'shopsystem_version' => $gx_version,
-            					'api_version' => '2.0.0'          
+            					'api_version' => '2.0.1'          
         					);
   
 mod_stream_response($shopsystem_info_array);

@@ -52,10 +52,10 @@ function mod_convert_string($string)
 			$string = '';
 		}
 	}
-  	
+	
 	$string = mod_check_encoding($string);
     
-  	return $string;
+  	return trim($string);
 }
 
 function mod_convert_array($array)
@@ -89,6 +89,50 @@ function mod_is_empty($string)
 	}
 	
 	return empty($string);
+}
+
+function mod_get_description($product_descriptions)
+{
+	$t_description = 'null';
+	
+	if(!defined('MODULE_EM_PRODUCTS_DESCRIPTION_DEFAULT'))
+	{
+		define('MODULE_EM_PRODUCTS_DESCRIPTION_DEFAULT', 'products_description');
+	}
+	
+	if(!mod_is_empty($product_descriptions[MODULE_EM_PRODUCTS_DESCRIPTION_DEFAULT]))
+	{
+		if(MODULE_EM_PRODUCTS_DESCRIPTION_DEFAULT == 'products_description')
+		{
+			$gmTabTokenizer = MainFactory::create_object('GMTabTokenizer', array(stripslashes($product_descriptions['products_description'])));
+		
+			if($gmTabTokenizer->get_tabs_count() > 0)
+			{
+				$t_description = $gmTabTokenizer->panel_content[0];
+			} else {
+				$t_description = $product_descriptions['products_description'];
+			}
+		} elseif(MODULE_EM_PRODUCTS_DESCRIPTION_DEFAULT == 'products_short_description') {
+			$t_description = $product_descriptions['products_short_description'];
+		}
+		
+	} else {
+		if(MODULE_EM_PRODUCTS_DESCRIPTION_DEFAULT == 'products_description' && !mod_is_empty($products['products_short_description']))
+		{
+			$t_description = $product_descriptions['products_short_description'];
+		} elseif(MODULE_EM_PRODUCTS_DESCRIPTION_DEFAULT == 'products_short_description' && !mod_is_empty($product_descriptions['products_description'])) {
+			$gmTabTokenizer = MainFactory::create_object('GMTabTokenizer', array(stripslashes($product_descriptions['products_description'])));
+		
+			if($gmTabTokenizer->get_tabs_count() > 0)
+			{
+				$t_description = $gmTabTokenizer->panel_content[0];
+			} else {
+				$t_description = $product_descriptions['products_description'];
+			}
+		}	
+	}
+	
+	return trim($t_description);
 }
 
 function mod_get_categories_array($products_id) 
