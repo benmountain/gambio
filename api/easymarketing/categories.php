@@ -56,7 +56,7 @@ if (isset($parent_id))
       		// build categories array
       		$categories_array = array(
 										'id' => $categories['categories_id'],
-                                		'name' => $categories['categories_name'],
+                                		'name' => mod_convert_string($categories['categories_name']),
                                 		'url' => xtc_href_link(FILENAME_DEFAULT, xtc_category_link($categories['categories_id'], $categories['categories_name']), 'NONSSL', false),
                                 		'children' => mod_get_sub_categories($categories['categories_id'])
                                 	);
@@ -65,7 +65,7 @@ if (isset($parent_id))
     	// build categories array
     	$categories_array = array(
 									'id' => $parent_id,
-                              		'name' => STORE_NAME,
+                              		'name' => mod_convert_string(STORE_NAME),
                               		'url' => xtc_href_link(FILENAME_DEFAULT, '', 'NONSSL', false),
                               		'children' => mod_get_sub_categories($parent_id)
                               	);

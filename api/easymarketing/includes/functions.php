@@ -20,7 +20,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) {
   die('Direct Access to this location is not allowed.');
 }
 
-function mod_check_encoding($string)
+function mod_convert_encoding_single_string($string)
 {
 	if(function_exists('mb_detect_encoding'))
 	{
@@ -39,7 +39,7 @@ function mod_convert_string($string)
 {
 	global $oLanguage;
 	
-	if(gettype($string) == 'string')
+	if(in_array(gettype($string), array('string', 'unknown type')))
 	{
 		// convert string
 		$string = html_entity_decode($string, ENT_COMPAT, $oLanguage->language['language_charset']);
@@ -52,13 +52,11 @@ function mod_convert_string($string)
 			$string = '';
 		}
 	}
-	
-	$string = mod_check_encoding($string);
     
   	return trim($string);
 }
 
-function mod_convert_array($array)
+function mod_convert_encoding_response($array)
 {
 	$t_array = array();
 	
@@ -66,11 +64,9 @@ function mod_convert_array($array)
     {
         if(is_array($value))
         {
-            $t_array[$key] = mod_convert_array($value);
-        }
-        else
-        {
-            $t_array[$key] = mod_convert_string($value);
+            $t_array[$key] = mod_convert_encoding_response($value);
+        } else {
+            $t_array[$key] = mod_convert_encoding_single_string($value);
         }
     }
 
@@ -79,6 +75,8 @@ function mod_convert_array($array)
 
 function mod_is_empty($string)
 {	
+	// convert string
+	$string = html_entity_decode($string, ENT_COMPAT, $oLanguage->language['language_charset']);
 	$string = strip_tags($string);
 	$string = str_replace(array("\r", "\n", "\t"), " ", $string);
 	$string = trim(preg_replace("/\s+/i", " ", $string));
@@ -187,7 +185,7 @@ function mod_get_google_category($products_id)
 	if (xtc_db_num_rows($google_category_query_result) > 0)
 	{
 		$_google_category = xtc_db_fetch_array($google_category_query_result);
-		$google_category = $_google_category['google_category'];
+		$google_category = mod_convert_string($_google_category['google_category']);
 	}
 	
 	// return google category
@@ -367,13 +365,13 @@ function mod_calculate_shipping_cost($products_id, $products_price)
 	{
     	$shipping_content[] = array(
 									'country' => $order->delivery['country']['iso_code_2'],
-                                	'service' => FREE_SHIPPING_TITLE,
+                                	'service' => mod_convert_string(FREE_SHIPPING_TITLE),
                                 	'price' => floatval(0)
                                		);
   	} elseif ($free_shipping_freeamount) {
     	$shipping_content[] = array(
 									'country' => $order->delivery['country']['iso_code_2'],
-                                	'service' => $quote['module'],
+                                	'service' => mod_convert_string($quote['module']),
                                 	'price' => floatval(0)
                                 	);
   	} else {
@@ -387,7 +385,7 @@ function mod_calculate_shipping_cost($products_id, $products_price)
         		$value = $xtPrice->xtcFormat($value, false);
         		$shipping_content[] = array(
 											'country' => $order->delivery['country']['iso_code_2'],
-                                    		'service' => $quote['module'] . (!empty($quote['methods'][0]['title']) ? ' - '.$quote['methods'][0]['title'] : ''), 
+                                    		'service' => mod_convert_string($quote['module'] . (!empty($quote['methods'][0]['title']) ? ' - '.$quote['methods'][0]['title'] : '')), 
                                     		'price' => floatval($value),
                                     		);
       		}
@@ -416,7 +414,7 @@ function mod_stream_response($response)
     	header('Content-type: application/json;charset=utf-8');
   
   		// encode response
-		$reponse = mod_convert_array($response);
+		$reponse = mod_convert_encoding_response($response);
   
     	// output json response
     	echo json_encode($response);  

@@ -234,7 +234,7 @@ if ($sql_limit != '' || $sql_where != '')
       				$products_array[] = array(
 										'id' => $products['products_id'] . '-' . $row_property_combi['products_properties_combis_id'],
 										'parent_id' => $products['products_id'],
-                                		'name' => $products_mapping['name'],
+                                		'name' => mod_convert_string($products_mapping['name']),
                                 		'categories' => mod_get_categories_array($products['products_id']),
 										'google_category' => mod_get_google_category($products['products_id']),
                                 		'condition' => mod_get_condition($condition),
@@ -247,19 +247,19 @@ if ($sql_limit != '' || $sql_where != '')
                                 		'url' => xtc_href_link(FILENAME_PRODUCT_INFO, xtc_product_link($products['products_id'], $products['products_name']), 'NONSSL', false),
                                 		'image_url' => !empty($products['products_image']) ? HTTP_SERVER.DIR_WS_CATALOG.DIR_WS_POPUP_IMAGES.$products['products_image'] : 'null',
                                 		'shipping' => mod_calculate_shipping_cost($products['products_id'], $products_price),
-                                		'description' => $products_mapping['description'],
+                                		'description' => mod_convert_string($products_mapping['description']),
 										'age_group' => mod_get_age_group($products_item_codes['age_group']),
 										'gender' => mod_get_gender($products_item_codes['gender']),
-										'color' => (!empty($products_mapping['color'])) ? $products_mapping['color'] : '',
-										'size' => (!empty($products_mapping['size'])) ? $products_mapping['size'] : '',
-										'size_type' => (!empty($products_mapping['size_type'])) ? $products_mapping['size_type'] : '',
-										'size_system' => (!empty($products_mapping['size_system'])) ? $products_mapping['size_system'] : '',
-										'material' => (!empty($products_mapping['material'])) ? $products_mapping['material'] : '',
-										'pattern' => (!empty($products_mapping['pattern'])) ? $products_mapping['pattern'] : '',
+										'color' => mod_convert_string((!empty($products_mapping['color'])) ? $products_mapping['color'] : ''),
+										'size' => mod_convert_string((!empty($products_mapping['size'])) ? $products_mapping['size'] : ''),
+										'size_type' => mod_convert_string((!empty($products_mapping['size_type'])) ? $products_mapping['size_type'] : ''),
+										'size_system' => mod_convert_string((!empty($products_mapping['size_system'])) ? $products_mapping['size_system'] : ''),
+										'material' => mod_convert_string((!empty($products_mapping['material'])) ? $products_mapping['material'] : ''),
+										'pattern' => mod_convert_string((!empty($products_mapping['pattern'])) ? $products_mapping['pattern'] : ''),
                                 		'gtin' => ($row_property_combi['combi_ean'] != '') ? $row_property_combi['combi_ean'] : 'null',
                                 		'adult' => ($products['products_fsk18'] == '1') ? true : false,
-										'mpn' => (!empty($row_property_combi['combi_model']) ? $row_property_combi['combi_model'] : $products_item_codes['code_mpn']),
-										'brand' => $products_item_codes['brand_name']
+										'mpn' => mod_convert_string((!empty($row_property_combi['combi_model']) ? $row_property_combi['combi_model'] : $products_item_codes['code_mpn'])),
+										'brand' => mod_convert_string($products_item_codes['brand_name'])
                                 	);
 				}
 			} else {
@@ -307,7 +307,7 @@ if ($sql_limit != '' || $sql_where != '')
       			// build products array
       			$products_array[] = array(
 										'id' => $products['products_id'],
-                                		'name' => $products_mapping['name'],
+                                		'name' => mod_convert_string($products_mapping['name']),
                                 		'categories' => mod_get_categories_array($products['products_id']),
 										'google_category' => mod_get_google_category($products['products_id']),
                                 		'condition' => mod_get_condition($condition),
@@ -320,13 +320,13 @@ if ($sql_limit != '' || $sql_where != '')
                                 		'url' => xtc_href_link(FILENAME_PRODUCT_INFO, xtc_product_link($products['products_id'], $products['products_name']), 'NONSSL', false),
                                 		'image_url' => !empty($products['products_image']) ? HTTP_SERVER.DIR_WS_CATALOG.DIR_WS_POPUP_IMAGES.$products['products_image'] : 'null',
                                 		'shipping' => mod_calculate_shipping_cost($products['products_id'], $products_price),
-                                		'description' => $products_mapping['description'],
+                                		'description' => mod_convert_string($products_mapping['description']),
 										'age_group' => mod_get_age_group($products_item_codes['age_group']),
 										'gender' => mod_get_gender($products_item_codes['gender']),
                                 		'gtin' => ($products['products_ean'] != '') ? $products['products_ean'] : 'null',
                                 		'adult' => ($products['products_fsk18'] == '1') ? true : false,
-										'mpn' => $products_item_codes['code_mpn'],
-										'brand' => $products_item_codes['brand_name']
+										'mpn' => mod_convert_string($products_item_codes['code_mpn']),
+										'brand' => mod_convert_string($products_item_codes['brand_name'])
                                 	);   
 			}
 		}
