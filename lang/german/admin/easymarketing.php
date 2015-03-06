@@ -13,7 +13,7 @@
    @modified_by Easymarketing AG, Florian Ressel <florian.ressel@easymarketing.de>
 
    @file       lang/german/admin/easymarketing.php
-   @version    30.10.2014 - 18:37
+   @version    06.03.2015 - 01:26
    ---------------------------------------------------------------------------------------*/
 
 define('MODULE_EM_HEADING_TITLE', 'Easymarketing');
@@ -65,6 +65,8 @@ define('MODULE_EM_AVAILIBILLITY_STOCK_0_TITLE','Verf&uuml;gbarkeit - Lagerbestan
 define('MODULE_EM_AVAILIBILLITY_STOCK_0_DESC','Bitte geben sie die Verf&uuml;gbarkeit der Artikel an, welche im Shop einen negativen Lagerbestand oder einen Lagerbestand von 0 haben');
 define('MODULE_EM_AVAILIBILLITY_STOCK_1_TITLE','Verf&uuml;gbarkeit - Lagerbestand > 0') ;
 define('MODULE_EM_AVAILIBILLITY_STOCK_1_DESC','Bitte geben sie die Verf&uuml;gbarkeit der Artikel an, welche im Shop einen positiven Lagerbestand haben');
+define('MODULE_EM_SHIPPING_COUNTRIES_TITLE', 'Lieferl&auml;nder');
+define('MODULE_EM_SHIPPING_COUNTRIES_DESC', 'Bitte tragen Sie hier die ISO-Codes der Lieferl&auml;nder kommagetrennt ein, f&uuml;r welche Versandkosten berechnet werden sollen. (z.B. DE,AT,CH)');
 
 define('MODULE_EM_OVERVIEW_SETUP_TITLE', 'Setup');
 define('MODULE_EM_OVERVIEW_API_STATUS_TITLE', 'API Status');

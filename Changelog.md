@@ -1,5 +1,10 @@
 # Changelog - EASYMARKETING Gambio Module
 
+### Version 1.9.1
+- fix problems with unicode strings
+- change logic to calculate the shipping costs of an article
+- add option to set the countries of delivery, which are use for calculate the shipping costs
+
 ### Version 1.9.0
 - add Google Remarketing
 - remove AdScale Retargeting

@@ -13,7 +13,7 @@
    @modified_by Easymarketing AG, Florian Ressel <florian.ressel@easymarketing.de>
 
    @file       admin/easymarketing.php
-   @version    07.04.2014 - 20:34
+   @version    06.03.2015 - 01:31
    ---------------------------------------------------------------------------------------*/
 
 require('includes/application_top.php');
@@ -248,7 +248,7 @@ if (isset($_GET['content']) && $_GET['content'] != '') {
       
       <p />
       
-      <small><i>Modul Version v1.9.0</i></small>
+      <small><i>Modul Version v1.9.1</i></small>
       
     </td>
 <!-- body_text_eof //-->

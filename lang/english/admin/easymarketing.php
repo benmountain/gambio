@@ -13,7 +13,7 @@
    @modified_by Easymarketing AG, Florian Ressel <florian.ressel@easymarketing.de>
 
    @file       lang/english/admin/easymarketing.php
-   @version    30.10.2014 - 18:45
+   @version    06.03.2015 - 01:26
    ---------------------------------------------------------------------------------------*/
 
 define('MODULE_EM_HEADING_TITLE', 'Easymarketing');
@@ -65,6 +65,8 @@ define('MODULE_EM_AVAILIBILLITY_STOCK_0_TITLE','Availability - stock < 1') ;
 define('MODULE_EM_AVAILIBILLITY_STOCK_0_DESC','Please choose the Availability for products with stock smaller 0');
 define('MODULE_EM_AVAILIBILLITY_STOCK_1_TITLE','Availability - stock > 0') ;
 define('MODULE_EM_AVAILIBILLITY_STOCK_1_DESC','Please choose the Availability for products with stock more than 0');
+define('MODULE_EM_SHIPPING_COUNTRIES_TITLE', 'Countries of Delivery');
+define('MODULE_EM_SHIPPING_COUNTRIES_DESC', 'Please enter the ISO codes for the countries for which you want to calculate the shipping costs. (for example: DE, AT, CH)');
 
 define('MODULE_EM_OVERVIEW_SETUP_TITLE', 'Setup');
 define('MODULE_EM_OVERVIEW_API_STATUS_TITLE', 'API Status');

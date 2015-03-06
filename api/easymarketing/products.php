@@ -13,7 +13,7 @@
    @modified_by Easymarketing AG, Florian Ressel <florian.ressel@easymarketing.de>
 
    @file       api/easymarketing/products.php
-   @version    04.10.2014 - 23:38
+   @version    06.03.2015 - 01:24
    ---------------------------------------------------------------------------------------*/
 
 chdir('../../');
@@ -64,55 +64,36 @@ if ($sql_limit != '' || $sql_where != '')
   	// init price class
   	$xtPrice = new xtcPrice(DEFAULT_CURRENCY, DEFAULT_CUSTOMERS_STATUS_ID);
   
-  	// init order class
-  	$order = new order();
-
-  	//Data for shipping cost
-  	$default_data_query_raw = "SELECT countries_id,
-                                    countries_name,
-                                    countries_iso_code_2,
-                                    countries_iso_code_3,
-                                    address_format_id
-                               FROM ". TABLE_COUNTRIES ."
-                              WHERE countries_iso_code_2 = '".strtoupper($oLanguage->language['code'])."'";
-  	$default_data_query = xtc_db_query($default_data_query_raw);
-  	$default_data = xtc_db_fetch_array($default_data_query);
-  	$default_data['entry_postcode'] = '10000';
-  	$default_data['zone_name'] = '';
-  	$default_data['zone_id'] = '';
-
-  	// set customer data
-  	$order->customer = array('postcode' => $default_data['entry_postcode'],
-                           'state' => $default_data['zone_name'],
-                           'zone_id' => $default_data['zone_id'],
-                           'format_id' => $default_data['address_format_id'],
-                           'country' => array('id' => $default_data['countries_id'],
-                                              'title' => $default_data['countries_name'],
-                                              'iso_code_2' => $default_data['countries_iso_code_2'],
-                                              'iso_code_3' => $default_data['countries_iso_code_3']
-                                              ),
-                            );
-  	// set delivery data
-  	$order->delivery = array('postcode' => $default_data['entry_postcode'],
-                           'state' => $default_data['zone_name'],
-                           'zone_id' => $default_data['zone_id'],
-                           'format_id' => $default_data['address_format_id'],
-                           'country' => array('id' => $default_data['countries_id'],
-                                              'title' => $default_data['countries_name'],
-                                              'iso_code_2' => $default_data['countries_iso_code_2'],
-                                              'iso_code_3' => $default_data['countries_iso_code_3']
-                                              ),
-                            );
-
-  	// set session for calculation shipping costs
-  	$_SESSION['delivery_zone'] = $order->delivery['country']['iso_code_2'];
+  	// get all shipping countries
+	$em_shipping_countries = array();
+	
+	if(defined('MODULE_EM_SHIPPING_COUNTRIES'))
+	{
+		$_countries = explode(',', MODULE_EM_SHIPPING_COUNTRIES);
+		
+		if(count($_countries) > 0)
+		{
+			foreach($_countries as $country)
+			{
+				$country = trim($country);
+				
+				if(strlen($country) == 2)
+				{
+					$em_shipping_countries[] = $country;
+				}
+			}
+		}
+	}
+	
+	if(count($em_shipping_countries) <= 0)
+	{	
+		$em_shipping_countries[] = 'DE';
+	}
   
   	// include language definitions
   	include_once (DIR_WS_LANGUAGES.$oLanguage->language['directory'].'/modules/order_total/ot_shipping.php');
-  
-  	// init shipping class
-  	$shipping = new shipping();
 	
+	// get all db tables of the Gambio installation
 	$db_tables = mod_get_all_db_tables();
 	
 	if(MODULE_EM_ROOT_CATEGORY > 0)
@@ -170,7 +151,7 @@ if ($sql_limit != '' || $sql_where != '')
 		// build products array
 		$products_array[] = array(
 									'id' => $products['products_id'],
-									'name' => $products['products_name'],
+									'name' => mod_convert_string($products['products_name']),
 									'categories' => mod_get_categories_array($products['products_id']),
 									'google_category' => mod_get_google_category($products['products_id']),
 									'condition' => mod_get_condition($condition),
@@ -182,13 +163,13 @@ if ($sql_limit != '' || $sql_where != '')
 									'discount_percentage' => ($discount_percentage > 0) ? $discount_percentage : 0,
 									'url' => xtc_href_link(FILENAME_PRODUCT_INFO, xtc_product_link($products['products_id'], $products['products_name']), 'NONSSL', false),
 									'image_url' => !empty($products['products_image']) ? HTTP_SERVER.DIR_WS_CATALOG.DIR_WS_POPUP_IMAGES.$products['products_image'] : 'null',
-									'shipping' => mod_calculate_shipping_cost($products['products_id'], $products_price),
-									'description' => (!mod_is_empty($products['products_short_description']) ? $products['products_short_description'] : (!mod_is_empty($products['products_description']) ? $products['products_description'] : 'null')),
+									'shipping' => mod_calculate_shipping_cost(),
+									'description' => (!mod_is_empty($products['products_short_description']) ? mod_convert_string($products['products_short_description']) : (!mod_is_empty($products['products_description']) ? mod_convert_string($products['products_description']) : 'null')),
 									'age_group' => mod_get_age_group($products_item_codes['age_group']),
 									'gender' => mod_get_gender($products_item_codes['gender']),
 									'gtin' => ($products['products_ean'] != '') ? $products['products_ean'] : 'null',
 									'adult' => ($products['products_fsk18'] == '1') ? true : false,
-									'mpn' => $products_item_codes['code_mpn'],
+									'mpn' => mod_convert_string($products_item_codes['code_mpn']),
 									'brand' => mod_get_brand($products['manufacturers_id'], $products_item_codes['brand_name'])
 								);
 	}

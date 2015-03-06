@@ -13,7 +13,7 @@
    @modified_by Easymarketing AG, Florian Ressel <florian.ressel@easymarketing.de>
 
    @file       api/easymarketing/includes/functions.php
-   @version    09.11.2014 - 20:34
+   @version    06.03.2015 - 01:26
    ---------------------------------------------------------------------------------------*/
 
 if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) {
@@ -34,7 +34,7 @@ function mod_get_all_db_tables()
 	return $tables;
 }
 
-function mod_check_encoding($string)
+function mod_convert_encoding_single_string($string)
 {
 	if(function_exists('mb_detect_encoding'))
 	{
@@ -53,7 +53,7 @@ function mod_convert_string($string)
 {
 	global $oLanguage;
 	
-	if(gettype($string) == 'string')
+	if(in_array(gettype($string), array('string', 'unknown type')))
 	{
 		// convert string
 		$string = html_entity_decode($string, ENT_COMPAT, $oLanguage->language['language_charset']);
@@ -66,13 +66,11 @@ function mod_convert_string($string)
 			$string = '';
 		}
 	}
-  	
-	$string = mod_check_encoding($string);
     
-  	return $string;
+  	return trim($string);
 }
 
-function mod_convert_array($array)
+function mod_convert_encoding_response($array)
 {
 	$t_array = array();
 	
@@ -80,11 +78,9 @@ function mod_convert_array($array)
     {
         if(is_array($value))
         {
-            $t_array[$key] = mod_convert_array($value);
-        }
-        else
-        {
-            $t_array[$key] = mod_convert_string($value);
+            $t_array[$key] = mod_convert_encoding_response($value);
+        } else {
+            $t_array[$key] = mod_convert_encoding_single_string($value);
         }
     }
 
@@ -92,7 +88,9 @@ function mod_convert_array($array)
 }
 
 function mod_is_empty($string)
-{
+{	
+	// convert string
+	$string = html_entity_decode($string, ENT_COMPAT, $oLanguage->language['language_charset']);
 	$string = strip_tags($string);
 	$string = str_replace(array("\r", "\n", "\t"), " ", $string);
 	$string = trim(preg_replace("/\s+/i", " ", $string));
@@ -157,7 +155,7 @@ function mod_get_google_category($products_id)
 	if (xtc_db_num_rows($google_category_query_result) > 0)
 	{
 		$_google_category = xtc_db_fetch_array($google_category_query_result);
-		$google_category = $_google_category['google_category'];
+		$google_category = mod_convert_string($_google_category['google_category']);
 	}
 	
 	// return google category
@@ -251,7 +249,7 @@ function mod_get_brand($manufacturers_id, $brand = '')
 	if(xtc_db_num_rows($select) == 1)
 	{
 		$row = xtc_db_fetch_array($select);
-		return $row['manufacturers_name'];
+		return mod_convert_string($row['manufacturers_name']);
 	}
 	
 	return null;
@@ -280,98 +278,148 @@ function mod_get_products_item_codes($products_id)
 	return array();
 }
 
-function mod_calculate_shipping_cost($products_id, $products_price) 
+function mod_calculate_shipping_cost() 
 {
   	// set globals
-  	global $xtPrice, $order, $shipping, $total_weight, $shipping_weight, $shipping_quoted, $shipping_num_boxes;
-  
-  	// init shipping modules
-  	$quotes = $shipping->quote();
-
-	$free_shipping = false;
-	  
-	if (defined('MODULE_ORDER_TOTAL_SHIPPING_FREE_SHIPPING') && (MODULE_ORDER_TOTAL_SHIPPING_FREE_SHIPPING == 'true')) 
-	{
-    	switch (MODULE_ORDER_TOTAL_SHIPPING_DESTINATION) 
-		{
-      		case 'national':
-        		if ($order->delivery['country']['id'] == STORE_COUNTRY)
-            	$pass = true;
-        		break;
-      		case 'international':
-        		if ($order->delivery['country']['id'] != STORE_COUNTRY)
-            	$pass = true;
-        		break;
-      		case 'both':
-        		$pass = true;
-        		break;
-      		default:
-        	$pass = false;
-        	break;
-    	}
-		
-    	if (($pass == true) && ($products_price >= $xtPrice->xtcFormat(MODULE_ORDER_TOTAL_SHIPPING_FREE_SHIPPING_OVER, false, 0, true))) 
-		{
-      		$free_shipping = true;
-    	}
-  	}
-
-  	$has_freeamount = false;
-  	$free_shipping_freeamount = false;
+  	global $xtPrice, $total_weight, $shipping_weight, $shipping_quoted, $shipping_num_boxes, $em_shipping_countries;
 	
-  	foreach ($quotes as $quote) 
-  	{
-      	if ($quote['id'] == 'freeamount') 
-		{
-          	$has_freeamount = true;
-          	if (isset($quote['methods'])) 
-			{
-              	$free_shipping_freeamount = true;
-              	break;
-          	}
-      	}
-  	}
-  
-  	// init shipping content array
-  	$shipping_content = array ();
-  
-  	if ($free_shipping == true) 
+	// init shipping content array
+	$shipping_content = array();
+	
+	foreach($em_shipping_countries as $country)
 	{
-    	$shipping_content[] = array(
-									'country' => $order->delivery['country']['iso_code_2'],
-                                	'service' => FREE_SHIPPING_TITLE,
-                                	'price' => floatval(0)
-                               		);
-  	} elseif ($free_shipping_freeamount) {
-    	$shipping_content[] = array(
-									'country' => $order->delivery['country']['iso_code_2'],
-                                	'service' => $quote['module'],
-                                	'price' => floatval(0)
-                                	);
-  	} else {
-    
-    	foreach ($quotes AS $quote) 
-		{
-      		if ($quote['id'] != 'freeamount') 
-	  		{
-        		$quote['methods'][0]['cost'] = $xtPrice->xtcCalculateCurr($quote['methods'][0]['cost']);
-        		$value = ((isset($quote['tax']) && $quote['tax'] > 0) ? $xtPrice->xtcAddTax($quote['methods'][0]['cost'],$quote['tax']) : (!empty($quote['methods'][0]['cost']) ? $quote['methods'][0]['cost'] : '0'));
-        		$value = $xtPrice->xtcFormat($value, false);
-        		$shipping_content[] = array(
-											'country' => $order->delivery['country']['iso_code_2'],
-                                    		'service' => $quote['module'] . (!empty($quote['methods'][0]['title']) ? ' - '.$quote['methods'][0]['title'] : ''), 
-                                    		'price' => floatval($value),
-                                    		);
-      		}
-    	}
-  	}
+		// init order class for dummy order
+		$order = new order();
+	
+		//Data for shipping cost
+		$default_data_query_raw = "SELECT countries_id,
+										countries_name,
+										countries_iso_code_2,
+										countries_iso_code_3,
+										address_format_id
+								   FROM ". TABLE_COUNTRIES ."
+								  WHERE countries_iso_code_2 = '".strtoupper(trim($country))."'";
+		$default_data_query = xtc_db_query($default_data_query_raw);
+		$default_data = xtc_db_fetch_array($default_data_query);
+		$default_data['entry_postcode'] = '10000';
+		$default_data['zone_name'] = '';
+		$default_data['zone_id'] = '';
+	
+		// set customer data
+		$order->customer = array('postcode' => $default_data['entry_postcode'],
+							   'state' => $default_data['zone_name'],
+							   'zone_id' => $default_data['zone_id'],
+							   'format_id' => $default_data['address_format_id'],
+							   'country' => array('id' => $default_data['countries_id'],
+												  'title' => $default_data['countries_name'],
+												  'iso_code_2' => $default_data['countries_iso_code_2'],
+												  'iso_code_3' => $default_data['countries_iso_code_3']
+												  ),
+								);
+		// set delivery data
+		$order->delivery = array('postcode' => $default_data['entry_postcode'],
+							   'state' => $default_data['zone_name'],
+							   'zone_id' => $default_data['zone_id'],
+							   'format_id' => $default_data['address_format_id'],
+							   'country' => array('id' => $default_data['countries_id'],
+												  'title' => $default_data['countries_name'],
+												  'iso_code_2' => $default_data['countries_iso_code_2'],
+												  'iso_code_3' => $default_data['countries_iso_code_3']
+												  ),
+								);
+								
+		$GLOBALS['order'] = $order;
+	
+		// set session for calculation shipping costs
+		$_SESSION['delivery_zone'] = $order->delivery['country']['iso_code_2'];
+		
+		// init shipping class
+  		$shipping = new shipping();
   
-  	// unset used variables and objects
-  	unset($quotes);
-  	unset($shipping);
-  	unset($order);
-  	unset($_SESSION['delivery_zone']);
-	unset($_SESSION['shipping']);
+		// init shipping modules
+		$quotes = $shipping->quote();
+	
+		$free_shipping = false;
+		  
+		if (defined('MODULE_ORDER_TOTAL_SHIPPING_FREE_SHIPPING') && (MODULE_ORDER_TOTAL_SHIPPING_FREE_SHIPPING == 'true')) 
+		{
+			switch (MODULE_ORDER_TOTAL_SHIPPING_DESTINATION) 
+			{
+				case 'national':
+					if ($order->delivery['country']['id'] == STORE_COUNTRY)
+					$pass = true;
+					break;
+				case 'international':
+					if ($order->delivery['country']['id'] != STORE_COUNTRY)
+					$pass = true;
+					break;
+				case 'both':
+					$pass = true;
+					break;
+				default:
+				$pass = false;
+				break;
+			}
+			
+			if (($pass == true) && ($products_price >= $xtPrice->xtcFormat(MODULE_ORDER_TOTAL_SHIPPING_FREE_SHIPPING_OVER, false, 0, true))) 
+			{
+				$free_shipping = true;
+			}
+		}
+	
+		$has_freeamount = false;
+		$free_shipping_freeamount = false;
+		
+		foreach ($quotes as $quote) 
+		{
+			if ($quote['id'] == 'freeamount') 
+			{
+				$has_freeamount = true;
+				if (isset($quote['methods'])) 
+				{
+					$free_shipping_freeamount = true;
+					break;
+				}
+			}
+		}
+	  
+		if ($free_shipping == true) 
+		{
+			$shipping_content[] = array(
+										'country' => $order->delivery['country']['iso_code_2'],
+										'service' => mod_convert_string(FREE_SHIPPING_TITLE),
+										'price' => floatval(0)
+										);
+		} elseif ($free_shipping_freeamount) {
+			$shipping_content[] = array(
+										'country' => $order->delivery['country']['iso_code_2'],
+										'service' => mod_convert_string($quote['module']),
+										'price' => floatval(0)
+										);
+		} else {
+			foreach ($quotes AS $quote) 
+			{
+				if ($quote['id'] != 'freeamount') 
+				{
+					$quote['methods'][0]['cost'] = $xtPrice->xtcCalculateCurr($quote['methods'][0]['cost']);
+					$value = ((isset($quote['tax']) && $quote['tax'] > 0) ? $xtPrice->xtcAddTax($quote['methods'][0]['cost'],$quote['tax']) : (!empty($quote['methods'][0]['cost']) ? $quote['methods'][0]['cost'] : '0'));
+					$value = $xtPrice->xtcFormat($value, false);
+					$shipping_content[] = array(
+												'country' => $order->delivery['country']['iso_code_2'],
+												'service' => mod_convert_string($quote['module'] . (!empty($quote['methods'][0]['title']) ? ' - '.$quote['methods'][0]['title'] : '')), 
+												'price' => floatval($value),
+												);
+				}
+			}
+		}
+	  
+		// unset used variables and objects
+		unset($quotes);
+		unset($shipping);
+		unset($order);
+		unset($_SESSION['delivery_zone']);
+		unset($_SESSION['shipping']);
+	}
 
   	// return cheapest Shipping module
   	return $shipping_content;
@@ -388,7 +436,7 @@ function mod_stream_response($response)
     	header('Content-type: application/json;charset=utf-8');
   
   		// convert response
-  		$response = mod_convert_array($response);
+  		$response = mod_convert_encoding_response($response);
   
     	// output json response
     	echo json_encode($response);  
