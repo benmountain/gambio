@@ -379,7 +379,7 @@ if (isset($_GET['content']) && $_GET['content'] != '') {
       
       <br />
       
-      <small><i>Modul Version v2.0.1</i></small>
+      <small><i>Modul Version v2.0.2</i></small>
     </td>
 <!-- body_text_eof //-->
   </tr>

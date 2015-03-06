@@ -1,5 +1,8 @@
 # Changelog - EASYMARKETING Gambio Module
 
+### Version 2.0.2
+- change logic for shipping cost calculator
+
 ### Version 2.0.0
 - add Google Remarketing
 - add variants for product api endpoint
