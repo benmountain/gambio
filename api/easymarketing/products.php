@@ -155,7 +155,7 @@ if ($sql_limit != '' || $sql_where != '')
 									'categories' => mod_get_categories_array($products['products_id']),
 									'google_category' => mod_get_google_category($products['products_id']),
 									'condition' => mod_get_condition($condition),
-									'availability' => ($products['products_quantity'] > 0) ? MODULE_EASYMARKETING_AVAILIBILLITY_STOCK_1 : MODULE_EASYMARKETING_AVAILIBILLITY_STOCK_0,
+									'availability' => ($products['products_quantity'] > 0) ? MODULE_EM_AVAILABILITY_STOCK_1 : MODULE_EM_AVAILABILITY_STOCK_0,
 									'currency' => DEFAULT_CURRENCY,
 									'price' => $products_price,
 									'rrp' => $products_rrp,

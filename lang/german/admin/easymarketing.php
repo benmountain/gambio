@@ -61,10 +61,10 @@ define('MODULE_EM_GENDER_DEFAULT_TITLE','Geschlecht') ;
 define('MODULE_EM_GENDER_DEFAULT_DESC','Dieses Geschlecht wird verwendet, wenn das Geschlecht beim Artikel nicht gepflegt ist.');
 define('MODULE_EM_AGE_GROUP_DEFAULT_TITLE','Altersgruppe') ;
 define('MODULE_EM_AGE_GROUP_DEFAULT_DESC','Diese Altersgruppe wird verwendet, wenn die Altersgruppe beim Artikel nicht gepflegt ist.');
-define('MODULE_EM_AVAILIBILLITY_STOCK_0_TITLE','Verf&uuml;gbarkeit - Lagerbestand < 1') ;
-define('MODULE_EM_AVAILIBILLITY_STOCK_0_DESC','Bitte geben sie die Verf&uuml;gbarkeit der Artikel an, welche im Shop einen negativen Lagerbestand oder einen Lagerbestand von 0 haben');
-define('MODULE_EM_AVAILIBILLITY_STOCK_1_TITLE','Verf&uuml;gbarkeit - Lagerbestand > 0') ;
-define('MODULE_EM_AVAILIBILLITY_STOCK_1_DESC','Bitte geben sie die Verf&uuml;gbarkeit der Artikel an, welche im Shop einen positiven Lagerbestand haben');
+define('MODULE_EM_AVAILABILITY_STOCK_0_TITLE','Verf&uuml;gbarkeit - Lagerbestand < 1') ;
+define('MODULE_EM_AVAILABILITY_STOCK_0_DESC','Bitte geben sie die Verf&uuml;gbarkeit der Artikel an, welche im Shop einen negativen Lagerbestand oder einen Lagerbestand von 0 haben');
+define('MODULE_EM_AVAILABILITY_STOCK_1_TITLE','Verf&uuml;gbarkeit - Lagerbestand > 0') ;
+define('MODULE_EM_AVAILABILITY_STOCK_1_DESC','Bitte geben sie die Verf&uuml;gbarkeit der Artikel an, welche im Shop einen positiven Lagerbestand haben');
 define('MODULE_EM_SHIPPING_COUNTRIES_TITLE', 'Lieferl&auml;nder');
 define('MODULE_EM_SHIPPING_COUNTRIES_DESC', 'Bitte tragen Sie hier die ISO-Codes der Lieferl&auml;nder kommagetrennt ein, f&uuml;r welche Versandkosten berechnet werden sollen. (z.B. DE,AT,CH)');
 
