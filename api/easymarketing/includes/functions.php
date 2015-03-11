@@ -231,7 +231,7 @@ function mod_get_availability($availability, $products_quantity)
 			$_availability = 'preorder';
 			break;
 		default:
-			$_availability = ($products_quantity > 0) ? MODULE_EM_AVAILIBILLITY_STOCK_1 : MODULE_EM_AVAILIBILLITY_STOCK_0;
+			$_availability = ($products_quantity > 0) ? MODULE_EM_AVAILABILITY_STOCK_1 : MODULE_EM_AVAILABILITY_STOCK_0;
 			break;
 	}
 	

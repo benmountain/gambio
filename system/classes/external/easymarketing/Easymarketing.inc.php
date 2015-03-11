@@ -149,8 +149,8 @@ class Easymarketing
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_CONDITION_DEFAULT', 'new',  '6', '1', 'xtc_cfg_select_condition(', now())");
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_GENDER_DEFAULT', 'unisex',  '6', '1', 'xtc_cfg_select_gender(', now())");
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_AGE_GROUP_DEFAULT', 'adult',  '6', '1', 'xtc_cfg_select_age_group(', now())");
-    	xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_AVAILIBILLITY_STOCK_0', 'available for order',  '6', '1', 'xtc_cfg_select_availibility(', now())");
-    	xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_AVAILIBILLITY_STOCK_1', 'in stock',  '6', '1', 'xtc_cfg_select_availibility(', now())");
+    	xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_AVAILABILITY_STOCK_0', 'available for order',  '6', '1', 'xtc_cfg_select_availibility(', now())");
+    	xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_AVAILABILITY_STOCK_1', 'in stock',  '6', '1', 'xtc_cfg_select_availibility(', now())");
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_SHIPPING_COUNTRIES', 'DE,AT,CH',  '6', '1', '', now())");
 		xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_API_STATUS', '0',  '6', '1', '', now())");
 	 	xtc_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, date_added) values ('MODULE_EM_CONFIGURE_ENDPOINTS_STATUS', '0',  '6', '1', '', now())");
@@ -216,8 +216,8 @@ class Easymarketing
                  		'MODULE_EM_CONDITION_DEFAULT',
 						'MODULE_EM_GENDER_DEFAULT',
 						'MODULE_EM_AGE_GROUP_DEFAULT',
-                 		'MODULE_EM_AVAILIBILLITY_STOCK_1',
-                 		'MODULE_EM_AVAILIBILLITY_STOCK_0',
+                 		'MODULE_EM_AVAILABILITY_STOCK_1',
+                 		'MODULE_EM_AVAILABILITY_STOCK_0',
 						'MODULE_EM_SHIPPING_COUNTRIES'
                  	);
   	}

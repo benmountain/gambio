@@ -64,10 +64,10 @@ define('MODULE_EM_GENDER_DEFAULT_TITLE','Gender') ;
 define('MODULE_EM_GENDER_DEFAULT_DESC','This gender is used when the gender is not maintained in the article.');
 define('MODULE_EM_AGE_GROUP_DEFAULT_TITLE','Age group') ;
 define('MODULE_EM_AGE_GROUP_DEFAULT_DESC','This age group is used when the age group is not maintained in the article.');
-define('MODULE_EM_AVAILIBILLITY_STOCK_0_TITLE','Availability - stock < 1') ;
-define('MODULE_EM_AVAILIBILLITY_STOCK_0_DESC','Please choose the Availability for products with stock smaller 0');
-define('MODULE_EM_AVAILIBILLITY_STOCK_1_TITLE','Availability - stock > 0') ;
-define('MODULE_EM_AVAILIBILLITY_STOCK_1_DESC','Please choose the Availability for products with stock more than 0');
+define('MODULE_EM_AVAILABILITY_STOCK_0_TITLE','availability - stock < 1') ;
+define('MODULE_EM_AVAILABILITY_STOCK_0_DESC','Please choose the availability for products with stock smaller 0');
+define('MODULE_EM_AVAILABILITY_STOCK_1_TITLE','availability - stock > 0') ;
+define('MODULE_EM_AVAILABILITY_STOCK_1_DESC','Please choose the availability for products with stock more than 0');
 define('MODULE_EM_SHIPPING_COUNTRIES_TITLE', 'Countries of Delivery');
 define('MODULE_EM_SHIPPING_COUNTRIES_DESC', 'Please enter the ISO codes for the countries for which you want to calculate the shipping costs. (for example: DE, AT, CH)');
 
