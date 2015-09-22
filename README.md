@@ -1,7 +1,7 @@
 # EASYMARKETING Gambio Module
-Version 2.0.1
+Version 2.0.2
 
-Dieses Modul ist nur für Gambio Version 2.1.x.
+Dieses Modul ist für Gambio ab Version 2.1.x.
 Falls Sie Gambio mit der Version 2.0.x verwenden, so [erhalten Sie das passende Modul hier](https://github.com/EASYMARKETING/gambio/tree/v2.0.x).
 
 ## Allgemein
