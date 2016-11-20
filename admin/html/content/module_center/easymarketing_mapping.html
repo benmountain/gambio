@@ -1,0 +1,162 @@
+{load_language_text section="easymarketing"}
+
+<table>
+	<tr>
+		<td class="dataTableHeadingContent">
+			<a href="{$page_links.info_page_link}">
+				{$txt.info_heading}
+			</a>
+		</td>
+		<td class="dataTableHeadingContent">
+			<a href="{$page_links.overview_page_link}">
+				{$txt.overview_heading}
+			</a>
+		</td>
+		<td class="dataTableHeadingContent">
+			<a href="{$page_links.config_page_link}">
+				{$txt.settings_heading}
+			</a>
+		</td>
+		<td class="dataTableHeadingContent">
+			{$txt.mapping_heading}
+		</td>
+		<td class="dataTableHeadingContent">
+			{$txt.modul_version}
+		</td>
+	</tr>
+</table>
+
+{if isset($smarty.get.result)} 
+	{if $smarty.get.result == 1}
+	<h3>{$txt.mappings_save_result}</h3>
+    {/if}
+{/if}
+
+<div class="gx-container">
+<style>
+            .sortableBox {
+            border: 1px solid #626262;
+            width: 390px;
+            min-height: 60px;
+            list-style-type: none;
+            margin: 0;
+            padding: 5px 0 0 0;
+            float: left;
+            margin-right: 10px;
+            }
+            .sortableBox li {
+            margin: 0 5px 5px 5px;
+			border: 1px solid #7F7C7C;
+            padding: 5px;
+            width: 370px;
+            cursor:move;
+            }
+            </style>
+            <script>
+				
+				
+			{foreach item=mapping_field from=$mapping_fields}
+			{literal}
+				
+            $(function() {
+            $( "#sortable_{/literal}{$mapping_field.mapping_field}, #sortable_active_{$mapping_field.mapping_field}{literal}" ).sortable({
+            connectWith: ".connectedSortable_{/literal}{$mapping_field.mapping_field}{literal}",
+            cursor: 'move',
+            update: function(event, ui) {
+                  var FieldValues = $("#sortable_active_{/literal}{$mapping_field.mapping_field}{literal}").sortable('toArray').toString();
+                  $('#{/literal}{$mapping_field.mapping_field}{literal}').val(FieldValues);
+                }
+            }).disableSelection();
+            });
+			{/literal}
+			{/foreach}
+            </script>
+            
+            <p>{$txt.mappings_info_text}</p>
+            
+           <form method="post"
+			  action="admin.php?do=EasymarketingModuleCenterModule/StoreMapping"
+			  name="modules"
+			  class="gx-container"
+			  data-gx-extension="visibility_switcher" >
+           
+           <p />
+           
+           <hr />
+           
+           	<div class="button-container">
+				<input type="submit" class="btn btn-primary pull-left" value="{$txt.mappings_save_button}">
+			</div>
+
+            <table width="800" border="0" style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; padding: 0px 10px 11px 10px; text-align: justify">
+              <tbody>
+              
+			  {foreach item=mapping_field from=$mapping_fields}
+			  
+                <tr>
+                  <td width="100" valign="top">{$mapping_field.mapping_field}</td>
+                  <td width="400" valign="top">
+                  
+                  <input type="hidden" name="mappingFields[{$mapping_field.mapping_field}]" id="{$mapping_field.mapping_field}" value="{','|implode:$mapping_field_values[$mapping_field.mapping_field]}" />
+                  
+                  <ul id="sortable_{$mapping_field.mapping_field}" class="connectedSortable_{$mapping_field.mapping_field} sortableBox">
+             
+                  	{foreach key=mapping_entry_key item=mapping_entry_values from=$mapping_entries[$mapping_field.mapping_field]}
+                  	
+                  		{if $mapping_entry_key|in_array:$mapping_field_values[$mapping_field.mapping_field]}                 		
+                  		{else}
+						<li id="{$mapping_entry_key}">{$mapping_entry_values}</li>
+						{/if}
+					{/foreach}
+              
+                  </ul>
+                     
+                  </td>
+                  <td width="400" valign="top">
+                  
+                  <ul id="sortable_active_{$mapping_field.mapping_field}" class="connectedSortable_{$mapping_field.mapping_field} sortableBox">
+                  
+                  	{foreach key=mapping_entry_key item=mapping_entry_values from=$mapping_entries[$mapping_field.mapping_field]}
+                  	
+                  		{if $mapping_entry_key|in_array:$mapping_field_values[$mapping_field.mapping_field]}
+                  		<li id="{$mapping_entry_key}">{$mapping_entry_values}</li>
+                  		{else}
+						{/if}
+					{/foreach}
+
+                  </ul>
+                  
+                  </td>
+                </tr>
+                
+                {if $mapping_field.disable_default_value == 0}
+                <tr>
+                  <td width="100" valign="top">&nbsp;</td>
+                  <td colspan="2">{$txt.mappings_field_default_value_text}: <input type="text" name="mappingDefaultFields[{$mapping_field.mapping_field}]" value="{$mapping_field.mapping_field_default_value}" size="100" maxlength="255" /> </td>
+                </tr>
+                {/if}
+                
+                {if $mapping_field.description != ''}
+                <tr>
+                  <td width="100" valign="top">&nbsp;</td>
+                  <td colspan="2">{$mapping_field.description}
+               	</td>
+                {/if}
+                  
+                <tr>
+                	<td colspan="3"><hr /></td>
+              	</tr>
+                  
+               {/foreach}
+              </tbody>
+            </table>
+            
+            <hr />
+            
+            <div class="button-container">
+				<input type="submit" class="btn btn-primary pull-left" value="{$txt.mappings_save_button}">
+			</div>
+			
+	</form>
+
+</div>

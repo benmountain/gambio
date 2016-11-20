@@ -2,18 +2,17 @@
 /* -----------------------------------------------------------------------------------------
    Easymarketing Modul
 
-   modified eCommerce Shopsoftware
-   http://www.modified-shop.org
-
-   Copyright (c) 2009 - 2014 [www.modified-shop.org]
+   Copyright (c) 2016 [www.easymarketing.de]
    -----------------------------------------------------------------------------------------
-   Released under the GNU General Public License
+   Released under the GNU General Public License (Version 2)
+   [http://www.gnu.org/licenses/gpl-2.0.html]
    -----------------------------------------------------------------------------------------
    
-   @modified_by Easymarketing AG, Florian Ressel <florian.ressel@easymarketing.de>
+   @author		Florian Ressel <florian.ressel@easymarketing.de>
 
-   @file       system/overloads/HeaderExtenderComponent/EasymarketingHeaderExtender.inc.php
-   @version    26.09.2014 - 19:34
+   @file       user_classes/overloads/HeaderExtenderComponent/EasymarketingHeaderExtender.inc.php
+   @version    v3.0.0
+   @updated    20.11.2016 - 19:31
    ---------------------------------------------------------------------------------------*/
 
 

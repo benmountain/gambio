@@ -10,26 +10,30 @@
    
    @author		Florian Ressel <florian.ressel@easymarketing.de>
 
-   @file       api/easymarketing/includes/header.php
+   @file       api/easymarketing/request.php
    @version    v3.0.0
    @updated    20.11.2016 - 19:31
    ---------------------------------------------------------------------------------------*/
 
-@ini_set('display_errors', false);
-error_reporting(0);
+chdir('../../');
+require_once('includes/application_top.php');
 
-// set request parameters shop_token
-$shop_token = (isset($_GET['shop_token']) ? $_GET['shop_token'] : NULL);
-$debug = (isset($_GET['debug']) && $_GET['debug'] == 'true' ? true : false);
-$lang = (isset($_GET['lang']) ? $_GET['lang'] : DEFAULT_LANGUAGE);
+// include easymarketing api header
+require_once(DIR_FS_CATALOG.'api/easymarketing/includes/header.php');
 
-if (!isset($shop_token) or $shop_token != MODULE_EM_SHOP_TOKEN or !defined('MODULE_EM_STATUS') or MODULE_EM_STATUS != 'True') 
+// include easymarketing functions
+require_once('includes/functions.php');
+
+if(!isset($_GET['action']) or $_GET['action'] == '')
 {
-	// wrong authentification
-  	die('Invalid access to this ressource.');
+	die('Invalid action.');
+} else {	
+	if(file_exists(DIR_FS_CATALOG.'api/easymarketing/actions/' . $_GET['action'] . '.php'))
+	{
+		require_once(DIR_FS_CATALOG.'api/easymarketing/actions/' . $_GET['action'] . '.php');
+	} else {
+		die('Unknown action ' . $_GET['action'] . '.');
+	}
 }
 
-require_once(DIR_WS_CLASSES.'language.php');
-$oLanguage = new language($lang);
-
-define('MODULE_EM_DEBUG', $debug);
+?>

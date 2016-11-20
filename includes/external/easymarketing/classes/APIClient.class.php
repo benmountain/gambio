@@ -2,19 +2,17 @@
 /* -----------------------------------------------------------------------------------------
    Easymarketing Modul
 
-   modified eCommerce Shopsoftware
-   http://www.modified-shop.org
-
-   Copyright (c) 2009 - 2014 [www.modified-shop.org]
+   Copyright (c) 2016 [www.easymarketing.de]
    -----------------------------------------------------------------------------------------
-   Released under the GNU General Public License
+   Released under the GNU General Public License (Version 2)
+   [http://www.gnu.org/licenses/gpl-2.0.html]
    -----------------------------------------------------------------------------------------
-  
-   @copyright  Copyright (c) 2014, Easymarketing AG (http://www.easymarketing.de)
-   @author     Florian Ressel <florian.ressel@easymarketing.de>
+   
+   @author		Florian Ressel <florian.ressel@easymarketing.de>
    
    @file       includes/external/easymarketing/classes/APIClient.class.php
-   @version    07.04.2014 - 20:34
+   @version    v3.0.0
+   @updated    20.11.2016 - 19:31
    ---------------------------------------------------------------------------------------*/
 
 class APIClient
@@ -49,6 +47,7 @@ class APIClient
 		{
 			self::$_instance = new self(MODULE_EM_API_TOKEN, MODULE_EM_SHOP_TOKEN, EasymarketingHelper::getWebsiteURL());
 		}
+		
 		return self::$_instance;
 	}
 	

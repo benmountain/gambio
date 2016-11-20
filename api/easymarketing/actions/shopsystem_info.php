@@ -2,32 +2,22 @@
 /* -----------------------------------------------------------------------------------------
    Easymarketing Modul
 
-   modified eCommerce Shopsoftware
-   http://www.modified-shop.org
-
-   Copyright (c) 2009 - 2014 [www.modified-shop.org]
+   Copyright (c) 2016 [www.easymarketing.de]
    -----------------------------------------------------------------------------------------
-   Released under the GNU General Public License
+   Released under the GNU General Public License (Version 2)
+   [http://www.gnu.org/licenses/gpl-2.0.html]
    -----------------------------------------------------------------------------------------
    
-   @modified_by Easymarketing AG, Florian Ressel <florian.ressel@easymarketing.de>
+   @author		Florian Ressel <florian.ressel@easymarketing.de>
 
-   @file       api/easymarketing/shopsystem_info.php
-   @version    30.10.2014 - 15:21
+   @file       api/easymarketing/actions/shopsystem_info.php
+   @version    v3.0.0
+   @updated    20.11.2016 - 19:31
    ---------------------------------------------------------------------------------------*/
 
-chdir('../../');
-require_once('includes/application_top.php');
-
-// include easymarketing api header
-require_once(DIR_FS_CATALOG.'api/easymarketing/includes/header.php');
-
-// include easymarketing functions
-require_once('includes/functions.php');
-
-if(file_exists(DIR_FS_DOCUMENT_ROOT.'release_info.php'))
+if(file_exists(DIR_FS_CATALOG.'release_info.php'))
 {
-	require_once(DIR_FS_DOCUMENT_ROOT.'release_info.php');
+	include(DIR_FS_CATALOG.'release_info.php');
 }
 
 if(isset($gx_version))
@@ -38,11 +28,13 @@ if(isset($gx_version))
 	$gx_version = 'unknown';
 }
 
+$easymarketingText = MainFactory::create('LanguageTextManager', 'easymarketing');
+
 $shopsystem_info_array = array(
             					'shopsystem' => 'Gambio',
             					'shopsystem_human' => 'Gambio ' . $gx_version,
             					'shopsystem_version' => $gx_version,
-            					'api_version' => '2.0.2'          
+            					'api_version' => $easymarketingText->get_text('modul_version')          
         					);
   
 mod_stream_response($shopsystem_info_array);

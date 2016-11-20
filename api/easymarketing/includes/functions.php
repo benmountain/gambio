@@ -2,18 +2,17 @@
 /* -----------------------------------------------------------------------------------------
    Easymarketing Modul
 
-   modified eCommerce Shopsoftware
-   http://www.modified-shop.org
-
-   Copyright (c) 2009 - 2014 [www.modified-shop.org]
+   Copyright (c) 2016 [www.easymarketing.de]
    -----------------------------------------------------------------------------------------
-   Released under the GNU General Public License
+   Released under the GNU General Public License (Version 2)
+   [http://www.gnu.org/licenses/gpl-2.0.html]
    -----------------------------------------------------------------------------------------
    
-   @modified_by Easymarketing AG, Florian Ressel <florian.ressel@easymarketing.de>
+   @author		Florian Ressel <florian.ressel@easymarketing.de>
 
    @file       api/easymarketing/includes/functions.php
-   @version    30.10.2014 - 15:21
+   @version    v3.0.0
+   @updated    20.11.2016 - 19:31
    ---------------------------------------------------------------------------------------*/
 
 if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) {
@@ -254,7 +253,7 @@ function mod_get_gender($gender)
 			$_gender = 'Unisex';
 			break;
 		default:
-			$_gender = MODULE_EM_GENDER_DEFAULT;
+			$_gender = (MODULE_EM_GENDER_DEFAULT != 'empty') ? MODULE_EM_GENDER_DEFAULT : '';
 			break;
 	}
 	
@@ -283,7 +282,7 @@ function mod_get_age_group($age_group)
 			$_age_group = 'infant';
 			break;
 		default:
-			$_age_group = MODULE_EM_AGE_GROUP_DEFAULT;
+			$_age_group = (MODULE_EM_AGE_GROUP_DEFAULT != 'empty') ? MODULE_EM_AGE_GROUP_DEFAULT : '';
 			break;
 	}
 	

@@ -1,0 +1,220 @@
+{load_language_text section="easymarketing"}
+{load_language_text section="buttons" name="button"}
+
+<table>
+	<tr>
+		<td class="dataTableHeadingContent">
+			<a href="{$page_links.info_page_link}">
+				{$txt.info_heading}
+			</a>
+		</td>
+		<td class="dataTableHeadingContent">
+			<a href="{$page_links.overview_page_link}">
+				{$txt.overview_heading}
+			</a>
+		</td>
+		<td class="dataTableHeadingContent">
+			{$txt.settings_heading}
+		</td>
+		<td class="dataTableHeadingContent">
+			<a href="{$page_links.mapping_page_link}">
+				{$txt.mapping_heading}
+			</a>
+		</td>
+		<td class="dataTableHeadingContent">
+			{$txt.modul_version}
+		</td>
+	</tr>
+</table>
+ 
+{if isset($smarty.get.result)} 
+	{if $smarty.get.result == 1}
+	<h3>{$txt.success_heading}</h3>{$txt.success_text}
+    {else}
+    <h3>{$txt.error_heading}</h3>{$txt.error_text}
+    {/if}
+{/if}
+
+<form method="post"
+      action="admin.php?do=EasymarketingModuleCenterModule/Store"
+      name="modules"
+      class="gx-container"
+      data-gx-extension="visibility_switcher" >
+	<table class="gx-configuration" data-gx-widget="checkbox">
+		<tr>
+			<th colspan="2"></th>
+		</tr>
+		<tr>
+			<td class="configuration-label">{$txt.status_title}</td>
+			<td>
+				<input type="radio" {if $config.status.value == "True"}checked="checked"{/if} value="True" name="MODULE_EM_STATUS" />
+				<input type="radio" {if $config.status.value == "False"}checked="checked"{/if} value="False" name="MODULE_EM_STATUS" />
+			</td>
+		</tr>
+	</table>
+
+	<table class="gx-configuration">
+		<tr>
+			<th colspan="2">{$txt.settings_heading_general}</th>
+		</tr>
+		<tr class="visibility_switcher">
+			<td class="configuration-label">
+				<label for="MODULE_EM_API_TOKEN" class="section-description">
+					{$txt.api_token_title}
+				</label>
+			</td>
+			<td>
+				<input id="MODULE_EM_API_TOKEN" type="text" value="{$config.api_token.value}" name="MODULE_EM_API_TOKEN" />
+			</td>
+		</tr>
+		<tr class="visibility_switcher">
+			<td class="configuration-label">
+				<label for="MODULE_EM_ROOT_CATEGORY" class="section-description">
+					{$txt.root_category_title}
+				</label>
+			</td>
+			<td>
+				<select name="MODULE_EM_ROOT_CATEGORY">
+					{foreach from=$config.root_category.available_values item=value}
+					<option value="{$value.id}" {if $value.id == $config.root_category.value}selected="selected"{/if}>{$value.text}</option>
+					{/foreach}
+				</select>
+			</td>
+		</tr>
+		<tr class="visibility_switcher">
+			<td class="configuration-label">
+				<label for="MODULE_EM_PRODUCTS_DESCRIPTION_DEFAULT" class="section-description">
+					{$txt.products_description_default_title}
+				</label>
+			</td>
+			<td>
+				<select name="MODULE_EM_PRODUCTS_DESCRIPTION_DEFAULT">
+					{foreach from=$config.products_description_default.available_values item=value}
+					<option value="{$value.id}" {if $value.id == $config.products_description_default.value}selected="selected"{/if}>{$value.text}</option>
+					{/foreach}
+				</select>
+			</td>
+		</tr>
+		<tr class="visibility_switcher">
+			<td class="configuration-label">
+				<label for="MODULE_EM_CONDITION_DEFAULT" class="section-description">
+					{$txt.condition_default_title}
+				</label>
+			</td>
+			<td>
+				<select name="MODULE_EM_CONDITION_DEFAULT">
+					{foreach from=$config.condition_default.available_values item=value}
+					<option value="{$value.id}" {if $value.id == $config.condition_default.value}selected="selected"{/if}>{$value.text}</option>
+					{/foreach}
+				</select>
+			</td>
+		</tr>
+		<tr class="visibility_switcher">
+			<td class="configuration-label">
+				<label for="MODULE_EM_GENDER_DEFAULT" class="section-description">
+					{$txt.gender_default_title}
+				</label>
+			</td>
+			<td>
+				<select name="MODULE_EM_GENDER_DEFAULT">
+					{foreach from=$config.gender_default.available_values item=value}
+					<option value="{$value.id}" {if $value.id == $config.gender_default.value}selected="selected"{/if}>{$value.text}</option>
+					{/foreach}
+				</select>
+			</td>
+		</tr>
+		<tr class="visibility_switcher">
+			<td class="configuration-label">
+				<label for="MODULE_EM_AGE_GROUP_DEFAULT" class="section-description">
+					{$txt.age_group_default_title}
+				</label>
+			</td>
+			<td>
+				<select name="MODULE_EM_AGE_GROUP_DEFAULT">
+					{foreach from=$config.age_group_default.available_values item=value}
+					<option value="{$value.id}" {if $value.id == $config.age_group_default.value}selected="selected"{/if}>{$value.text}</option>
+					{/foreach}
+				</select>
+			</td>
+		</tr>
+		<tr class="visibility_switcher">
+			<td class="configuration-label">
+				<label for="MODULE_EM_AVAILABILITY_STOCK_0" class="section-description">
+					{$txt.availability_stock_0_title}
+				</label>
+			</td>
+			<td>
+				<select name="MODULE_EM_AVAILABILITY_STOCK_0">
+					{foreach from=$config.availability_stock_0.available_values item=value}
+					<option value="{$value.id}" {if $value.id == $config.availability_stock_0.value}selected="selected"{/if}>{$value.text}</option>
+					{/foreach}
+				</select>
+			</td>
+		</tr>
+		<tr class="visibility_switcher">
+			<td class="configuration-label">
+				<label for="MODULE_EM_AVAILABILITY_STOCK_1" class="section-description">
+					{$txt.availability_stock_1_title}
+				</label>
+			</td>
+			<td>
+				<select name="MODULE_EM_AVAILABILITY_STOCK_1">
+					{foreach from=$config.availability_stock_1.available_values item=value}
+					<option value="{$value.id}" {if $value.id == $config.availability_stock_1.value}selected="selected"{/if}>{$value.text}</option>
+					{/foreach}
+				</select>
+			</td>
+		</tr>
+		<tr class="visibility_switcher">
+			<td class="configuration-label">
+				<label for="MODULE_EM_SHIPPING_COUNTRIES" class="section-description">
+					{$txt.shipping_countries_title}
+				</label>
+			</td>
+			<td>
+				<input id="MODULE_EM_SHIPPING_COUNTRIES" type="text" value="{$config.shipping_countries.value}" name="MODULE_EM_SHIPPING_COUNTRIES" />
+			</td>
+		</tr>
+	
+	</table>
+	
+	<table class="gx-configuration" data-gx-widget="checkbox">
+		<tr>
+			<th colspan="2">{$txt.settings_heading_tracking}</th>
+		</tr>
+		<tr>
+			<td class="configuration-label">{$txt.activate_google_tracking_title}</td>
+			<td>
+				<input type="radio" {if $config.activate_google_tracking.value == "True"}checked="checked"{/if} value="True" name="MODULE_EM_ACTIVATE_GOOGLE_TRACKING" />
+				<input type="radio" {if $config.activate_google_tracking.value == "False"}checked="checked"{/if} value="False" name="MODULE_EM_ACTIVATE_GOOGLE_TRACKING" />
+			</td>
+		</tr>
+	</table>
+	<table class="gx-configuration" data-gx-widget="checkbox">
+		<tr>
+			<td class="configuration-label">{$txt.activate_facebook_tracking_title}</td>
+			<td>
+				<input type="radio" {if $config.activate_facebook_tracking.value == "True"}checked="checked"{/if} value="True" name="MODULE_EM_ACTIVATE_FACEBOOK_TRACKING" />
+				<input type="radio" {if $config.activate_facebook_tracking.value == "False"}checked="checked"{/if} value="False" name="MODULE_EM_ACTIVATE_FACEBOOK_TRACKING" />
+			</td>
+		</tr>
+	</table>
+	<table class="gx-configuration" data-gx-widget="checkbox">
+		<tr>
+			<td class="configuration-label">{$txt.activate_remarketing_title}</td>
+			<td>
+				<input type="radio" {if $config.activate_remarketing.value == "True"}checked="checked"{/if} value="True" name="MODULE_EM_ACTIVATE_REMARKETING" />
+				<input type="radio" {if $config.activate_remarketing.value == "False"}checked="checked"{/if} value="False" name="MODULE_EM_ACTIVATE_REMARKETING" />
+			</td>
+		</tr>	
+	</table>
+	
+	<p /><br />
+
+	<div class="button-container">
+		<input type="submit" class="btn btn-primary pull-left" value="{$button.save}">
+		<a class="btn btn-default pull-left" href="#" onclick="history.go(-1)">{$button.back}</a>
+	</div>
+</form>
+
+</div>
