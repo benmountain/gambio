@@ -10,9 +10,9 @@
    
    @author		Florian Ressel <florian.ressel@easymarketing.de>
 
-   @file       GXEngine/Modules/EasymarketingModuleCenterModule.inc.php
-   @version    v3.0.0
-   @updated    20.11.2016 - 19:31
+   @file       GXMainComponents/Modules/EasymarketingModuleCenterModule.inc.php
+   @version    v3.1.0
+   @updated    20.11.2016 - 20:38
    ---------------------------------------------------------------------------------------*/
 
 require_once(DIR_FS_CATALOG.'includes/external/easymarketing/classes/EasymarketingHelper.class.php');

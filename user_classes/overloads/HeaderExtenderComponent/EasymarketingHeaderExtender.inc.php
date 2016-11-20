@@ -11,8 +11,8 @@
    @author		Florian Ressel <florian.ressel@easymarketing.de>
 
    @file       user_classes/overloads/HeaderExtenderComponent/EasymarketingHeaderExtender.inc.php
-   @version    v3.0.0
-   @updated    20.11.2016 - 19:31
+   @version    v3.1.0
+   @updated    20.11.2016 - 20:38
    ---------------------------------------------------------------------------------------*/
 
 

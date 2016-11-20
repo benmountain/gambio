@@ -1,6 +1,6 @@
 # Changelog - EASYMARKETING Gambio Module
 
-### Version 3.0.0
+### Version 3.1.0
 
 - refactoring the modul for Gambio
-- add compatibility for Gambio version from 2.5.x to 3.2.x
+- add compatibility for Gambio version >= 3.1.x

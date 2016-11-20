@@ -1,7 +1,7 @@
 # EASYMARKETING Gambio Modul
-Version 3.0.0 - 20.11.2016
+Version 3.1.0 - 20.11.2016
 
-Dieses Modul ist für Gambio ab Version 2.5.x.
+Dieses Modul ist für Gambio ab Version 3.1.x.
 
 ## Allgemein
 ======================
@@ -19,7 +19,7 @@ Haben Sie die 2 Schritte durchgeführt, können Sie mit dem nächsten Punkte for
 ## Installation des Moduls
 ======================
 
-1. [Downloaden Sie das Modul hier](https://github.com/EASYMARKETING/gambio/archive/dev.zip)
+1. [Downloaden Sie das Modul hier](https://github.com/EASYMARKETING/gambio/archive/v3.1.0.zip)
 
 2. Dateien in das Hauptverzeichnis vom Shop via FTP übertragen
 
