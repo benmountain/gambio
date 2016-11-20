@@ -1,14 +1,17 @@
 <?php
 /* -----------------------------------------------------------------------------------------
    Easymarketing Modul
-
-   Copyright (c) 2016 [www.easymarketing.de]
+   
+   modified eCommerce Shopsoftware
+   http://www.modified-shop.org
+   Copyright (c) 2009 - 2014 [www.modified-shop.org]
+   
    -----------------------------------------------------------------------------------------
    Released under the GNU General Public License (Version 2)
    [http://www.gnu.org/licenses/gpl-2.0.html]
    -----------------------------------------------------------------------------------------
    
-   @author		Florian Ressel <florian.ressel@easymarketing.de>
+   @modified_by Easymarketing AG, Florian Ressel <florian.ressel@easymarketing.de>
 
    @file       api/easymarketing/includes/header.php
    @version    v3.0.0
