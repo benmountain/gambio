@@ -10,11 +10,10 @@
    
    @author		Florian Ressel <florian.ressel@easymarketing.de>
 
-   @file       user_classes/overloads/HeaderExtenderComponent/EasymarketingHeaderExtender.inc.php
+   @file       GXUserComponents/overloads/HeaderExtenderComponent/EasymarketingHeaderExtender.inc.php
    @version    v3.1.0
    @updated    20.11.2016 - 20:38
    ---------------------------------------------------------------------------------------*/
-
 
 class EasymarketingHeaderExtender extends EasymarketingHeaderExtender_parent
 {

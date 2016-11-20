@@ -10,7 +10,7 @@
    
    @author		Florian Ressel <florian.ressel@easymarketing.de>
 
-   @file       user_classes/overloads/EasymarketingCheckoutSuccessExtender/EasymarketingCheckoutSuccessExtender.inc.php
+   @file       GXUserComponents/overloads/EasymarketingCheckoutSuccessExtender/EasymarketingCheckoutSuccessExtender.inc.php
    @version    v3.1.0
    @updated    20.11.2016 - 20:38
    ---------------------------------------------------------------------------------------*/
@@ -61,6 +61,8 @@ class EasymarketingCheckoutSuccessExtender extends EasymarketingCheckoutSuccessE
 			if(MODULE_EM_ACTIVATE_REMARKETING == 'True' && MODULE_EM_REMARKETING_CODE != '')
 			{
 				$ecomm_pagetype = 'purchase';
+				$ecomm_prodids = array();
+				$ecomm_quantity = array();
 				
 				$t_additional_parameters = array();							
 				$t_productIds = array();
@@ -68,19 +70,19 @@ class EasymarketingCheckoutSuccessExtender extends EasymarketingCheckoutSuccessE
 							
 				foreach($t_order->products as $product)
 				{
-					$t_productIds[] = (int)$product['id'];
-					$t_productQtys[] = $product['qty'];
+					$ecomm_prodids[] = (int)$product['id'];
+					$ecomm_quantity[] = $product['qty'];
 				}
 							
 				$ecomm_prodid = implode(',', $t_productIds);
 				$ecomm_totalvalue = $t_amount;
 							
-				$t_additional_parameters[] = "ecomm_quantity: [".implode(',', $t_productQtys)."]";
+				$t_additional_parameters[] = "ecomm_quantity: [".implode(',', $ecomm_quantity)."]";
 					
 				$remarketing_code = MODULE_EM_REMARKETING_CODE;
-				$remarketing_code = str_replace("ecomm_prodid: 'REPLACE_WITH_VALUE'", "ecomm_prodid: [".$ecomm_prodid."]", $remarketing_code);
+				$remarketing_code = str_replace("ecomm_prodid: 'REPLACE_WITH_VALUE'", "ecomm_prodid: [".implode(',', $ecomm_prodids)."]", $remarketing_code);
 				$remarketing_code = str_replace("ecomm_pagetype: 'REPLACE_WITH_VALUE'", "ecomm_pagetype: '".$ecomm_pagetype."'", $remarketing_code);
-				$remarketing_code = str_replace("ecomm_totalvalue: 'REPLACE_WITH_VALUE'", "ecomm_totalvalue: '".$ecomm_totalvalue."'", $remarketing_code);
+				$remarketing_code = str_replace("ecomm_totalvalue: 'REPLACE_WITH_VALUE'", "ecomm_totalvalue: ".$ecomm_totalvalue, $remarketing_code);
 				$remarketing_code = str_replace("value=0", "value=".$t_amount, $remarketing_code);	
 				$remarketing_code = str_replace('};', implode(',', $t_additional_parameters) . ',};', $remarketing_code);
 						
