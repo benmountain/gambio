@@ -1,7 +1,7 @@
 # EASYMARKETING Gambio Modul
 Version 3.0.0 - 20.11.2016
 
-Dieses Modul ist für Gambio ab Version 2.5.x.
+Dieses Modul ist für Gambio ab Version 2.5.x bis Version 3.1.0.
 
 ## Allgemein
 ======================
