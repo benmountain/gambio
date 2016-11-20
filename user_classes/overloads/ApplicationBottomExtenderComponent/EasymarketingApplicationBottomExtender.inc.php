@@ -82,9 +82,9 @@ class EasymarketingApplicationBottomExtender extends EasymarketingApplicationBot
 		
 			if(MODULE_EM_ACTIVATE_REMARKETING == 'True' && MODULE_EM_REMARKETING_CODE != '')
 			{
-				$ecomm_prodid = '';
+				$ecomm_prodids = array();
 				$ecomm_pagetype = '';
-				$ecomm_totalvalue = '';
+				$ecomm_totalvalue = 0;
 				$t_additional_parameters = array();
 				
 				$t_amount = 0.00;
@@ -104,11 +104,23 @@ class EasymarketingApplicationBottomExtender extends EasymarketingApplicationBot
 					$ecomm_pagetype = 'home';
 				} elseif($t_page == 'Cat' && substr_count($t_script_name, 'advanced_search_result.php') == 0) {
 					$ecomm_pagetype = 'category';
+					
+					$prod_ids = array();
+					
+					if(isset($_categoryIds))
+					{
+						$products_to_categories_query = xtc_db_query("SELECT products_id FROM products_to_categories WHERE categories_id IN (".implode(',', $_categoryIds).") GROUP BY products_id");
+					
+						while($product = xtc_db_fetch_array($products_to_categories_query))
+						{
+							$ecomm_prodids[] = (int)$product['products_id'];
+						}
+					}
 				} elseif($t_page == 'Cat' && substr_count($t_script_name, 'advanced_search_result.php') > 0) {
 					$ecomm_pagetype = 'searchresults';
 				} elseif($t_page == 'ProductInfo') {
 					$ecomm_pagetype = 'product';
-					$ecomm_prodid = $product->data['products_id'];
+					$ecomm_prodids[] = (int)$product->data['products_id'];
 					
 					$t_xtPrice = new xtcPrice(DEFAULT_CURRENCY, DEFAULT_CUSTOMERS_STATUS_ID);
 					
@@ -127,7 +139,7 @@ class EasymarketingApplicationBottomExtender extends EasymarketingApplicationBot
 						
 						foreach($products as $product)
 						{
-							$t_productIds[] = (int)$product['id'];
+							$ecomm_prodids[] = (int)$product['id'];
 							$t_productQtys[] = $product['quantity'];
 						}
 					}
@@ -137,7 +149,6 @@ class EasymarketingApplicationBottomExtender extends EasymarketingApplicationBot
 						$t_amount = number_format(floatval($_SESSION['cart']->show_total()), 2, '.', '');
 					}
 					
-					$ecomm_prodid = implode(',', $t_productIds);
 					$ecomm_totalvalue = number_format($t_amount, 2, '.', '');
 					
 					$t_additional_parameters[] = "ecomm_quantity: [".implode(',', $t_productQtys)."]";
@@ -145,10 +156,12 @@ class EasymarketingApplicationBottomExtender extends EasymarketingApplicationBot
 				
 				if(!empty($ecomm_pagetype))
 				{
+					$ecomm_prodids = (count($ecomm_prodids) > 0) ? implode(',', $ecomm_prodids) : '';
+					
 					$remarketing_code = MODULE_EM_REMARKETING_CODE;
-					$remarketing_code = str_replace("ecomm_prodid: 'REPLACE_WITH_VALUE'", "ecomm_prodid: [".$ecomm_prodid."]", $remarketing_code);
+					$remarketing_code = str_replace("ecomm_prodid: 'REPLACE_WITH_VALUE'", "ecomm_prodid: [".$ecomm_prodids."]", $remarketing_code);
 					$remarketing_code = str_replace("ecomm_pagetype: 'REPLACE_WITH_VALUE'", "ecomm_pagetype: '".$ecomm_pagetype."'", $remarketing_code);
-					$remarketing_code = str_replace("ecomm_totalvalue: 'REPLACE_WITH_VALUE'", "ecomm_totalvalue: '".$ecomm_totalvalue."'", $remarketing_code);
+					$remarketing_code = str_replace("ecomm_totalvalue: 'REPLACE_WITH_VALUE'", "ecomm_totalvalue: ".$ecomm_totalvalue, $remarketing_code);
 					$remarketing_code = str_replace("value=0", "value=".$t_amount, $remarketing_code);
 					
 					if(count($t_additional_parameters) > 0)
