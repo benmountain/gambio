@@ -35,6 +35,8 @@
     {/if}
 {/if}
 
+<div class="gx-container" style="width: 1024px;">
+
 <form method="post"
       action="admin.php?do=EasymarketingModuleCenterModule/Store"
       name="modules"
@@ -42,7 +44,7 @@
       data-gx-extension="visibility_switcher" >
 	<table class="gx-configuration" data-gx-widget="checkbox">
 		<tr>
-			<th colspan="2"></th>
+			<th colspan="2">{$txt.text_description}</th>
 		</tr>
 		<tr>
 			<td class="configuration-label">{$txt.status_title}</td>
@@ -65,6 +67,8 @@
 			</td>
 			<td>
 				<input id="MODULE_EM_API_TOKEN" type="text" value="{$config.api_token.value}" name="MODULE_EM_API_TOKEN" />
+				<p />
+				{$txt.api_token_info}
 			</td>
 		</tr>
 		<tr class="visibility_switcher">
@@ -79,6 +83,8 @@
 					<option value="{$value.id}" {if $value.id == $config.root_category.value}selected="selected"{/if}>{$value.text}</option>
 					{/foreach}
 				</select>
+				<p />
+				{$txt.root_category_info}
 			</td>
 		</tr>
 		<tr class="visibility_switcher">
@@ -93,6 +99,8 @@
 					<option value="{$value.id}" {if $value.id == $config.products_description_default.value}selected="selected"{/if}>{$value.text}</option>
 					{/foreach}
 				</select>
+				<p />
+				{$txt.products_description_default_info}
 			</td>
 		</tr>
 		<tr class="visibility_switcher">
@@ -107,6 +115,8 @@
 					<option value="{$value.id}" {if $value.id == $config.condition_default.value}selected="selected"{/if}>{$value.text}</option>
 					{/foreach}
 				</select>
+				<p />
+				{$txt.condition_default_info}
 			</td>
 		</tr>
 		<tr class="visibility_switcher">
@@ -121,6 +131,8 @@
 					<option value="{$value.id}" {if $value.id == $config.gender_default.value}selected="selected"{/if}>{$value.text}</option>
 					{/foreach}
 				</select>
+				<p />
+				{$txt.gender_default_info}
 			</td>
 		</tr>
 		<tr class="visibility_switcher">
@@ -135,6 +147,8 @@
 					<option value="{$value.id}" {if $value.id == $config.age_group_default.value}selected="selected"{/if}>{$value.text}</option>
 					{/foreach}
 				</select>
+				<p />
+				{$txt.age_group_default_info}
 			</td>
 		</tr>
 		<tr class="visibility_switcher">
@@ -149,6 +163,8 @@
 					<option value="{$value.id}" {if $value.id == $config.availability_stock_0.value}selected="selected"{/if}>{$value.text}</option>
 					{/foreach}
 				</select>
+				<p />
+				{$txt.availability_stock_0_info}
 			</td>
 		</tr>
 		<tr class="visibility_switcher">
@@ -163,6 +179,8 @@
 					<option value="{$value.id}" {if $value.id == $config.availability_stock_1.value}selected="selected"{/if}>{$value.text}</option>
 					{/foreach}
 				</select>
+				<p />
+				{$txt.availability_stock_1_info}
 			</td>
 		</tr>
 		<tr class="visibility_switcher">
@@ -173,6 +191,8 @@
 			</td>
 			<td>
 				<input id="MODULE_EM_SHIPPING_COUNTRIES" type="text" value="{$config.shipping_countries.value}" name="MODULE_EM_SHIPPING_COUNTRIES" />
+				<p />
+				{$txt.shipping_countries_info}
 			</td>
 		</tr>
 	
@@ -187,6 +207,8 @@
 			<td>
 				<input type="radio" {if $config.activate_google_tracking.value == "True"}checked="checked"{/if} value="True" name="MODULE_EM_ACTIVATE_GOOGLE_TRACKING" />
 				<input type="radio" {if $config.activate_google_tracking.value == "False"}checked="checked"{/if} value="False" name="MODULE_EM_ACTIVATE_GOOGLE_TRACKING" />
+				<p />
+				{$txt.activate_google_tracking_info}
 			</td>
 		</tr>
 	</table>
@@ -196,6 +218,8 @@
 			<td>
 				<input type="radio" {if $config.activate_facebook_tracking.value == "True"}checked="checked"{/if} value="True" name="MODULE_EM_ACTIVATE_FACEBOOK_TRACKING" />
 				<input type="radio" {if $config.activate_facebook_tracking.value == "False"}checked="checked"{/if} value="False" name="MODULE_EM_ACTIVATE_FACEBOOK_TRACKING" />
+				<p />
+				{$txt.activate_facebook_tracking_info}
 			</td>
 		</tr>
 	</table>
@@ -205,6 +229,8 @@
 			<td>
 				<input type="radio" {if $config.activate_remarketing.value == "True"}checked="checked"{/if} value="True" name="MODULE_EM_ACTIVATE_REMARKETING" />
 				<input type="radio" {if $config.activate_remarketing.value == "False"}checked="checked"{/if} value="False" name="MODULE_EM_ACTIVATE_REMARKETING" />
+				<p />
+				{$txt.activate_remarketing_info}
 			</td>
 		</tr>	
 	</table>

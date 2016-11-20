@@ -32,12 +32,12 @@
     {/if}
 {/if}
 
-<div class="gx-container">
+<div class="gx-container" style="width: 1024px;">
 <style>
             .sortableBox {
             border: 1px solid #626262;
-            width: 390px;
-            min-height: 60px;
+            width: 450px;
+            min-height: 80px;
             list-style-type: none;
             margin: 0;
             padding: 5px 0 0 0;
@@ -45,10 +45,10 @@
             margin-right: 10px;
             }
             .sortableBox li {
-            margin: 0 5px 5px 5px;
-			border: 1px solid #7F7C7C;
+            margin: 0 7px 7px 7px;
+			border: 1px dotted #7F7C7C;
             padding: 5px;
-            width: 370px;
+            width: 430px;
             cursor:move;
             }
             </style>
@@ -93,8 +93,11 @@
               
 			  {foreach item=mapping_field from=$mapping_fields}
 			  
-                <tr>
-                  <td width="100" valign="top">{$mapping_field.mapping_field}</td>
+			  	<tr class="dataTableHeadingRow">
+					<th colspan="2">{$mapping_field.mapping_field}</th>
+				</tr>
+			  
+                <tr class="visibility_switcher">
                   <td width="400" valign="top">
                   
                   <input type="hidden" name="mappingFields[{$mapping_field.mapping_field}]" id="{$mapping_field.mapping_field}" value="{','|implode:$mapping_field_values[$mapping_field.mapping_field]}" />
@@ -131,21 +134,15 @@
                 
                 {if $mapping_field.disable_default_value == 0}
                 <tr>
-                  <td width="100" valign="top">&nbsp;</td>
                   <td colspan="2">{$txt.mappings_field_default_value_text}: <input type="text" name="mappingDefaultFields[{$mapping_field.mapping_field}]" value="{$mapping_field.mapping_field_default_value}" size="100" maxlength="255" /> </td>
                 </tr>
                 {/if}
                 
                 {if $mapping_field.description != ''}
                 <tr>
-                  <td width="100" valign="top">&nbsp;</td>
-                  <td colspan="2">{$mapping_field.description}
-               	</td>
+					<td colspan="2">{$mapping_field.description}</td>
+               	</tr>
                 {/if}
-                  
-                <tr>
-                	<td colspan="3"><hr /></td>
-              	</tr>
                   
                {/foreach}
               </tbody>
