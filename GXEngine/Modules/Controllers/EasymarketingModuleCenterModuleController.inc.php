@@ -628,16 +628,6 @@ class EasymarketingModuleCenterModuleController extends AbstractModuleCenterModu
 				}
 			}
 
-			if(!in_array('o', $disabled_shop_fields))
-			{
-				$select_options_query_result = xtc_db_query("SELECT products_options_id, products_options_name FROM products_options WHERE language_id = '".(int)$_SESSION['languages_id']."' GROUP BY products_options_id ORDER BY products_options_name");
-
-				while($row_option = xtc_db_fetch_array($select_options_query_result))
-				{
-					$mapping_entries[$row['mapping_field']]['o-' . $row_option['products_options_id']] = $this->easymarketingText->get_text('mappings_value_option_prefix') . ': ' . $row_option['products_options_name'];
-				}
-			}
-
 			if(!in_array('af', $disabled_shop_fields))
 			{
 				$select_additional_fields_query_result = xtc_db_query("SELECT additional_field_id, name FROM additional_field_descriptions WHERE language_id = '".(int)$_SESSION['languages_id']."' GROUP BY additional_field_id ORDER BY name");

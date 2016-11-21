@@ -66,8 +66,8 @@ class EasymarketingModuleCenterModule extends AbstractModuleCenterModule
 				) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9");
 		
 		$this->db->query("INSERT INTO `easymarketing_mappings` (`id`, `mapping_field`, `disabled_shop_fields`, `disable_default_value`) VALUES
-				(1, 'name', 'p,o', 1),
-				(2, 'description', 'p,o', 1),
+				(1, 'name', 'p', 1),
+				(2, 'description', 'p', 1),
 				(3, 'color', '', 0),
 				(4, 'size', '', 0),
 				(5, 'size_type', '', 0),
