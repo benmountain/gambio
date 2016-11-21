@@ -17,7 +17,7 @@
 
 $t_language_text_section_content_array = array
 (
-	'modul_version' => 'v3.1.0 - 20.11.2016',
+	'modul_version' => 'v3.0.0 - 20.11.2016',
 	
 	'heading_title' => 'Easymarketing',
 	'info_heading' => 'About Easymarketing',
