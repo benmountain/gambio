@@ -47,6 +47,8 @@ class EasymarketingModuleCenterModule extends AbstractModuleCenterModule
 	public function install()
 	{
 		parent::install();
+		
+		$this->db->query("DELETE FROM `configuration` WHERE configuration_key LIKE 'MODULE_EM_%'");
 
 		foreach($this->_getDefaultConfigurationData() as $configuration)
 		{
