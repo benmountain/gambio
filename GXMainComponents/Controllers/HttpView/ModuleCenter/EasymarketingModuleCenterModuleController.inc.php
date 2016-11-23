@@ -11,8 +11,8 @@
    @author		Florian Ressel <florian.ressel@easymarketing.de>
 
    @file       GXMainComponents/Controllers/HttpView/ModuleCenter/EasymarketingModuleCenterModuleController.inc.php
-   @version    v3.1.0
-   @updated    20.11.2016 - 20:38
+   @version    v3.1.1
+   @updated    23.11.2016 - 13:41
    ---------------------------------------------------------------------------------------*/
 
 require_once(DIR_FS_CATALOG.'includes/external/easymarketing/classes/EasymarketingHelper.class.php');

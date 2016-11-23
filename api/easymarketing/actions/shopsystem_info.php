@@ -14,8 +14,8 @@
    @modified_by Easymarketing AG, Florian Ressel <florian.ressel@easymarketing.de>
 
    @file       api/easymarketing/actions/shopsystem_info.php
-   @version    v3.1.0
-   @updated    20.11.2016 - 20:38
+   @version    v3.1.1
+   @updated    23.11.2016 - 13:41
    ---------------------------------------------------------------------------------------*/
 
 if(file_exists(DIR_FS_CATALOG.'release_info.php'))

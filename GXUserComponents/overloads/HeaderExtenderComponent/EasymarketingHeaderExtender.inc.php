@@ -11,8 +11,8 @@
    @author		Florian Ressel <florian.ressel@easymarketing.de>
 
    @file       GXUserComponents/overloads/HeaderExtenderComponent/EasymarketingHeaderExtender.inc.php
-   @version    v3.1.0
-   @updated    20.11.2016 - 20:38
+   @version    v3.1.1
+   @updated    23.11.2016 - 13:41
    ---------------------------------------------------------------------------------------*/
 
 class EasymarketingHeaderExtender extends EasymarketingHeaderExtender_parent

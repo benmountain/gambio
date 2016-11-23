@@ -11,13 +11,13 @@
    @author		Florian Ressel <florian.ressel@easymarketing.de>
 
    @file       lang/german/user_sections/admin/easymarketing.lang.inc.php
-   @version    v3.1.0
-   @updated    20.11.2016 - 20:38
+   @version    v3.1.1
+   @updated    23.11.2016 - 13:41
    ---------------------------------------------------------------------------------------*/
 
 $t_language_text_section_content_array = array
 (
-	'modul_version' => 'v3.1.0 - 20.11.2016',
+	'modul_version' => 'v3.1.1 - 20.11.2016',
 	
 	'heading_title' => 'Easymarketing',
 	'info_heading' => 'Über Easymarketing',

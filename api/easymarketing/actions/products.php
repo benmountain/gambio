@@ -199,6 +199,28 @@ if ($sql_limit != '' || $sql_where != '')
 					{
 						$products_mapping['description'] = mod_get_description(array('products_description' => $products['products_description'], 'products_short_description' => $products['products_short_description']));
 					}
+					
+					$image_url = '';
+					$image_name = '';
+					
+					if(!empty($row_property_combi['combi_image']))
+					{
+						$image_name = $row_property_combi['combi_image'];
+					} else {
+						$image_name = $products['products_image'];
+					}
+					
+					if(!empty($image_name))
+					{
+						if(ENABLE_SSL)
+						{
+							$image_url = HTTPS_SERVER;
+						} else {
+							$image_url = HTTP_SERVER;
+						}
+
+						$image_url .= DIR_WS_CATALOG.DIR_WS_POPUP_IMAGES.$image_name;
+					}
 			
 					// build products array
       				$products_array[] = array(
@@ -214,8 +236,8 @@ if ($sql_limit != '' || $sql_where != '')
 										'rrp' => $products_rrp['plain'],
 										'discount_absolute' => ($discount_absolute > 0) ? $discount_absolute : 0,
 										'discount_percentage' => ($discount_percentage > 0) ? $discount_percentage : 0,
-                                		'url' => xtc_href_link(FILENAME_PRODUCT_INFO, xtc_product_link($products['products_id'], $products['products_name']), 'NONSSL', false),
-                                		'image_url' => !empty($products['products_image']) ? HTTP_SERVER.DIR_WS_CATALOG.DIR_WS_POPUP_IMAGES.$products['products_image'] : 'null',
+                                		'url' => xtc_href_link(FILENAME_PRODUCT_INFO, xtc_product_link($products['products_id'], $products['products_name']), 'SSL', false),
+                                		'image_url' => !empty($image_url) ? $image_url : 'null',
                                 		'shipping' => mod_calculate_shipping_cost($products['products_id'], $products_price),
                                 		'description' => mod_convert_string($products_mapping['description']),
 										'age_group' => mod_get_age_group($products_item_codes['age_group']),
@@ -273,6 +295,20 @@ if ($sql_limit != '' || $sql_where != '')
 				{
 					$products_mapping['description'] = mod_get_description(array('products_description' => $products['products_description'], 'products_short_description' => $products['products_short_description']));
 				}
+				
+				$image_url = '';
+				
+				if(!empty($products['products_image']))
+				{
+					if(ENABLE_SSL)
+					{
+						$image_url = HTTPS_SERVER;
+					} else {
+						$image_url = HTTP_SERVER;
+					}
+					
+					$image_url .= DIR_WS_CATALOG.DIR_WS_POPUP_IMAGES.$products['products_image'];
+				}
 					
       			// build products array
       			$products_array[] = array(
@@ -287,8 +323,8 @@ if ($sql_limit != '' || $sql_where != '')
 										'rrp' => $products_rrp['plain'],
 										'discount_absolute' => ($discount_absolute > 0) ? $discount_absolute : 0,
 										'discount_percentage' => ($discount_percentage > 0) ? $discount_percentage : 0,
-                                		'url' => xtc_href_link(FILENAME_PRODUCT_INFO, xtc_product_link($products['products_id'], $products['products_name']), 'NONSSL', false),
-                                		'image_url' => !empty($products['products_image']) ? HTTP_SERVER.DIR_WS_CATALOG.DIR_WS_POPUP_IMAGES.$products['products_image'] : 'null',
+                                		'url' => xtc_href_link(FILENAME_PRODUCT_INFO, xtc_product_link($products['products_id'], $products['products_name']), 'SSL', false),
+                                		'image_url' => !empty($image_url) ? $image_url : 'null',
                                 		'shipping' => mod_calculate_shipping_cost($products['products_id'], $products_price),
                                 		'description' => mod_convert_string($products_mapping['description']),
 										'age_group' => mod_get_age_group($products_item_codes['age_group']),
