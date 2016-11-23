@@ -11,8 +11,8 @@
    @author		Florian Ressel <florian.ressel@easymarketing.de>
 
    @file       user_classes/overloads/ApplicationBottomExtenderComponent/EasymarketingApplicationBottomExtender.inc.php
-   @version    v3.0.0
-   @updated    20.11.2016 - 19:31
+   @version    v3.0.1
+   @updated    23.11.2016 - 13:37
    ---------------------------------------------------------------------------------------*/
 
 class EasymarketingApplicationBottomExtender extends EasymarketingApplicationBottomExtender_parent
