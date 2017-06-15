@@ -2,7 +2,7 @@
 /* -----------------------------------------------------------------------------------------
    Easymarketing Modul
 
-   Copyright (c) 2016 [www.easymarketing.de]
+   Copyright (c) 2016-2017 [www.easymarketing.de]
    -----------------------------------------------------------------------------------------
    Released under the GNU General Public License (Version 2)
    [http://www.gnu.org/licenses/gpl-2.0.html]
@@ -11,13 +11,13 @@
    @author		Florian Ressel <florian.ressel@easymarketing.de>
 
    @file       lang/german/user_sections/admin/easymarketing.lang.inc.php
-   @version    v3.1.1
-   @updated    23.11.2016 - 13:41
+   @version    v3.1.2
+   @updated    15.06.2017 - 22:50
    ---------------------------------------------------------------------------------------*/
 
 $t_language_text_section_content_array = array
 (
-	'modul_version' => 'v3.1.1 - 20.11.2016',
+	'modul_version' => 'v3.1.2 - 15.06.2017',
 	
 	'heading_title' => 'Easymarketing',
 	'info_heading' => 'Über Easymarketing',

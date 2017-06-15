@@ -14,8 +14,8 @@
    @modified_by Easymarketing AG, Florian Ressel <florian.ressel@easymarketing.de>
 
    @file       api/easymarketing/request.php
-   @version    v3.1.1
-   @updated    23.11.2016 - 13:41
+   @version    v3.1.2
+   @updated    15.06.2017 - 22:50
    ---------------------------------------------------------------------------------------*/
 
 chdir('../../');

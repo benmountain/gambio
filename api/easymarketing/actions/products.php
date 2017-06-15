@@ -14,8 +14,8 @@
    @modified_by Easymarketing AG, Florian Ressel <florian.ressel@easymarketing.de>
 
    @file       api/easymarketing/actions/products.php
-   @version    v3.1.1
-   @updated    23.11.2016 - 13:41
+   @version    v3.1.2
+   @updated    15.06.2017 - 22:50
    ---------------------------------------------------------------------------------------*/
 
 // needed functions
@@ -231,6 +231,7 @@ if ($sql_limit != '' || $sql_where != '')
 										'google_category' => mod_get_google_category($products['products_id']),
                                 		'condition' => mod_get_condition($condition),
                                 		'availability' => mod_get_availability($products_item_codes['google_export_availability_id'], $row_property_combi['combi_quantity']),
+                                        'stock_quantity' => ($row_property_combi['combi_quantity'] > 0) ? round($row_property_combi['combi_model']) : 0,
                                 		'currency' => DEFAULT_CURRENCY,
                                 		'price' => $products_price['plain'],
 										'rrp' => $products_rrp['plain'],
@@ -318,6 +319,7 @@ if ($sql_limit != '' || $sql_where != '')
 										'google_category' => mod_get_google_category($products['products_id']),
                                 		'condition' => mod_get_condition($condition),
                                 		'availability' => mod_get_availability($products_item_codes['google_export_availability_id'], $products['products_quantity']),
+                                        'stock_quantity' => ($products['products_quantity'] > 0) ? round($products['products_quantity']) : 0,
                                 		'currency' => DEFAULT_CURRENCY,
                                 		'price' => $products_price['plain'],
 										'rrp' => $products_rrp['plain'],

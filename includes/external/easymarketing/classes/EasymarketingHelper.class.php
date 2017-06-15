@@ -14,8 +14,8 @@
    @author     Florian Ressel <florian.ressel@easymarketing.de>
    
    @file       includes/external/easymarketing/classes/EasymarketingHelper.class.php
-   @version    v3.1.1
-   @updated    23.11.2016 - 13:41
+   @version    v3.1.2
+   @updated    15.06.2017 - 22:50
    ---------------------------------------------------------------------------------------*/
 
 class EasymarketingHelper

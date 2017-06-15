@@ -2,7 +2,7 @@
 /* -----------------------------------------------------------------------------------------
    Easymarketing Modul
 
-   Copyright (c) 2016 [www.easymarketing.de]
+   Copyright (c) 2016-2017 [www.easymarketing.de]
    -----------------------------------------------------------------------------------------
    Released under the GNU General Public License (Version 2)
    [http://www.gnu.org/licenses/gpl-2.0.html]
@@ -11,8 +11,8 @@
    @author		Florian Ressel <florian.ressel@easymarketing.de>
 
    @file       GXMainComponents/Modules/EasymarketingModuleCenterModule.inc.php
-   @version    v3.1.1
-   @updated    23.11.2016 - 13:41
+   @version    v3.1.2
+   @updated    15.06.2017 - 22:50
    ---------------------------------------------------------------------------------------*/
 
 require_once(DIR_FS_CATALOG.'includes/external/easymarketing/classes/EasymarketingHelper.class.php');
