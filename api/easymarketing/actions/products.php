@@ -231,7 +231,7 @@ if ($sql_limit != '' || $sql_where != '')
 										'google_category' => mod_get_google_category($products['products_id']),
                                 		'condition' => mod_get_condition($condition),
                                 		'availability' => mod_get_availability($products_item_codes['google_export_availability_id'], $row_property_combi['combi_quantity']),
-                                        'stock_quantity' => ($row_property_combi['combi_quantity'] > 0) ? round($row_property_combi['combi_model']) : 0,
+                                        'stock_quantity' => ($row_property_combi['combi_quantity'] > 0) ? round($row_property_combi['combi_quantity']) : 0,
                                 		'currency' => DEFAULT_CURRENCY,
                                 		'price' => $products_price['plain'],
 										'rrp' => $products_rrp['plain'],
