@@ -14,8 +14,8 @@
    @modified_by Easymarketing AG, Florian Ressel <florian.ressel@easymarketing.de>
 
    @file       api/easymarketing/includes/header.php
-   @version    v3.0.1
-   @updated    23.11.2016 - 13:37
+   @version    v3.0.2
+   @updated    15.06.2017 - 22:45
    ---------------------------------------------------------------------------------------*/
 
 @ini_set('display_errors', false);
